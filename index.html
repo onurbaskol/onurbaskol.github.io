@@ -418,20 +418,46 @@
     /* =========================================================
        RAKAMLAR
        ========================================================= */
-    .rakamlar { padding: 104px 0 40px; }
-    .rakam-izgara { display: grid; grid-template-columns: repeat(4, 1fr); }
-    .rakam { padding: 8px 32px 8px 0; border-left: 1px solid var(--cizgi); padding-left: 32px; }
-    .rakam:first-child { border-left: 0; padding-left: 0; }
+    .rakamlar { padding: 88px 0 24px; }
+    /* Beyaz kart; hücreler arasındaki ince çizgiler 1px boşluktan (gap) gelir */
+    .rakam-izgara {
+      display: grid;
+      grid-template-columns: 1.5fr repeat(4, 1fr);
+      gap: 1px;
+      background: var(--cizgi);
+      border: 1px solid var(--cizgi);
+      border-radius: var(--yaricap);
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(20, 22, 25, .04), 0 24px 48px -28px rgba(20, 22, 25, .22);
+    }
+    .rakam {
+      background: var(--yuzey);
+      padding: 36px 28px 32px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+    }
     .rakam strong {
       display: block;
-      font-size: clamp(48px, 5.4vw, 72px);
-      font-weight: 400;
-      letter-spacing: -0.055em;
+      font-size: clamp(44px, 4.8vw, 66px);
+      font-weight: 500;
+      letter-spacing: -0.05em;
       line-height: 1;
-      margin-bottom: 14px;
+      color: var(--murekkep);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
-    .rakam strong sup { font-size: .4em; color: var(--soluk); vertical-align: top; position: relative; top: .25em; margin-left: 3px; font-weight: 400; }
-    .rakam span { font-size: 14px; color: var(--murekkep-2); display: block; max-width: 180px; }
+    /* Kırmızı "+" işareti: logodaki artıyla aynı renk */
+    .rakam strong sup { font-size: .5em; color: var(--vurgu); vertical-align: top; position: relative; top: .1em; margin-left: 2px; font-weight: 500; }
+    /* Sadece alttaki açıklama yazısı (rakamın kendisini etkilemez) */
+    .rakam > span { font-size: 15px; font-weight: 500; line-height: 1.45; color: var(--murekkep); display: block; max-width: 190px; text-wrap: balance; }
+
+    /* Öne çıkan kart: operasyon sayısı (koyu zemin) */
+    .rakam.one-cikan { background: var(--koyu); }
+    .rakam.one-cikan strong { color: var(--yuzey); }
+    .rakam.one-cikan > span { color: var(--koyu-yazi); }
 
     /* =========================================================
        HAKKIMDA
@@ -1087,8 +1113,9 @@
       .yuzen-1 { left: 14px; bottom: 18px; }
       .yuzen-2 { right: 14px; top: 18px; }
 
-      .rakam-izgara { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
-      .rakam:nth-child(3) { border-left: 0; padding-left: 0; }
+      .rakam-izgara { grid-template-columns: repeat(2, 1fr); }
+      .rakam { min-height: 0; }
+      .rakam.one-cikan { grid-column: 1 / -1; }
 
       .hakkimda .kap { grid-template-columns: 1fr; gap: 56px; }
       .degerler { grid-template-columns: 1fr; gap: 32px; margin-top: 16px; }
@@ -1109,7 +1136,9 @@
       section { padding: 84px 0; }
       .hero h1 { letter-spacing: -0.04em; }
       .guven { margin-top: 36px; }
-      .rakam { padding-left: 20px; }
+      .rakamlar { padding-top: 64px; }
+      .rakam { padding: 26px 20px 24px; gap: 18px; }
+      .rakam > span { font-size: 14px; }
       .beceri-izgara { grid-template-columns: 1fr; }
       .surec-izgara { grid-template-columns: 1fr; gap: 40px; }
       .yorum, .yorum.genis { grid-column: 1 / -1; padding: 28px; }
@@ -1223,11 +1252,12 @@
     <!-- ================= RAKAMLAR ================= -->
     <div class="rakamlar">
       <div class="kap">
-        <div class="rakam-izgara">
-          <div class="rakam belir"><strong><span data-say="8">8</span><sup>+</sup></strong><span>Years in hair transplantation</span></div>
-          <div class="rakam belir g1"><strong><span data-say="15">15</span><sup>+</sup></strong><span>Years in healthcare</span></div>
-          <div class="rakam belir g2"><strong><span data-say="7">7</span></strong><span>Countries worked in</span></div>
-          <div class="rakam belir g3"><strong><span data-say="3">3</span></strong><span>Swiss cities: Zurich, Geneva, Basel</span></div>
+        <div class="rakam-izgara belir">
+          <div class="rakam one-cikan"><strong><span data-say="3000">3,000</span><sup>+</sup></strong><span>Hair transplant procedures</span></div>
+          <div class="rakam"><strong><span data-say="8">8</span><sup>+</sup></strong><span>Years in hair transplantation</span></div>
+          <div class="rakam"><strong><span data-say="15">15</span><sup>+</sup></strong><span>Years in healthcare</span></div>
+          <div class="rakam"><strong><span data-say="7">7</span></strong><span>Countries worked in</span></div>
+          <div class="rakam"><strong><span data-say="3">3</span></strong><span>Swiss cities: Zurich, Geneva, Basel</span></div>
         </div>
       </div>
     </div>
@@ -1803,7 +1833,7 @@
           const el = g.target, hedef = +el.dataset.say, bas = performance.now();
           const adim = t => {
             const p = Math.min((t - bas) / 1500, 1);
-            el.textContent = Math.round(hedef * (1 - Math.pow(1 - p, 3)));
+            el.textContent = Math.round(hedef * (1 - Math.pow(1 - p, 3))).toLocaleString('en-US');
             if (p < 1) requestAnimationFrame(adim);
           };
           requestAnimationFrame(adim);
