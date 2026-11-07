@@ -504,6 +504,49 @@
     .deger h3 { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; margin: 10px 0 8px; }
     .deger p { margin: 0; color: var(--murekkep-2); font-size: 15px; }
 
+    /* About arka planı ("Precision" teması):
+       - fotoğrafın arkasından taşan, çok yavaş dönen ölçü kadranı (images/dekor-olcek.svg) + dış halkada kırmızı yay
+       - yazının arkasında İsviçre artısı ızgarası, kenara doğru kaybolur
+       - fotoğrafın altında hafif kırmızımsı ışık */
+    .hakkimda { overflow: hidden; }
+    .foto-alan { position: relative; }
+    .olcek { position: absolute; z-index: -1; pointer-events: none; width: 680px; aspect-ratio: 1; right: -340px; bottom: -150px; }
+    .olcek-cizgi, .olcek-yay { position: absolute; inset: 0; }
+    /* Gri kadran çok yavaş döner; kırmızı yay sabit kalır (yazının üstünden geçmesin diye altta) */
+    .olcek-cizgi {
+      animation: don 360s linear infinite;
+      background: rgba(31, 33, 36, .17);
+      -webkit-mask: url("images/dekor-olcek.svg") center / contain no-repeat;
+      mask: url("images/dekor-olcek.svg") center / contain no-repeat;
+    }
+    .olcek-yay {
+      border-radius: 50%;
+      background: conic-gradient(from 166deg, var(--vurgu) 0deg 28deg, transparent 28deg 360deg);
+      -webkit-mask: radial-gradient(closest-side, transparent calc(98% - 2px), #000 calc(98% - 2px), #000 calc(98% + 1px), transparent calc(98% + 1px));
+      mask: radial-gradient(closest-side, transparent calc(98% - 2px), #000 calc(98% - 2px), #000 calc(98% + 1px), transparent calc(98% + 1px));
+      opacity: .8;
+    }
+    @keyframes don { to { transform: rotate(360deg); } }
+    .foto-alan::before {
+      content: ""; position: absolute; z-index: -1; inset: 20% -16% -18% -16%; pointer-events: none;
+      background: radial-gradient(closest-side, rgba(218, 41, 28, .10), transparent);
+    }
+    .hakkimda .arti-izgara {
+      top: 0; right: 0; width: 760px; height: 640px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cpath d='M18 14v8M14 18h8' stroke='%231f2124' stroke-opacity='.3'/%3E%3C/svg%3E");
+      background-size: 36px 36px;
+      -webkit-mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
+      mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
+    }
+    @media (max-width: 900px) {
+      .olcek { width: 540px; right: -270px; bottom: -190px; }
+      .olcek-yay { display: none; } /* tek sütunda başlığın üstüne denk geliyor */
+    }
+    @media (max-width: 600px) {
+      .olcek { width: 420px; right: -210px; bottom: -150px; }
+      .hakkimda .arti-izgara { width: 300px; height: 340px; }
+    }
+
     /* =========================================================
        TEDAVİLER (büyük kartlar) + BECERİLER (küçük kartlar)
        ========================================================= */
@@ -1443,10 +1486,14 @@
     </div>
 
     <!-- ================= HAKKIMDA ================= -->
-    <section class="hakkimda" id="about">
+    <section class="hakkimda dekor-var" id="about">
+      <div class="dekor" aria-hidden="true"><span class="arti-izgara"></span></div>
       <div class="kap">
-        <div class="foto maske">
-          <img src="images/clinic.jpg" alt="Taha Başkol at the clinic in Switzerland">
+        <div class="foto-alan">
+          <div class="olcek" aria-hidden="true"><span class="olcek-cizgi"></span><span class="olcek-yay"></span></div>
+          <div class="foto maske">
+            <img src="images/clinic.jpg" alt="Taha Başkol at the clinic in Switzerland">
+          </div>
         </div>
 
         <div>
