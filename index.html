@@ -227,6 +227,10 @@
     .ust nav a.aktif { color: var(--murekkep); }
     .ust nav a.aktif::after { transform: scaleX(1); }
     .ust nav .btn { padding: 10px 20px; font-size: 14px; color: var(--yuzey); }
+    /* Menü yazıları ve logo tek satırda kalsın; orta boy ekranda aralık daralsın */
+    .logo, .ust nav a { white-space: nowrap; }
+    @media (max-width: 1100px) { .ust nav { gap: 24px; } }
+    @media (max-width: 1000px) { .ust nav { gap: 18px; } }
 
     .menu-dugme {
       display: none;
@@ -634,6 +638,103 @@
     .adim:nth-child(4) .adim-cizgi::after { transition-delay: .75s; }
     .adim h3 { font-size: 21px; font-weight: 500; letter-spacing: -0.02em; margin: 0 0 8px; }
     .adim p { margin: 0; color: var(--murekkep-2); font-size: 15px; }
+
+    /* =========================================================
+       BAKIM (işlem sonrası: ay ay süreç + kaçınılacaklar)
+       ========================================================= */
+    .bakim { padding-top: 40px; }
+    .bakim-bas { text-align: center; max-width: 720px; margin: 0 auto 80px; }
+    .bakim-bas .etiket { justify-content: center; }
+    .bakim-bas .giris { margin: 0 auto; max-width: 600px; }
+
+    /* Zikzak zaman çizelgesi: ortada çizgi (kaydırdıkça kırmızı dolar), kartlar sırayla solda ve sağda.
+       Her kart 2 satır kaplar ve bir sonraki yarım satır aşağıdan başlar; yeni kart eklenirse
+       aşağıdaki nth-child listesine bir satır ekle. */
+    .akis { position: relative; max-width: 1040px; margin: 0 auto; }
+    .akis-cizgi { position: absolute; left: 50%; top: 8px; bottom: 8px; width: 2px; margin-left: -1px; border-radius: 2px; background: var(--gri-2); overflow: hidden; }
+    .akis-dolu { position: absolute; inset: 0; background: var(--vurgu); transform-origin: top; transform: scaleY(0); }
+    html:not(.js) .akis-dolu { transform: none; }
+    .akis ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 112px; row-gap: 22px; }
+    .evre {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: start;
+      background: var(--yuzey);
+      border: 1px solid var(--cizgi);
+      border-radius: var(--yaricap);
+      padding: 26px;
+      transition: border-color .3s, box-shadow .35s var(--yumusak), opacity 1.1s var(--yumusak), transform 1.1s var(--yumusak);
+    }
+    .evre:nth-child(odd) { grid-column: 1; }
+    .evre:nth-child(even) { grid-column: 2; }
+    .evre:nth-child(1) { grid-row: 1 / span 2; }
+    .evre:nth-child(2) { grid-row: 2 / span 2; }
+    .evre:nth-child(3) { grid-row: 3 / span 2; }
+    .evre:nth-child(4) { grid-row: 4 / span 2; }
+    .evre:nth-child(5) { grid-row: 5 / span 2; }
+    .evre:nth-child(6) { grid-row: 6 / span 2; }
+    .evre:hover { border-color: var(--gri-2); box-shadow: 0 20px 40px -28px rgba(20, 22, 25, .25); }
+    /* Çizgi üzerindeki nokta ve karta uzanan kısa bağlantı */
+    .evre::before, .evre::after { content: ""; position: absolute; top: 33px; }
+    .evre::before {
+      width: 16px; height: 16px; margin-top: -8px; border-radius: 50%;
+      background: var(--zemin); border: 2px solid var(--gri-2);
+      transition: background .4s, border-color .4s, box-shadow .4s;
+    }
+    .evre::after { width: 47px; height: 1px; background: var(--gri-2); }
+    .evre:nth-child(odd)::before { right: -64px; }
+    .evre:nth-child(odd)::after { right: -48px; }
+    .evre:nth-child(even)::before { left: -64px; }
+    .evre:nth-child(even)::after { left: -48px; }
+    .evre.gecti::before, html:not(.js) .evre::before { background: var(--vurgu); border-color: var(--vurgu); box-shadow: 0 0 0 6px var(--vurgu-acik); }
+    .evre-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--koyu); color: var(--yuzey); display: grid; place-items: center; }
+    .evre-ikon svg { width: 22px; height: 22px; }
+    .evre-zaman { margin: 0 0 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--vurgu); }
+    .evre h3 { margin: 0 0 6px; font-size: 20px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.25; }
+    .evre-metin { margin: 0; font-size: 15px; color: var(--murekkep-2); }
+    .evre-no { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--gri-2); display: grid; place-items: center; font-size: 12px; color: var(--soluk); font-variant-numeric: tabular-nums; }
+
+    /* Kaçınılacaklar: süre etiketi + kısa neden */
+    .kacin { margin-top: 96px; }
+    .kacin-baslik { margin: 0 0 24px; font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--murekkep-2); }
+    .kacin-izgara { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .kacin-kart { background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: var(--yaricap); padding: 24px 26px 26px; }
+    .kacin-kart .sure { display: inline-block; padding: 5px 12px; border-radius: 999px; background: var(--vurgu-acik); color: var(--vurgu); font-size: 12.5px; font-weight: 600; margin-bottom: 16px; }
+    .kacin-kart h4 { margin: 0 0 4px; font-size: 17px; font-weight: 500; letter-spacing: -0.01em; }
+    .kacin-kart p { margin: 0; font-size: 14.5px; color: var(--murekkep-2); }
+
+    @media (max-width: 1024px) {
+      .kacin-izgara { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .bakim-bas { margin-bottom: 56px; }
+      .akis ol { column-gap: 72px; }
+      .evre:nth-child(odd)::before { right: -44px; }
+      .evre:nth-child(odd)::after { right: -28px; width: 27px; }
+      .evre:nth-child(even)::before { left: -44px; }
+      .evre:nth-child(even)::after { left: -28px; width: 27px; }
+      .kacin { margin-top: 72px; }
+    }
+    /* Dar ekranda: çizgi solda, kartlar tek sütun */
+    @media (max-width: 760px) {
+      .akis-cizgi { left: 9px; }
+      .akis ol { grid-template-columns: 1fr; row-gap: 14px; padding-left: 34px; }
+      .evre:nth-child(n) { grid-column: 1; grid-row: auto; }
+      .evre:nth-child(n)::before { left: -32px; right: auto; }
+      .evre:nth-child(n)::after { display: none; }
+    }
+    @media (max-width: 600px) {
+      .evre { grid-template-columns: auto 1fr; gap: 16px; padding: 22px 20px; }
+      .evre-ikon { width: 44px; height: 44px; border-radius: 12px; }
+      .evre-ikon svg { width: 21px; height: 21px; }
+      .evre-no { display: none; }
+      .evre h3 { font-size: 19px; }
+      .kacin-izgara { grid-template-columns: 1fr; gap: 10px; }
+      .kacin-kart { padding: 18px 20px 20px; }
+      .kacin-kart .sure { margin-bottom: 10px; }
+    }
 
     /* =========================================================
        DENEYİM (koyu bölüm, dolan zaman çizgisi)
@@ -1053,6 +1154,82 @@
     }
 
     /* =========================================================
+       ARKA PLAN SÜSLERİ VE YUMUŞAK GEÇİŞLER
+       Üç sade motif, hepsi çok silik:
+       - Eş yükselti çizgileri (İsviçre topo haritaları gibi): images/dekor-kontur.svg
+       - Nokta ızgarası (İsviçre grid'i), kenarlara doğru kaybolur
+       - Tel kafes dünya: çalışılan 7 ülke + İsviçre'den yaylar: images/dekor-dunya.svg
+       Görseller tools/dekor.rb ile üretildi. Süs katmanı her zaman içeriğin arkasında kalır.
+       ========================================================= */
+    .dekor-var { position: relative; isolation: isolate; }
+    .dekor { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; border-radius: inherit; }
+    .dekor > * { position: absolute; display: block; }
+    .kontur {
+      width: 1200px;
+      aspect-ratio: 4 / 3;
+      background: currentColor;
+      -webkit-mask: url("images/dekor-kontur.svg") center / contain no-repeat;
+      mask: url("images/dekor-kontur.svg") center / contain no-repeat;
+    }
+    .izgara-nokta {
+      background-image: radial-gradient(currentColor 1.1px, transparent 1.5px);
+      background-size: 22px 22px;
+    }
+    .isik { border-radius: 50%; background: radial-gradient(closest-side, rgba(218, 41, 28, .09), transparent); }
+    .dunya { width: 760px; max-width: none; aspect-ratio: 1; }
+
+    /* Karşılama: sağda dağ çizgileri, fotoğrafın arkasında hafif kırmızı ışık */
+    .hero .kontur { color: rgba(31, 33, 36, .075); width: 1320px; right: -330px; top: -40px; }
+    .hero .isik { width: 760px; height: 760px; right: -80px; top: 40px; }
+
+    /* Tedaviler: sağ üstte nokta ızgarası; zemin üst ve alttan yumuşakça açılır */
+    .tedaviler { background: linear-gradient(var(--zemin), var(--yuzey) 200px, var(--yuzey) calc(100% - 200px), var(--zemin)); }
+    .tedaviler .izgara-nokta {
+      color: rgba(31, 33, 36, .16); top: 0; right: 0; width: 620px; height: 520px;
+      -webkit-mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
+      mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
+    }
+
+    /* Koyu bölümler: kenarlardan içeri çekilmiş, köşeleri yuvarlak paneller */
+    .hikaye, .deneyim { margin-inline: clamp(8px, 1.4vw, 20px); border-radius: clamp(26px, 3.2vw, 44px); }
+    .hikaye .kontur { color: rgba(255, 255, 255, .045); width: 1300px; left: -420px; bottom: -380px; }
+    .hikaye .isik { width: 820px; height: 820px; right: -260px; top: -300px; background: radial-gradient(closest-side, rgba(255, 90, 74, .10), transparent); }
+    .deneyim .dunya { left: -170px; bottom: -150px; opacity: .9; }
+    .deneyim .isik { width: 700px; height: 700px; left: -140px; bottom: -120px; background: radial-gradient(closest-side, rgba(255, 90, 74, .07), transparent); }
+
+    /* Süreç ve bakım: başlık çevresinde silik ızgara */
+    .surec .izgara-nokta {
+      color: rgba(31, 33, 36, .14); top: 0; left: 0; width: 560px; height: 440px;
+      -webkit-mask-image: radial-gradient(farthest-side at 0 0, #000, transparent);
+      mask-image: radial-gradient(farthest-side at 0 0, #000, transparent);
+    }
+    .bakim .izgara-nokta {
+      color: rgba(31, 33, 36, .14); top: 0; left: 50%; width: 900px; height: 420px; margin-left: -450px;
+      -webkit-mask-image: radial-gradient(closest-side, #000, transparent);
+      mask-image: radial-gradient(closest-side, #000, transparent);
+    }
+
+    /* Referanslar: yumuşak geçişli gri zemin, sol üstte ızgara */
+    .referanslar { background: linear-gradient(var(--zemin), var(--gri-1) 200px, var(--gri-1) calc(100% - 200px), var(--zemin)); }
+    .referanslar .izgara-nokta {
+      color: rgba(31, 33, 36, .14); top: 0; left: 0; width: 560px; height: 460px;
+      -webkit-mask-image: radial-gradient(farthest-side at 0 0, #000, transparent);
+      mask-image: radial-gradient(farthest-side at 0 0, #000, transparent);
+    }
+
+    /* İletişim: sağ altta dağ çizgileri ve ışık */
+    .iletisim .kontur { color: rgba(31, 33, 36, .07); width: 1200px; right: -380px; bottom: -420px; }
+    .iletisim .isik { width: 640px; height: 640px; right: -120px; bottom: -200px; }
+
+    @media (max-width: 600px) {
+      .hero .kontur { width: 900px; right: -420px; top: 0; }
+      .hero .isik { width: 520px; height: 520px; right: -200px; top: 380px; }
+      .dunya { width: 520px; }
+      .deneyim .dunya { left: auto; right: -150px; bottom: -120px; }
+      .bakim .izgara-nokta { width: 600px; margin-left: -300px; }
+    }
+
+    /* =========================================================
        KAYDIRINCA BELİREN ANİMASYONLAR
        ========================================================= */
     .js .belir { opacity: 0; transform: translateY(30px); transition: opacity 1.1s var(--yumusak), transform 1.1s var(--yumusak); }
@@ -1068,7 +1245,8 @@
       .js .belir, .js .satir > span { opacity: 1; transform: none; }
       .js .maske { clip-path: none; }
       .js .harita-sinir { stroke-dashoffset: 0; fill-opacity: 1; }
-      .zaman-dolu { transform: none !important; }
+      .zaman-dolu, .akis-dolu { transform: none !important; }
+      .akis .evre::before { background: var(--vurgu); border-color: var(--vurgu); }
       html { scroll-behavior: auto; }
     }
 
@@ -1175,6 +1353,7 @@
         <a href="#about">About</a>
         <a href="#treatments">Treatments</a>
         <a href="#work">Work story</a>
+        <a href="#aftercare">Aftercare</a>
         <a href="#experience">Experience</a>
         <a href="#references">References</a>
         <a href="#contact" class="btn btn-dolu">Contact</a>
@@ -1189,7 +1368,8 @@
   <main>
 
     <!-- ================= KARŞILAMA ================= -->
-    <section class="hero">
+    <section class="hero dekor-var">
+      <div class="dekor" aria-hidden="true"><span class="kontur"></span><span class="isik"></span></div>
       <div class="kap">
         <div>
           <div class="durum belir">
@@ -1310,7 +1490,8 @@
     </section>
 
     <!-- ================= TEDAVİLER ================= -->
-    <section class="tedaviler" id="treatments">
+    <section class="tedaviler dekor-var" id="treatments">
+      <div class="dekor" aria-hidden="true"><span class="izgara-nokta"></span></div>
       <div class="kap">
         <div class="baslik-satir">
           <div>
@@ -1391,7 +1572,8 @@
     <!-- ================= WORK STORY ================= -->
     <!-- Hastaların gözleri fotoğraflarda bulanıklaştırılmıştır. Yeni kare eklemek için
          images/story klasörüne fotoğraf koyup aşağıdaki "kareler" listesine bir satır ekle. -->
-    <section class="hikaye" id="work">
+    <section class="hikaye dekor-var" id="work">
+      <div class="dekor" aria-hidden="true"><span class="kontur"></span><span class="isik"></span></div>
       <div class="kap">
         <div>
           <p class="etiket belir"><b>03</b><i></i>Work story</p>
@@ -1426,7 +1608,8 @@
     </section>
 
     <!-- ================= SÜREÇ ================= -->
-    <section class="surec">
+    <section class="surec dekor-var">
+      <div class="dekor" aria-hidden="true"><span class="izgara-nokta"></span></div>
       <div class="kap">
         <p class="etiket belir"><b>04</b><i></i>How I work</p>
         <h2 class="belir g1">Four steps, <em class="serif">one calm journey.</em></h2>
@@ -1456,11 +1639,110 @@
       </div>
     </section>
 
+    <!-- ================= BAKIM (AFTERCARE) =================
+         Genel bilgi; süreler kliniğe göre değişebilir. Değiştirirken kısa ve net tut. -->
+    <section class="bakim dekor-var" id="aftercare">
+      <div class="dekor" aria-hidden="true"><span class="izgara-nokta"></span></div>
+      <div class="kap">
+        <div class="bakim-bas">
+          <p class="etiket belir"><b>05</b><i></i>Aftercare</p>
+          <h2 class="belir g1">The first year, <em class="serif">month by month.</em></h2>
+          <p class="giris belir g2">New hair does not appear overnight. The full result takes about a year, and the crown can need up to 18 months. Knowing what is normal makes the wait much calmer.</p>
+        </div>
+
+        <div class="akis" id="akis">
+          <div class="akis-cizgi" aria-hidden="true"><div class="akis-dolu" id="akisDolu"></div></div>
+          <ol>
+            <li class="evre belir">
+              <span class="evre-ikon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/><path d="m9 15 2 2 4-4"/></svg>
+              </span>
+              <div>
+                <p class="evre-zaman">Day 0</p>
+                <h3>Procedure day</h3>
+                <p class="evre-metin">The grafts are placed under local anaesthesia. You go home the same day with a clear aftercare plan.</p>
+              </div>
+              <span class="evre-no">01</span>
+            </li>
+            <li class="evre belir">
+              <span class="evre-ikon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.2 4.2 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 2.8-6.8 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg>
+              </span>
+              <div>
+                <p class="evre-zaman">Days 1–3</p>
+                <h3>Check-up and first wash</h3>
+                <p class="evre-metin">The area is checked and you are shown how to wash. Until then: hands off, and sleep with your head raised.</p>
+              </div>
+              <span class="evre-no">02</span>
+            </li>
+            <li class="evre belir">
+              <span class="evre-ikon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12.2 2.4 2.4 4.6-4.8"/></svg>
+              </span>
+              <div>
+                <p class="evre-zaman">Days 10–14</p>
+                <h3>Scabs are gone</h3>
+                <p class="evre-metin">Gentle daily washing softens the small scabs until they come away on their own.</p>
+              </div>
+              <span class="evre-no">03</span>
+            </li>
+            <li class="evre belir">
+              <span class="evre-ikon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14z"/><path d="m5 19 8-8"/></svg>
+              </span>
+              <div>
+                <p class="evre-zaman">Weeks 2–8</p>
+                <h3>Shedding</h3>
+                <p class="evre-metin">Many of the transplanted hairs fall out. This is expected: the roots stay in place and rest before growing again.</p>
+              </div>
+              <span class="evre-no">04</span>
+            </li>
+            <li class="evre belir">
+              <span class="evre-ikon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6.5-7-6.5 0 4 3 6.5 7 6.5z"/><path d="M12 15c0-4 3-6.5 7-6.5 0 4-3 6.5-7 6.5z"/></svg>
+              </span>
+              <div>
+                <p class="evre-zaman">Months 3–6</p>
+                <h3>New growth</h3>
+                <p class="evre-metin">Fine new hairs appear and slowly get stronger. By month six the change is usually clearly visible.</p>
+              </div>
+              <span class="evre-no">05</span>
+            </li>
+            <li class="evre belir">
+              <span class="evre-ikon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5.5L19.5 10.5 14 12.5 12 18l-2-5.5-5.5-2L10 8.5z"/><path d="M19 16v4M17 18h4"/></svg>
+              </span>
+              <div>
+                <p class="evre-zaman">Months 12–18</p>
+                <h3>Final result</h3>
+                <p class="evre-metin">Density and texture mature. The crown often takes a little longer than the front.</p>
+              </div>
+              <span class="evre-no">06</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="kap kacin">
+        <h3 class="kacin-baslik belir">What to avoid, and for how long</h3>
+        <div class="kacin-izgara">
+          <div class="kacin-kart belir"><span class="sure">2 weeks</span><h4>Scratching or picking</h4><p>A scab pulled off too early can take the graft with it.</p></div>
+          <div class="kacin-kart belir g1"><span class="sure">3 nights</span><h4>Sleeping flat</h4><p>Keep your head raised to reduce swelling.</p></div>
+          <div class="kacin-kart belir g2"><span class="sure">1–2 weeks</span><h4>Alcohol and smoking</h4><p>Both slow down healing and blood flow to the scalp.</p></div>
+          <div class="kacin-kart belir"><span class="sure">4 weeks</span><h4>Gym and heavy lifting</h4><p>Sweat and strain irritate the healing skin. Light walks are fine.</p></div>
+          <div class="kacin-kart belir g1"><span class="sure">4 weeks</span><h4>Swimming and sauna</h4><p>Chlorine, salt water and heat irritate the scalp.</p></div>
+          <div class="kacin-kart belir g2"><span class="sure">4 weeks</span><h4>Strong sun</h4><p>After that, protect the scalp with a loose hat for a few months.</p></div>
+        </div>
+        <p class="not belir">General guidance only. Every clinic has its own protocol, so your clinic’s written instructions always come first.</p>
+      </div>
+    </section>
+
     <!-- ================= DENEYİM ================= -->
-    <section class="deneyim" id="experience">
+    <section class="deneyim dekor-var" id="experience">
+      <div class="dekor" aria-hidden="true"><span class="isik"></span><img class="dunya" src="images/dekor-dunya.svg" alt="" loading="lazy"></div>
       <div class="kap">
         <div class="deneyim-sol">
-          <p class="etiket belir"><b>05</b><i></i>Experience</p>
+          <p class="etiket belir"><b>06</b><i></i>Experience</p>
           <h2 class="belir g1">Career <em class="serif">so far.</em></h2>
           <p class="giris belir g2">Eight years in hair transplantation across Switzerland, Sweden and Turkey, built on a solid foundation in anaesthesia.</p>
         </div>
@@ -1554,7 +1836,7 @@
         </div>
 
         <div>
-          <p class="etiket belir"><b>06</b><i></i>Where I work</p>
+          <p class="etiket belir"><b>07</b><i></i>Where I work</p>
           <h2 class="belir g1">Based in Basel, <em class="serif">working across Switzerland.</em></h2>
           <p class="giris belir g2">Seven countries have shaped how I work: flexible, calm and always patient-centred.</p>
 
@@ -1572,9 +1854,10 @@
     </section>
 
     <!-- ================= REFERANSLAR (iş belgelerinden birebir alıntılar) ================= -->
-    <section class="referanslar" id="references">
+    <section class="referanslar dekor-var" id="references">
+      <div class="dekor" aria-hidden="true"><span class="izgara-nokta"></span></div>
       <div class="kap">
-        <p class="etiket belir"><b>07</b><i></i>References</p>
+        <p class="etiket belir"><b>08</b><i></i>References</p>
         <h2 class="belir g1">What clinics say</h2>
 
         <div class="yorum-izgara">
@@ -1612,10 +1895,11 @@
     </section>
 
     <!-- ================= İLETİŞİM ================= -->
-    <section class="iletisim" id="contact">
+    <section class="iletisim dekor-var" id="contact">
+      <div class="dekor" aria-hidden="true"><span class="kontur"></span><span class="isik"></span></div>
       <div class="kap">
         <div>
-          <p class="etiket belir"><b>08</b><i></i>Contact</p>
+          <p class="etiket belir"><b>09</b><i></i>Contact</p>
           <h2 class="belir g1">Let’s talk <em class="serif">about your hair.</em></h2>
           <p class="giris belir g2">Whether you are a patient with questions or a clinic looking for an experienced specialist, I’m happy to hear from you.</p>
           <a class="eposta-buyuk belir g3" href="mailto:onurbaskol@gmail.com">
@@ -1660,6 +1944,9 @@
     const zaman = document.getElementById('zaman');
     const zamanDolu = document.getElementById('zamanDolu');
     const isler = [...document.querySelectorAll('.zaman .is')];
+    const akis = document.getElementById('akis');
+    const akisDolu = document.getElementById('akisDolu');
+    const evreler = [...document.querySelectorAll('.akis .evre')];
 
     function kaydirinca() {
       const y = window.scrollY;
@@ -1675,6 +1962,16 @@
         isler.forEach(is => {
           is.classList.toggle('gecti', is.getBoundingClientRect().top < innerHeight * 0.6);
         });
+
+        // Aftercare çizelgesi: ortadaki çizgi dolar, geçilen noktalar kırmızı olur
+        if (akis) {
+          const a = akis.getBoundingClientRect();
+          const o = Math.min(Math.max((innerHeight * 0.6 - a.top) / a.height, 0), 1);
+          akisDolu.style.transform = `scaleY(${o})`;
+          evreler.forEach(e => {
+            e.classList.toggle('gecti', e.getBoundingClientRect().top + 33 < innerHeight * 0.6);
+          });
+        }
       }
     }
     window.addEventListener('scroll', kaydirinca, { passive: true });
@@ -1690,7 +1987,7 @@
         }
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    ['about', 'treatments', 'work', 'experience', 'references'].forEach(id => bolumGozcu.observe(document.getElementById(id)));
+    ['about', 'treatments', 'work', 'aftercare', 'experience', 'references'].forEach(id => bolumGozcu.observe(document.getElementById(id)));
 
     // Telefonda menüyü aç / kapat
     const dugme = document.getElementById('menuDugme');
