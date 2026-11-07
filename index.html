@@ -24,7 +24,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
   <!-- JavaScript açıksa animasyonlar devreye girer; kapalıysa her şey yine görünür -->
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    document.documentElement.classList.add('js');
+    // Dil: adres (?lang=de) > daha önce seçilen > tarayıcı dili > İngilizce.
+    // İngilizce dışındaysa çeviri bitene kadar sayfa kısa süre gizlenir (en fazla 1,5 sn).
+    (function () {
+      var D = ['en', 'de', 'fr', 'it', 'tr'], d = 'en', p = null, k = null;
+      try { p = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+      try { k = localStorage.getItem('dil'); } catch (e) {}
+      if (D.indexOf(p) > -1) d = p;
+      else if (D.indexOf(k) > -1) d = k;
+      else {
+        var t = navigator.languages || [navigator.language || 'en'];
+        for (var i = 0; i < t.length; i++) {
+          var l = String(t[i]).slice(0, 2).toLowerCase();
+          if (D.indexOf(l) > -1) { d = l; break; }
+        }
+      }
+      document.documentElement.setAttribute('data-dil', d);
+      if (d !== 'en') {
+        document.documentElement.classList.add('dil-bekle');
+        setTimeout(function () { document.documentElement.classList.remove('dil-bekle'); }, 1500);
+      }
+    })();
+  </script>
 
   <style>
     /* =========================================================
@@ -79,6 +102,8 @@
     }
 
     img { display: block; max-width: 100%; }
+    /* Seçili dile çeviri bitene kadar (en fazla 1,5 sn) İngilizce metin görünmesin */
+    .dil-bekle body { visibility: hidden; }
     a { color: inherit; }
     ::selection { background: var(--murekkep); color: var(--yuzey); }
 
@@ -227,10 +252,29 @@
     .ust nav a.aktif { color: var(--murekkep); }
     .ust nav a.aktif::after { transform: scaleX(1); }
     .ust nav .btn { padding: 10px 20px; font-size: 14px; color: var(--yuzey); }
-    /* Menü yazıları ve logo tek satırda kalsın; orta boy ekranda aralık daralsın */
+    /* Menü yazıları ve logo tek satırda kalsın */
     .logo, .ust nav a { white-space: nowrap; }
-    @media (max-width: 1100px) { .ust nav { gap: 24px; } }
-    @media (max-width: 1000px) { .ust nav { gap: 18px; } }
+    .ust-sag { display: flex; align-items: center; gap: 26px; }
+
+    /* Dil seçici (EN · DE · FR · IT · TR) */
+    .dil-sec {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 38px; padding: 0 10px 0 12px;
+      border: 1px solid var(--gri-2); border-radius: 999px;
+      color: var(--murekkep-2); font-size: 13px; font-weight: 500;
+      transition: border-color .2s, color .2s;
+    }
+    .dil-sec:hover, .dil-sec:focus-within { border-color: var(--murekkep); color: var(--murekkep); }
+    .dil-sec svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .dil-sec select {
+      -webkit-appearance: none; appearance: none;
+      border: 0; background: transparent; font: inherit; color: inherit;
+      padding: 0 15px 0 0; margin: 0; cursor: pointer; outline: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23575b61' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right center; background-size: 9px 6px;
+    }
+
+
 
     .menu-dugme {
       display: none;
@@ -253,6 +297,42 @@
     .menu-dugme span:nth-child(2) { top: 26px; }
     .menu-acik .menu-dugme span:nth-child(1) { top: 21px; transform: rotate(45deg); }
     .menu-acik .menu-dugme span:nth-child(2) { top: 21px; transform: rotate(-45deg); }
+
+    /* Telefonda uzun unvan (ör. Fransızca) alt satıra geçsin, sağdaki düğmeleri itmesin */
+    @media (max-width: 600px) {
+      .ust .kap { gap: 12px; }
+      .logo { white-space: normal; min-width: 0; }
+      .logo > span:last-child { min-width: 0; }
+      .logo small { font-size: 11px; line-height: 1.25; }
+      .ust-sag { flex-shrink: 0; }
+      .dil-sec { height: 34px; padding: 0 8px 0 10px; gap: 5px; }
+    }
+
+    /* Menü 1180 pikselin altında açılır panele dönüşür (Almanca gibi uzun dillerde sığsın diye) */
+    @media (max-width: 1180px) {
+      .ust-sag { gap: 10px; }
+      .menu-dugme { display: block; }
+      .ust nav {
+        position: fixed;
+        top: 78px; left: 0; right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: var(--zemin);
+        padding: 4px 24px 28px;
+        border-bottom: 1px solid var(--cizgi);
+        transform: translateY(-12px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .3s, transform .35s var(--yumusak), visibility .3s;
+      }
+      .ust nav a:not(.btn) { padding: 15px 0; font-size: 18px; width: 100%; border-bottom: 1px solid var(--cizgi); color: var(--murekkep); }
+      .ust nav a:not(.btn)::after { display: none; }
+      .ust nav .btn { margin-top: 22px; }
+      .menu-acik .ust { background: var(--zemin); }
+      .menu-acik .ust nav { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+    }
 
     /* =========================================================
        KARŞILAMA
@@ -495,56 +575,68 @@
     .degerler {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
+      gap: 16px;
       margin-top: 112px;
       grid-column: 1 / -1;
     }
-    .deger { padding-top: 26px; border-top: 1px solid var(--murekkep); }
-    .deger span { font-size: 13px; color: var(--soluk); font-variant-numeric: tabular-nums; }
-    .deger h3 { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; margin: 10px 0 8px; }
+    /* Değer kartları: beyaz kart + üstte kırmızı çizgi + kırmızı ikon. (.vurgulu = tam kırmızı kart; kullanıcı yorucu bulduğu için kullanılmıyor) */
+    .deger {
+      position: relative; overflow: hidden;
+      padding: 28px 28px 30px;
+      border-radius: var(--yaricap);
+      border: 1px solid var(--cizgi);
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(20, 22, 25, .04), 0 24px 48px -36px rgba(20, 22, 25, .3);
+    }
+    .deger::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--vurgu); }
+    .deger-ust { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .deger-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--vurgu-acik); color: var(--vurgu); display: grid; place-items: center; }
+    .deger-ikon svg { width: 24px; height: 24px; }
+    .deger-no { font-size: 13px; font-weight: 600; letter-spacing: 1px; color: var(--vurgu); font-variant-numeric: tabular-nums; }
+    .deger h3 { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; margin: 0 0 8px; }
     .deger p { margin: 0; color: var(--murekkep-2); font-size: 15px; }
+    .deger.vurgulu { background: var(--vurgu); border-color: var(--vurgu); color: #fff; box-shadow: 0 30px 60px -32px rgba(218, 41, 28, .6); }
+    .deger.vurgulu::before { display: none; }
+    .deger.vurgulu .deger-ikon { background: #fff; color: var(--vurgu); }
+    .deger.vurgulu .deger-no { color: rgba(255, 255, 255, .82); }
+    .deger.vurgulu p { color: rgba(255, 255, 255, .9); }
 
-    /* About arka planı ("Precision" teması):
-       - fotoğrafın arkasından taşan, çok yavaş dönen ölçü kadranı (images/dekor-olcek.svg) + dış halkada kırmızı yay
-       - yazının arkasında İsviçre artısı ızgarası, kenara doğru kaybolur
-       - fotoğrafın altında hafif kırmızımsı ışık */
-    .hakkimda { overflow: hidden; }
+    /* About arka planı: dalgalanan İsviçre bayrağı (images/dekor-bayrak.svg, tools/dekor.rb ile üretilir).
+       Yazının tamamının arkasını kaplar, hafif yatık durur ve çok yavaş salınır; okunabilirlik için yarı saydam.
+       (Önce dönen kadran, saç çizgisi eskizi, noktalı harita ve düz bayrak denendi; kullanıcı bunu seçti.) */
+    .hakkimda { overflow: hidden; position: relative; isolation: isolate; }
     .foto-alan { position: relative; }
-    .olcek { position: absolute; z-index: -1; pointer-events: none; width: 680px; aspect-ratio: 1; right: -340px; bottom: -150px; }
-    .olcek-cizgi, .olcek-yay { position: absolute; inset: 0; }
-    /* Gri kadran çok yavaş döner; kırmızı yay sabit kalır (yazının üstünden geçmesin diye altta) */
-    .olcek-cizgi {
-      animation: don 360s linear infinite;
-      background: rgba(31, 33, 36, .17);
-      -webkit-mask: url("images/dekor-olcek.svg") center / contain no-repeat;
-      mask: url("images/dekor-olcek.svg") center / contain no-repeat;
-    }
-    .olcek-yay {
-      border-radius: 50%;
-      background: conic-gradient(from 166deg, var(--vurgu) 0deg 28deg, transparent 28deg 360deg);
-      -webkit-mask: radial-gradient(closest-side, transparent calc(98% - 2px), #000 calc(98% - 2px), #000 calc(98% + 1px), transparent calc(98% + 1px));
-      mask: radial-gradient(closest-side, transparent calc(98% - 2px), #000 calc(98% - 2px), #000 calc(98% + 1px), transparent calc(98% + 1px));
-      opacity: .8;
-    }
-    @keyframes don { to { transform: rotate(360deg); } }
     .foto-alan::before {
       content: ""; position: absolute; z-index: -1; inset: 20% -16% -18% -16%; pointer-events: none;
-      background: radial-gradient(closest-side, rgba(218, 41, 28, .10), transparent);
+      background: radial-gradient(closest-side, rgba(218, 41, 28, .09), transparent);
     }
-    .hakkimda .arti-izgara {
-      top: 0; right: 0; width: 760px; height: 640px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cpath d='M18 14v8M14 18h8' stroke='%231f2124' stroke-opacity='.3'/%3E%3C/svg%3E");
-      background-size: 36px 36px;
-      -webkit-mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
-      mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
+    .hakkimda-metin { position: relative; }
+    .about-bayrak {
+      position: absolute; z-index: -1; pointer-events: none;
+      width: calc(100% + 150px); max-width: none; height: auto;
+      left: -75px; top: 50%;
+      opacity: .16;
+      transform: translateY(-50%) rotate(-4deg);
+      transform-origin: 30% 50%;
+      animation: bayrak-salla 9s ease-in-out infinite alternate;
     }
+    @keyframes bayrak-salla {
+      from { transform: translateY(-50%) rotate(-4deg); }
+      to { transform: translateY(-50%) rotate(-2.4deg) skewY(-1.4deg); }
+    }
+    /* Tek sütunda yazı uzun: bayrak yüksekliği yazı alanına göre ayarlanır, yanlardan taşan kısım kesilir */
     @media (max-width: 900px) {
-      .olcek { width: 540px; right: -270px; bottom: -190px; }
-      .olcek-yay { display: none; } /* tek sütunda başlığın üstüne denk geliyor */
+      .about-bayrak {
+        width: auto; height: calc(100% + 120px); aspect-ratio: 1;
+        left: 50%; top: -60px;
+        transform: translateX(-50%) rotate(-4deg);
+        transform-origin: 50% 50%;
+        animation-name: bayrak-salla-dar;
+      }
     }
-    @media (max-width: 600px) {
-      .olcek { width: 420px; right: -210px; bottom: -150px; }
-      .hakkimda .arti-izgara { width: 300px; height: 340px; }
+    @keyframes bayrak-salla-dar {
+      from { transform: translateX(-50%) rotate(-4deg); }
+      to { transform: translateX(-50%) rotate(-2.4deg) skewY(-1.4deg); }
     }
 
     /* =========================================================
@@ -629,21 +721,30 @@
       color: var(--murekkep-2);
       font-weight: 500;
     }
+    /* Beceriler: beyaz kartlar, köşede hafif kırmızı ışık, ikon açık kırmızı kutuda (üstüne gelince biraz koyulaşır; tam kırmızı yorucu bulundu) */
     .beceri-izgara {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--cizgi);
+      gap: 12px;
     }
     .beceri {
       display: flex;
-      gap: 18px;
-      padding: 28px 24px 28px 0;
-      border-bottom: 1px solid var(--cizgi);
-      transition: padding-left .45s var(--yumusak);
+      gap: 16px;
+      align-items: flex-start;
+      padding: 22px 22px 24px;
+      border-radius: 18px;
+      border: 1px solid var(--cizgi);
+      background: radial-gradient(circle at 100% 0, rgba(218, 41, 28, .08), transparent 55%), #fff;
+      transition: border-color .3s, box-shadow .4s var(--yumusak), opacity 1.1s var(--yumusak), transform 1.1s var(--yumusak);
     }
-    .beceri:hover { padding-left: 10px; }
-    .beceri svg { width: 24px; height: 24px; flex-shrink: 0; color: var(--murekkep-2); margin-top: 2px; }
-    .beceri h4 { margin: 0 0 4px; font-size: 16.5px; font-weight: 500; letter-spacing: -0.01em; }
+    .beceri:hover { border-color: rgba(218, 41, 28, .32); box-shadow: 0 22px 40px -28px rgba(218, 41, 28, .5); }
+    .beceri svg {
+      width: 46px; height: 46px; flex-shrink: 0; box-sizing: border-box; padding: 11px;
+      border-radius: 13px; background: var(--vurgu-acik); color: var(--vurgu); stroke-width: 1.6;
+      transition: background .3s, color .3s;
+    }
+    .beceri:hover svg { background: #f6d6d2; }
+    .beceri h4 { margin: 3px 0 4px; font-size: 16.5px; font-weight: 500; letter-spacing: -0.01em; }
     .beceri p { margin: 0; font-size: 14.5px; color: var(--murekkep-2); }
 
     /* =========================================================
@@ -777,6 +878,146 @@
       .kacin-izgara { grid-template-columns: 1fr; gap: 10px; }
       .kacin-kart { padding: 18px 20px 20px; }
       .kacin-kart .sure { margin-bottom: 10px; }
+    }
+
+    /* =========================================================
+       BİLGİ KÖŞESİ (kısa yazılar, karta tıklayınca açılır; kaynak linkleri altta)
+       ========================================================= */
+    .bilgi .baslik-satir .giris { max-width: 440px; }
+    .bilgi-izgara { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+    .yazi {
+      background: var(--yuzey);
+      border: 1px solid var(--cizgi);
+      border-radius: var(--yaricap);
+      transition: border-color .3s, box-shadow .35s var(--yumusak), opacity 1.1s var(--yumusak), transform 1.1s var(--yumusak);
+    }
+    .yazi:hover, .yazi[open] { border-color: var(--gri-2); box-shadow: 0 20px 40px -30px rgba(20, 22, 25, .28); }
+    .yazi summary { list-style: none; cursor: pointer; padding: 26px 26px 22px; display: flex; flex-direction: column; gap: 10px; border-radius: var(--yaricap); }
+    .yazi summary::-webkit-details-marker { display: none; }
+    .yazi summary:focus-visible { outline: 2px solid var(--murekkep); outline-offset: 3px; }
+    .yazi-kategori { font-size: 11.5px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--vurgu); }
+    .yazi h3 { margin: 0; font-size: 20px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.3; }
+    .yazi-ozet { display: block; font-size: 15px; color: var(--murekkep-2); }
+    .yazi-ac { margin-top: 6px; display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 500; color: var(--murekkep); }
+    .yazi-ac i { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--gri-2); position: relative; flex-shrink: 0; }
+    .yazi-ac i::before, .yazi-ac i::after {
+      content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 1.5px;
+      margin: -.75px 0 0 -4px; background: currentColor; transition: transform .3s var(--yumusak);
+    }
+    .yazi-ac i::after { transform: rotate(90deg); }
+    .yazi[open] .yazi-ac i::after { transform: rotate(0deg); }
+    .yazi .ac-acik, .yazi[open] .ac-kapali { display: none; }
+    .yazi[open] .ac-acik { display: inline; }
+    .yazi-govde { margin: 0 26px; padding: 18px 0 24px; border-top: 1px solid var(--cizgi); }
+    .yazi-govde p { margin: 0 0 12px; font-size: 15px; color: var(--murekkep-2); }
+    .yazi-govde p:last-child { margin-bottom: 0; }
+    .bilgi .izgara-nokta {
+      color: rgba(31, 33, 36, .14); top: 0; right: 0; width: 600px; height: 460px;
+      -webkit-mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
+      mask-image: radial-gradient(farthest-side at 100% 0, #000, transparent);
+    }
+
+    /* =========================================================
+       ÜCRETSİZ ANALİZ: 5 fotoğraf + ad + e-posta.
+       Form FormSubmit (formsubmit.co) üzerinden doğrudan e-postaya gider.
+       Fotoğraflar göndermeden önce tarayıcıda küçültülür (toplam sınır 10 MB).
+       ========================================================= */
+    .analiz .kap { display: grid; grid-template-columns: .82fr 1.18fr; gap: 72px; align-items: start; }
+    .analiz-sol { position: sticky; top: 120px; }
+    .analiz-adim { list-style: none; margin: 36px 0 0; padding: 0; display: grid; gap: 16px; }
+    .analiz-adim li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; font-size: 15.5px; color: var(--murekkep-2); }
+    .analiz-adim b { width: 34px; height: 34px; border-radius: 50%; background: var(--koyu); color: var(--yuzey); display: grid; place-items: center; font-size: 13px; font-weight: 500; }
+    .analiz-adim span { padding-top: 6px; }
+    .analiz-not { margin: 30px 0 0; font-size: 13.5px; color: var(--soluk); max-width: 440px; }
+    .analiz .isik { width: 760px; height: 760px; right: -200px; top: 60px; }
+
+    .analiz-form {
+      position: relative;
+      background: var(--yuzey);
+      border: 1px solid var(--cizgi);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 1px 2px rgba(20, 22, 25, .04), 0 30px 60px -40px rgba(20, 22, 25, .3);
+    }
+    .analiz-form fieldset { border: 0; margin: 0 0 24px; padding: 0; min-width: 0; }
+    .analiz-form legend, .alan > span {
+      display: block; padding: 0; margin-bottom: 10px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--murekkep-2);
+    }
+    .alan > span em, .analiz-form legend em { font-style: normal; text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--soluk); }
+
+    .foto-izgara { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .foto-kutu {
+      position: relative; aspect-ratio: 3 / 4; overflow: hidden;
+      border: 1.5px dashed var(--gri-2); border-radius: 16px; background: var(--zemin);
+      transition: border-color .2s, background .2s;
+    }
+    .foto-kutu:hover, .foto-kutu:focus-within { border-color: var(--murekkep-2); background: var(--yuzey); }
+    .foto-kutu input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
+    .foto-kutu label {
+      position: absolute; inset: 0; pointer-events: none;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+      padding: 10px 6px; text-align: center;
+    }
+    .foto-kutu svg { width: 38px; height: 38px; color: var(--murekkep-2); margin-bottom: 4px; }
+    .foto-kutu strong { font-size: 13px; font-weight: 600; line-height: 1.2; }
+    .foto-kutu small { font-size: 11px; color: var(--soluk); line-height: 1.3; }
+    .foto-onizleme { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .3s; }
+    .foto-kutu.dolu { border-style: solid; border-color: transparent; }
+    .foto-kutu.dolu .foto-onizleme { opacity: 1; }
+    .foto-kutu.dolu label { justify-content: flex-end; padding-bottom: 8px; }
+    .foto-kutu.dolu svg, .foto-kutu.dolu small { display: none; }
+    .foto-kutu.dolu strong { background: rgba(32, 34, 37, .78); color: #fff; padding: 4px 9px; border-radius: 999px; font-size: 11px; }
+    .foto-kutu.isleniyor { opacity: .55; }
+    .foto-sil {
+      position: absolute; top: 6px; right: 6px; z-index: 3;
+      width: 26px; height: 26px; border-radius: 50%; border: 0; padding: 0;
+      background: rgba(32, 34, 37, .82); color: #fff; font-size: 17px; line-height: 1; cursor: pointer;
+      display: none; place-items: center;
+    }
+    .foto-kutu.dolu .foto-sil { display: grid; }
+    .foto-ipucu { margin: 12px 0 0; font-size: 13px; color: var(--soluk); }
+
+    .form-satir { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .alan { display: block; margin-bottom: 14px; }
+    .alan input, .alan textarea {
+      display: block; width: 100%; font: inherit; font-size: 15px; color: var(--murekkep);
+      background: var(--zemin); border: 1px solid var(--cizgi); border-radius: 12px; padding: 13px 14px;
+      transition: border-color .2s, background .2s;
+    }
+    .alan textarea { resize: vertical; min-height: 92px; }
+    .alan input:focus, .alan textarea:focus { outline: none; border-color: var(--murekkep); background: var(--yuzey); }
+    .onay { display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: start; margin: 6px 0 22px; font-size: 13px; color: var(--murekkep-2); cursor: pointer; }
+    .onay input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--vurgu); }
+    .analiz-gonder { width: 100%; justify-content: center; padding: 16px 26px; border: 0; cursor: pointer; font-size: 15.5px; }
+    .analiz-gonder[disabled] { opacity: .6; cursor: progress; transform: none; box-shadow: none; }
+    .form-durum { margin: 12px 0 0; min-height: 1.2em; font-size: 13.5px; color: var(--murekkep-2); text-align: center; }
+    .form-durum.hata { color: var(--vurgu); }
+    .bal { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+    .analiz-tesekkur { display: none; text-align: center; padding: 40px 12px 28px; }
+    .analiz-tesekkur span { width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%; background: var(--vurgu-acik); color: var(--vurgu); display: grid; place-items: center; }
+    .analiz-tesekkur svg { width: 26px; height: 26px; }
+    .analiz-tesekkur h3 { margin: 0 0 8px; font-size: 24px; font-weight: 500; letter-spacing: -0.02em; }
+    .analiz-tesekkur p { margin: 0 auto; max-width: 380px; color: var(--murekkep-2); }
+    .analiz.gonderildi .analiz-form > :not(.analiz-tesekkur) { display: none; }
+    .analiz.gonderildi .analiz-tesekkur { display: block; }
+
+    @media (max-width: 1024px) {
+      .bilgi-izgara { grid-template-columns: repeat(2, 1fr); }
+      .foto-izgara { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .analiz .kap { grid-template-columns: 1fr; gap: 40px; }
+      .analiz-sol { position: static; }
+    }
+    @media (max-width: 600px) {
+      .bilgi-izgara { grid-template-columns: 1fr; gap: 10px; }
+      .yazi summary { padding: 22px 20px 18px; }
+      .yazi-govde { margin: 0 20px; }
+      .analiz-form { padding: 22px 16px; border-radius: 22px; }
+      .foto-izgara { grid-template-columns: repeat(2, 1fr); }
+      .form-satir { grid-template-columns: 1fr; gap: 0; }
     }
 
     /* =========================================================
@@ -975,6 +1216,15 @@
     .yorum.anagen .anagen-metin { font-family: var(--serif); font-size: 30px; line-height: 1.25; margin: 0; }
     .yorum.anagen .anagen-metin em { color: var(--koyu-yazi); }
     .yorum.anagen .durum-satir { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--koyu-yazi); margin-bottom: 18px; }
+
+    /* Klinik logoları kartın üstünde (Anagen, Urania, Regeline resmî sitelerinden; MORE kullanıcının tarifiyle çizildi).
+       Hair & Skin kartı bilerek logosuz (şirket 2024'te iflas etti). */
+    .yorum-logo { display: block; width: auto; height: 34px; max-width: 200px; margin-bottom: 26px; }
+    .yorum-logo.urania { height: 54px; max-width: 250px; }
+    .yorum-logo.regeline { height: 44px; }
+    .yorum-logo.more { width: 54px; height: 54px; }
+    .yorum.anagen .yorum-logo { height: 28px; filter: brightness(0) invert(1); opacity: .92; margin-bottom: 22px; }
+    .yorum.logolu blockquote::before { display: none; }
 
     .not { margin: 32px 0 0; font-size: 14px; color: var(--murekkep-2); }
 
@@ -1306,27 +1556,6 @@
       section { padding: 104px 0; }
       .kap { padding: 0 24px; }
 
-      .menu-dugme { display: block; }
-      .ust nav {
-        position: fixed;
-        top: 78px; left: 0; right: 0;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
-        background: var(--zemin);
-        padding: 4px 24px 28px;
-        border-bottom: 1px solid var(--cizgi);
-        transform: translateY(-12px);
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: opacity .3s, transform .35s var(--yumusak), visibility .3s;
-      }
-      .ust nav a:not(.btn) { padding: 15px 0; font-size: 18px; width: 100%; border-bottom: 1px solid var(--cizgi); color: var(--murekkep); }
-      .ust nav a:not(.btn)::after { display: none; }
-      .ust nav .btn { margin-top: 22px; }
-      .menu-acik .ust { background: var(--zemin); }
-      .menu-acik .ust nav { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
 
       .hero { padding: 124px 0 72px; }
       .hero .kap { grid-template-columns: 1fr; gap: 60px; }
@@ -1339,7 +1568,7 @@
       .rakam.one-cikan { grid-column: 1 / -1; }
 
       .hakkimda .kap { grid-template-columns: 1fr; gap: 56px; }
-      .degerler { grid-template-columns: 1fr; gap: 32px; margin-top: 16px; }
+      .degerler { grid-template-columns: 1fr; gap: 14px; margin-top: 16px; }
 
       .tedavi-izgara { grid-template-columns: 1fr; }
       .tedavi { min-height: 0; }
@@ -1392,19 +1621,30 @@
         <span>Taha Başkol<small>Hair Transplant Specialist</small></span>
       </a>
 
-      <nav id="menu">
-        <a href="#about">About</a>
-        <a href="#treatments">Treatments</a>
-        <a href="#work">Work story</a>
-        <a href="#aftercare">Aftercare</a>
-        <a href="#experience">Experience</a>
-        <a href="#references">References</a>
-        <a href="#contact" class="btn btn-dolu">Contact</a>
-      </nav>
-
-      <button class="menu-dugme" id="menuDugme" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span>
-      </button>
+      <div class="ust-sag">
+        <nav id="menu">
+          <a href="#about">About</a>
+          <a href="#treatments">Treatments</a>
+          <a href="#aftercare">Aftercare</a>
+          <a href="#knowledge">Knowledge</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+          <a href="#analysis" class="btn btn-dolu">Free analysis</a>
+        </nav>
+        <label class="dil-sec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
+          <select id="dilSec" aria-label="Language">
+            <option value="en">EN</option>
+            <option value="de">DE</option>
+            <option value="fr">FR</option>
+            <option value="it">IT</option>
+            <option value="tr">TR</option>
+          </select>
+        </label>
+        <button class="menu-dugme" id="menuDugme" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -1437,7 +1677,7 @@
               Get in touch
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </a>
-            <a href="#treatments" class="btn btn-cizgi">Treatments</a>
+            <a href="#analysis" class="btn btn-cizgi">Free hair analysis</a>
           </div>
 
           <div class="guven belir g3">
@@ -1486,17 +1726,16 @@
     </div>
 
     <!-- ================= HAKKIMDA ================= -->
-    <section class="hakkimda dekor-var" id="about">
-      <div class="dekor" aria-hidden="true"><span class="arti-izgara"></span></div>
+    <section class="hakkimda" id="about">
       <div class="kap">
         <div class="foto-alan">
-          <div class="olcek" aria-hidden="true"><span class="olcek-cizgi"></span><span class="olcek-yay"></span></div>
           <div class="foto maske">
             <img src="images/clinic.jpg" alt="Taha Başkol at the clinic in Switzerland">
           </div>
         </div>
 
-        <div>
+        <div class="hakkimda-metin">
+          <img class="about-bayrak" src="images/dekor-bayrak.svg" alt="" aria-hidden="true">
           <p class="etiket belir"><b>01</b><i></i>About</p>
           <h2 class="belir g1">Precision you can trust, <em class="serif">care you can feel.</em></h2>
           <p class="metin belir g2">
@@ -1518,17 +1757,17 @@
 
         <div class="degerler">
           <div class="deger belir">
-            <span>01</span>
+            <div class="deger-ust"><span class="deger-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 6v5.2c0 4.4-2.9 8.2-7 9.8-4.1-1.6-7-5.4-7-9.8V6z"/><path d="m9 12 2.1 2.1L15.2 10"/></svg></span><span class="deger-no">01</span></div>
             <h3>Safety first</h3>
             <p>Years in anaesthesia taught me that patient safety and comfort are never negotiable.</p>
           </div>
           <div class="deger belir g1">
-            <span>02</span>
+            <div class="deger-ust"><span class="deger-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.6 4.5h4.8v5.1h5.1v4.8h-5.1v5.1H9.6v-5.1H4.5V9.6h5.1z"/></svg></span><span class="deger-no">02</span></div>
             <h3>Swiss precision</h3>
             <p>Every graft is handled with care, with angle and density planned for a natural result.</p>
           </div>
           <div class="deger belir g2">
-            <span>03</span>
+            <div class="deger-ust"><span class="deger-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg></span><span class="deger-no">03</span></div>
             <h3>Personal care</h3>
             <p>I take time to listen, explain every step and stay with you through aftercare.</p>
           </div>
@@ -1784,12 +2023,211 @@
       </div>
     </section>
 
+    <!-- ================= BİLGİ KÖŞESİ =================
+         Genel bilgi; ISHRS, NHS ve Mayo Clinic sayfalarına dayanır (Kasım 2026'da kontrol edildi). Kaynak linkleri kullanıcı isteğiyle kaldırıldı.
+         Metinler kısa ve kendi sözlerimizle; başka sitelerden kopyalama yok. -->
+    <section class="bilgi dekor-var" id="knowledge">
+      <div class="dekor" aria-hidden="true"><span class="izgara-nokta"></span></div>
+      <div class="kap">
+        <div class="baslik-satir">
+          <div>
+            <p class="etiket belir"><b>06</b><i></i>Knowledge</p>
+            <h2 class="belir g1">Good to know, <em class="serif">in plain words.</em></h2>
+          </div>
+          <p class="giris belir g2">Short answers to the questions I hear most often, based on information from medical societies and health services.</p>
+        </div>
+
+        <div class="bilgi-izgara">
+          <details class="yazi belir">
+            <summary>
+              <span class="yazi-kategori">Basics</span>
+              <h3>What is a hair transplant?</h3>
+              <span class="yazi-ozet">Hair is moved from the back of the head, where it resists thinning, to areas that have become thin.</span>
+              <span class="yazi-ac"><i></i><span class="ac-kapali">Read more</span><span class="ac-acik">Close</span></span>
+            </summary>
+            <div class="yazi-govde">
+              <p>Hair grows in small natural groups of one to four hairs, called follicular units. During a transplant these units are taken from the donor area at the back and sides of the head and placed one by one into tiny openings in the thinning area.</p>
+              <p>The procedure is done under local anaesthesia and you usually go home the same day. Transplanted hair keeps its original properties and continues to grow.</p>
+            </div>
+          </details>
+
+          <details class="yazi belir g1">
+            <summary>
+              <span class="yazi-kategori">Technique</span>
+              <h3>FUE and FUT: what is the difference?</h3>
+              <span class="yazi-ozet">Both describe how grafts are taken from the donor area. Placing them works the same way.</span>
+              <span class="yazi-ac"><i></i><span class="ac-kapali">Read more</span><span class="ac-acik">Close</span></span>
+            </summary>
+            <div class="yazi-govde">
+              <p>With FUE, single follicular units are removed with a tiny round punch. It leaves small dot-like scars that are easy to hide, even with short hair.</p>
+              <p>With FUT, a thin strip of skin is removed and divided into grafts under a microscope. This leaves one fine line-shaped scar. Names such as DHI or Sapphire FUE refer to particular instruments for opening the channels or placing the grafts.</p>
+            </div>
+          </details>
+
+          <details class="yazi belir g2">
+            <summary>
+              <span class="yazi-kategori">Planning</span>
+              <h3>Am I a good candidate?</h3>
+              <span class="yazi-ozet">Good candidates have a clear cause of hair loss, a strong donor area and realistic expectations.</span>
+              <span class="yazi-ac"><i></i><span class="ac-kapali">Read more</span><span class="ac-acik">Close</span></span>
+            </summary>
+            <div class="yazi-govde">
+              <p>Not all hair loss is permanent. Illness, stress, weight loss or iron deficiency can cause temporary thinning, so it is wise to see a doctor about the cause first.</p>
+              <p>A transplant moves your own hair; it does not create new hair. The density of your donor area therefore sets the limit for what can be achieved, today and in a possible later session.</p>
+            </div>
+          </details>
+
+          <details class="yazi belir">
+            <summary>
+              <span class="yazi-kategori">Planning</span>
+              <h3>How many grafts will I need?</h3>
+              <span class="yazi-ozet">There is no number that fits everyone. It depends on your donor area, your hair and your goals.</span>
+              <span class="yazi-ac"><i></i><span class="ac-kapali">Read more</span><span class="ac-acik">Close</span></span>
+            </summary>
+            <div class="yazi-govde">
+              <p>The size of the area, how much hair is still there, hair thickness, curl and the contrast between hair and skin colour all play a role. Thick or wavy hair covers more with fewer grafts.</p>
+              <p>Because donor hair is limited, grafts are placed where they make the most visible difference, usually the hairline and the front first.</p>
+            </div>
+          </details>
+
+          <details class="yazi belir g1">
+            <summary>
+              <span class="yazi-kategori">Beard &amp; eyebrows</span>
+              <h3>Beard and eyebrow transplants</h3>
+              <span class="yazi-ozet">The same method can fill in a patchy beard or thin eyebrows.</span>
+              <span class="yazi-ac"><i></i><span class="ac-kapali">Read more</span><span class="ac-acik">Close</span></span>
+            </summary>
+            <div class="yazi-govde">
+              <p>For a fuller beard, hairs are usually taken from the back of the scalp, or sometimes from under the chin. Each graft follows the natural direction of beard growth.</p>
+              <p>Eyebrow hairs are placed one by one, very flat to the skin. Hair taken from the scalp keeps growing like scalp hair, so transplanted eyebrows need regular trimming.</p>
+            </div>
+          </details>
+
+          <details class="yazi belir g2">
+            <summary>
+              <span class="yazi-kategori">Results</span>
+              <h3>What results are realistic?</h3>
+              <span class="yazi-ozet">Transplanted hair lasts, but the result builds up slowly and natural hair loss can continue.</span>
+              <span class="yazi-ac"><i></i><span class="ac-kapali">Read more</span><span class="ac-acik">Close</span></span>
+            </summary>
+            <div class="yazi-govde">
+              <p>Most of the change becomes visible between month six and month twelve; the crown can take longer. Hair that was not transplanted may keep thinning over the years, and some people later choose a second session.</p>
+              <p>A doctor can advise you on ways to protect the hair you still have.</p>
+            </div>
+          </details>
+        </div>
+        <p class="not belir">General information only. It does not replace a personal consultation with a doctor.</p>
+      </div>
+    </section>
+
+    <!-- ================= ÜCRETSİZ ANALİZ =================
+         Form FormSubmit üzerinden onurbaskol@gmail.com adresine gider. İlk gönderimde FormSubmit
+         bir onay e-postası yollar; o e-postadaki "Activate" bağlantısına tıklanmadan form çalışmaz. -->
+    <section class="analiz dekor-var" id="analysis">
+      <div class="dekor" aria-hidden="true"><span class="isik"></span></div>
+      <div class="kap">
+        <div class="analiz-sol">
+          <p class="etiket belir"><b>07</b><i></i>Free analysis</p>
+          <h2 class="belir g1">Free hair analysis, <em class="serif">from five photos.</em></h2>
+          <p class="giris belir g2">Send me five photos of your hair and I will reply personally by email with a first assessment: what is possible, which approach makes sense and what to expect.</p>
+          <ol class="analiz-adim belir g3">
+            <li><b>1</b><span>Take five photos in good daylight: front, top, back and both sides.</span></li>
+            <li><b>2</b><span>Upload them here with your name and email address.</span></li>
+            <li><b>3</b><span>I reply personally by email, usually within a few days.</span></li>
+          </ol>
+          <p class="analiz-not belir">This is a first, non-binding assessment and not a medical diagnosis. The final plan is always made together with a physician at the clinic.</p>
+        </div>
+
+        <form class="analiz-form belir" id="analizForm" action="https://formsubmit.co/onurbaskol@gmail.com" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="_subject" value="New free hair analysis request">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://onurbaskol.github.io/?sent=1#analysis">
+          <input type="hidden" name="_autoresponse" id="otoYanit" value="Thank you for your photos. I have received your request for a free hair analysis and will reply personally by email, usually within a few days. Taha Başkol">
+          <input type="hidden" name="language" id="formDil" value="en">
+          <input type="text" name="_honey" class="bal" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <fieldset>
+            <legend>Your photos <em>(5 angles)</em></legend>
+            <div class="foto-izgara">
+              <div class="foto-kutu">
+                <input type="file" id="foto1" name="photo_1_front" accept="image/*" required>
+                <img class="foto-onizleme" alt="">
+                <label for="foto1">
+                  <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><ellipse cx="20" cy="22" rx="10.5" ry="13"/><path d="M9.8 18.6c2.4-5.8 18-5.8 20.4 0" stroke="#da291c"/><path d="M16 23h.01M24 23h.01" stroke-width="2.4"/></svg>
+                  <strong>Front</strong><small>Hairline and forehead</small>
+                </label>
+                <button type="button" class="foto-sil" aria-label="Remove photo">×</button>
+              </div>
+              <div class="foto-kutu">
+                <input type="file" id="foto2" name="photo_2_top" accept="image/*" required>
+                <img class="foto-onizleme" alt="">
+                <label for="foto2">
+                  <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="21.5" r="12.5"/><path d="M18 9.2 20 6.4l2 2.8"/><path d="M21.7 22.2a1.9 1.9 0 1 1-1.9-1.9 3.8 3.8 0 0 1 3.8 3.8" stroke="#da291c"/></svg>
+                  <strong>Top</strong><small>Seen from above</small>
+                </label>
+                <button type="button" class="foto-sil" aria-label="Remove photo">×</button>
+              </div>
+              <div class="foto-kutu">
+                <input type="file" id="foto3" name="photo_3_back_donor" accept="image/*" required>
+                <img class="foto-onizleme" alt="">
+                <label for="foto3">
+                  <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><ellipse cx="20" cy="20" rx="11.5" ry="13.5"/><path d="M9.4 24.4c3.6 1.7 17.6 1.7 21.2 0M10.6 29c3.2 1.5 15.6 1.5 18.8 0" stroke="#da291c" stroke-dasharray="2 2.6"/><path d="M8.6 20.5H7.2M32.8 20.5h-1.4"/></svg>
+                  <strong>Back</strong><small>Donor area</small>
+                </label>
+                <button type="button" class="foto-sil" aria-label="Remove photo">×</button>
+              </div>
+              <div class="foto-kutu">
+                <input type="file" id="foto4" name="photo_4_left_side" accept="image/*" required>
+                <img class="foto-onizleme" alt="">
+                <label for="foto4">
+                  <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 34.5v-4.6c4.6-.6 7.8-4.6 7.8-10.6A11.8 11.8 0 0 0 20 7.5c-6.6 0-11.4 5-11.4 11.2 0 1.8-.6 3-1.9 4.6l2.3 1v3.3c0 1.7 1.3 2.8 3 2.8H15v4.1"/><path d="M11.4 14.6c2.6-4.6 11-6.6 16.6-3" stroke="#da291c"/></svg>
+                  <strong>Left</strong><small>Temple and side</small>
+                </label>
+                <button type="button" class="foto-sil" aria-label="Remove photo">×</button>
+              </div>
+              <div class="foto-kutu">
+                <input type="file" id="foto5" name="photo_5_right_side" accept="image/*" required>
+                <img class="foto-onizleme" alt="">
+                <label for="foto5">
+                  <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="matrix(-1 0 0 1 40 0)"><path d="M24 34.5v-4.6c4.6-.6 7.8-4.6 7.8-10.6A11.8 11.8 0 0 0 20 7.5c-6.6 0-11.4 5-11.4 11.2 0 1.8-.6 3-1.9 4.6l2.3 1v3.3c0 1.7 1.3 2.8 3 2.8H15v4.1"/><path d="M11.4 14.6c2.6-4.6 11-6.6 16.6-3" stroke="#da291c"/></g></svg>
+                  <strong>Right</strong><small>Temple and side</small>
+                </label>
+                <button type="button" class="foto-sil" aria-label="Remove photo">×</button>
+              </div>
+            </div>
+            <p class="foto-ipucu">Good daylight, dry hair, no hat or styling products. Ask someone to help with the top and back photos.</p>
+          </fieldset>
+
+          <div class="form-satir">
+            <label class="alan"><span>Name</span><input type="text" name="name" required autocomplete="name"></label>
+            <label class="alan"><span>Email</span><input type="email" name="email" required autocomplete="email"></label>
+          </div>
+          <label class="alan"><span>Message <em>(optional)</em></span><textarea name="message" rows="3" placeholder="Since when, what you have tried, what you would like to achieve"></textarea></label>
+          <label class="onay">
+            <input type="checkbox" name="consent" value="yes" required>
+            <span>I agree that my photos and details are sent by email to Taha Başkol via the form service FormSubmit and are used only for this analysis. They are not shared, and I can ask for them to be deleted at any time.</span>
+          </label>
+          <button type="submit" class="btn btn-dolu analiz-gonder">
+            Send for free analysis
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+          <p class="form-durum" id="formDurum" role="status" aria-live="polite"></p>
+
+          <div class="analiz-tesekkur" id="analizTesekkur">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+            <h3>Thank you, your photos have arrived.</h3>
+            <p>I will look at them personally and reply by email, usually within a few days.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
     <!-- ================= DENEYİM ================= -->
     <section class="deneyim dekor-var" id="experience">
       <div class="dekor" aria-hidden="true"><span class="isik"></span><img class="dunya" src="images/dekor-dunya.svg" alt="" loading="lazy"></div>
       <div class="kap">
         <div class="deneyim-sol">
-          <p class="etiket belir"><b>06</b><i></i>Experience</p>
+          <p class="etiket belir"><b>08</b><i></i>Experience</p>
           <h2 class="belir g1">Career <em class="serif">so far.</em></h2>
           <p class="giris belir g2">Eight years in hair transplantation across Switzerland, Sweden and Turkey, built on a solid foundation in anaesthesia.</p>
         </div>
@@ -1883,7 +2321,7 @@
         </div>
 
         <div>
-          <p class="etiket belir"><b>07</b><i></i>Where I work</p>
+          <p class="etiket belir"><b>09</b><i></i>Where I work</p>
           <h2 class="belir g1">Based in Basel, <em class="serif">working across Switzerland.</em></h2>
           <p class="giris belir g2">Seven countries have shaped how I work: flexible, calm and always patient-centred.</p>
 
@@ -1904,32 +2342,42 @@
     <section class="referanslar dekor-var" id="references">
       <div class="dekor" aria-hidden="true"><span class="izgara-nokta"></span></div>
       <div class="kap">
-        <p class="etiket belir"><b>08</b><i></i>References</p>
+        <p class="etiket belir"><b>10</b><i></i>References</p>
         <h2 class="belir g1">What clinics say</h2>
 
         <div class="yorum-izgara">
           <!-- ANAGEN: Anagen'den yazılı bir referans gelince buradaki metni alıntıyla değiştir -->
-          <figure class="yorum genis anagen belir">
+          <figure class="yorum genis anagen logolu belir">
             <div>
+              <img class="yorum-logo" src="images/logos/anagen.png" alt="Anagen Clinic" width="512" height="91" loading="lazy">
               <div class="durum-satir"><span class="nokta"></span>Current clinic</div>
               <p class="anagen-metin">Working with Anagen Clinic since 2024 <em>in Zurich, Geneva and Basel.</em></p>
             </div>
-            <figcaption class="yorum-alt"><span class="harf">AC</span><div><strong>Anagen Clinic</strong><span>Reference available on request</span></div></figcaption>
+            <figcaption class="yorum-alt"><div><strong>Anagen Clinic</strong><span>Reference available on request</span></div></figcaption>
           </figure>
 
-          <figure class="yorum genis belir g1">
-            <blockquote>We can fully recommend Mr. Baskol without reservation.</blockquote>
-            <figcaption class="yorum-alt"><span class="harf">PU</span><div><strong>Praxisklinik Urania</strong><span>Zurich, Switzerland</span></div></figcaption>
+          <figure class="yorum genis logolu belir g1">
+            <div>
+              <img class="yorum-logo urania" src="images/logos/urania.png" alt="Praxisklinik Urania" width="808" height="197" loading="lazy">
+              <blockquote>We can fully recommend Mr. Baskol without reservation.</blockquote>
+            </div>
+            <figcaption class="yorum-alt"><div><strong>Praxisklinik Urania</strong><span>Zurich, Switzerland</span></div></figcaption>
           </figure>
 
-          <figure class="yorum belir">
-            <blockquote>Mr. Başkol has demonstrated professionalism, precision, and dedication in his role.</blockquote>
-            <figcaption class="yorum-alt"><span class="harf">CM</span><div><strong>Clinique MORE</strong><span>Geneva, Switzerland</span></div></figcaption>
+          <figure class="yorum logolu belir">
+            <div>
+              <svg class="yorum-logo more" viewBox="0 0 64 64" role="img" aria-label="Clinique MORE"><circle cx="32" cy="32" r="32" fill="#111"/><text x="32" y="37.5" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="15" letter-spacing=".4" fill="#fff">MORE.</text></svg>
+              <blockquote>Mr. Başkol has demonstrated professionalism, precision, and dedication in his role.</blockquote>
+            </div>
+            <figcaption class="yorum-alt"><div><strong>Clinique MORE</strong><span>Geneva, Switzerland</span></div></figcaption>
           </figure>
 
-          <figure class="yorum belir g1">
-            <blockquote>His pleasant demeanor and exemplary professionalism earned him respect and appreciation from both colleagues and patients.</blockquote>
-            <figcaption class="yorum-alt"><span class="harf">RC</span><div><strong>Regeline Clinic</strong><span>Malmö, Sweden</span></div></figcaption>
+          <figure class="yorum logolu belir g1">
+            <div>
+              <img class="yorum-logo regeline" src="images/logos/regeline.svg" alt="Regeline Hair Transplant Clinic" width="499" height="147" loading="lazy">
+              <blockquote>His pleasant demeanor and exemplary professionalism earned him respect and appreciation from both colleagues and patients.</blockquote>
+            </div>
+            <figcaption class="yorum-alt"><div><strong>Regeline Clinic</strong><span>Malmö, Sweden</span></div></figcaption>
           </figure>
 
           <figure class="yorum belir g2">
@@ -1946,7 +2394,7 @@
       <div class="dekor" aria-hidden="true"><span class="kontur"></span><span class="isik"></span></div>
       <div class="kap">
         <div>
-          <p class="etiket belir"><b>09</b><i></i>Contact</p>
+          <p class="etiket belir"><b>11</b><i></i>Contact</p>
           <h2 class="belir g1">Let’s talk <em class="serif">about your hair.</em></h2>
           <p class="giris belir g2">Whether you are a patient with questions or a clinic looking for an experienced specialist, I’m happy to hear from you.</p>
           <a class="eposta-buyuk belir g3" href="mailto:onurbaskol@gmail.com">
@@ -1979,8 +2427,24 @@
   </footer>
 
   <!-- ================= EFEKT KODLARI ================= -->
+  <script src="diller.js"></script>
   <script>
     const hareketYok = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ================= DİL =================
+    // Çeviriler diller.js'te: her satır [İngilizce, Almanca, Fransızca, İtalyanca, Türkçe].
+    // Sayfadaki İngilizce metin anahtar olarak kullanılır; çevirisi olmayan metin İngilizce kalır.
+    // İngilizce bir metni değiştirirsen diller.js'teki aynı satırı da güncelle.
+    const DILLER = ['en', 'de', 'fr', 'it', 'tr'];
+    const sozlukler = {};
+    (window.CEVIRILER || []).forEach(satir => {
+      DILLER.slice(1).forEach((d, i) => {
+        if (satir[i + 1]) (sozlukler[d] = sozlukler[d] || {})[satir[0]] = satir[i + 1];
+      });
+    });
+    let dil = DILLER.includes(document.documentElement.dataset.dil) ? document.documentElement.dataset.dil : 'en';
+    let sozluk = dil === 'en' ? null : sozlukler[dil] || null;
+    const cev = s => (sozluk && sozluk[s]) || s;
 
     // Başlık satırlarını sayfa açılınca kaydır
     requestAnimationFrame(() => document.body.classList.add('yuklendi'));
@@ -2034,7 +2498,7 @@
         }
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    ['about', 'treatments', 'work', 'aftercare', 'experience', 'references'].forEach(id => bolumGozcu.observe(document.getElementById(id)));
+    ['about', 'treatments', 'work', 'aftercare', 'knowledge', 'analysis', 'experience', 'references', 'contact'].forEach(id => bolumGozcu.observe(document.getElementById(id)));
 
     // Telefonda menüyü aç / kapat
     const dugme = document.getElementById('menuDugme');
@@ -2100,6 +2564,18 @@
 
     let simdiki = -1, gecen = 0, sonZaman = 0, durdu = hareketYok, gorunur = false, kullaniciDurdurdu = hareketYok;
 
+    // Alttaki yazılar seçili dilde yazılır (sayfa çevirisi bu kutulara dokunmaz)
+    const hikayeYer = document.getElementById('hikayeYer');
+    const hikayeBaslik = document.getElementById('hikayeBaslik');
+    const hikayeAciklama = document.getElementById('hikayeAciklama');
+    [hikayeYer, hikayeBaslik, hikayeAciklama, durdurDugme].forEach(el => { el.dataset.cevirme = ''; });
+    function hikayeMetni(i) {
+      if (i < 0) return;
+      hikayeYer.textContent = cev(kareler[i].yer);
+      hikayeBaslik.textContent = cev(kareler[i].baslik);
+      hikayeAciklama.textContent = cev(kareler[i].metin);
+    }
+
     function git(i) {
       i = (i + kareler.length) % kareler.length;
       if (i === simdiki) return;
@@ -2115,9 +2591,7 @@
 
       metinKutu.classList.add('degisiyor');
       setTimeout(() => {
-        document.getElementById('hikayeYer').textContent = kareler[i].yer;
-        document.getElementById('hikayeBaslik').textContent = kareler[i].baslik;
-        document.getElementById('hikayeAciklama').textContent = kareler[i].metin;
+        hikayeMetni(i);
         metinKutu.classList.remove('degisiyor');
       }, simdiki === -1 ? 0 : 250);
       simdiki = i;
@@ -2137,7 +2611,7 @@
 
     function durumuAyarla() {
       hikaye.classList.toggle('durdu', durdu);
-      durdurDugme.setAttribute('aria-label', durdu ? 'Play story' : 'Pause story');
+      durdurDugme.setAttribute('aria-label', cev(durdu ? 'Play story' : 'Pause story'));
       durdurIkon.innerHTML = durdu
         ? '<path d="M3 1.5 L10.5 6 L3 10.5 Z"/>'
         : '<rect x="2" y="1" width="3" height="10" rx="1"/><rect x="7" y="1" width="3" height="10" rx="1"/>';
@@ -2186,6 +2660,173 @@
       }, { threshold: 0.6 });
       document.querySelectorAll('[data-say]').forEach(el => sayac.observe(el));
     }
+
+    // ================= ÜCRETSİZ ANALİZ FORMU =================
+    // Fotoğraflar seçilince tarayıcıda küçültülür (uzun kenar en fazla 1800 px, JPEG),
+    // böylece beş fotoğraf FormSubmit'in 10 MB sınırının altında kalır.
+    const analizForm = document.getElementById('analizForm');
+    const formDurum = document.getElementById('formDurum');
+    const gonderDugme = analizForm.querySelector('.analiz-gonder');
+    const SINIR = 9.5 * 1024 * 1024;
+    let sonDurum = '';
+
+    function durumYaz(metin, hata) {
+      sonDurum = metin || '';
+      formDurum.textContent = sonDurum ? cev(sonDurum) : '';
+      formDurum.classList.toggle('hata', !!hata);
+    }
+
+    function kucult(dosya) {
+      return new Promise(coz => {
+        if (!/^image\//.test(dosya.type) || dosya.type === 'image/gif') return coz(dosya);
+        const url = URL.createObjectURL(dosya);
+        const img = new Image();
+        img.onload = () => {
+          const oran = Math.min(1, 1800 / Math.max(img.naturalWidth, img.naturalHeight));
+          const c = document.createElement('canvas');
+          c.width = Math.round(img.naturalWidth * oran);
+          c.height = Math.round(img.naturalHeight * oran);
+          const ctx = c.getContext('2d');
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+          URL.revokeObjectURL(url);
+          c.toBlob(b => {
+            if (!b || b.size >= dosya.size) return coz(dosya);
+            coz(new File([b], dosya.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg', lastModified: Date.now() }));
+          }, 'image/jpeg', 0.82);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); coz(dosya); };
+        img.src = url;
+      });
+    }
+
+    analizForm.querySelectorAll('.foto-kutu').forEach(kutu => {
+      const girdi = kutu.querySelector('input[type="file"]');
+      const onizleme = kutu.querySelector('.foto-onizleme');
+      girdi.addEventListener('change', async () => {
+        const dosya = girdi.files[0];
+        if (onizleme.src) { URL.revokeObjectURL(onizleme.src); onizleme.removeAttribute('src'); }
+        if (!dosya) { kutu.classList.remove('dolu'); return; }
+        kutu.classList.add('isleniyor');
+        const kucuk = await kucult(dosya);
+        if (kucuk !== dosya) {
+          try { const dt = new DataTransfer(); dt.items.add(kucuk); girdi.files = dt.files; } catch (e) { /* eski tarayıcı: orijinal kalır */ }
+        }
+        onizleme.src = URL.createObjectURL(girdi.files[0]);
+        kutu.classList.remove('isleniyor');
+        kutu.classList.add('dolu');
+        durumYaz('');
+      });
+      kutu.querySelector('.foto-sil').addEventListener('click', () => {
+        girdi.value = '';
+        if (onizleme.src) { URL.revokeObjectURL(onizleme.src); onizleme.removeAttribute('src'); }
+        kutu.classList.remove('dolu');
+      });
+    });
+
+    analizForm.addEventListener('submit', e => {
+      const girdiler = [...analizForm.querySelectorAll('input[type="file"]')];
+      if (analizForm.querySelector('.isleniyor')) {
+        e.preventDefault(); durumYaz('Please wait a moment, the photos are still being prepared.', true); return;
+      }
+      if (girdiler.some(g => !g.files.length)) {
+        e.preventDefault(); durumYaz('Please add all five photos.', true); return;
+      }
+      if (girdiler.reduce((t, g) => t + g.files[0].size, 0) > SINIR) {
+        e.preventDefault(); durumYaz('The photos are too large together. Please choose smaller photos.', true); return;
+      }
+      gonderDugme.disabled = true;
+      durumYaz('Sending… this can take a moment.');
+    });
+    // Geri tuşuyla dönülürse düğme yeniden çalışsın
+    window.addEventListener('pageshow', () => { gonderDugme.disabled = false; });
+
+    // FormSubmit gönderimden sonra ?sent=1 ile buraya geri yollar: teşekkür mesajını göster
+    try {
+      const p = new URLSearchParams(location.search);
+      if (p.has('sent')) {
+        document.getElementById('analysis').classList.add('gonderildi');
+        p.delete('sent');
+        history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : '') + location.hash);
+      }
+    } catch (e) { /* önemli değil */ }
+
+    // ================= DİL SEÇİCİ =================
+    const dilSec = document.getElementById('dilSec');
+    const formDil = document.getElementById('formDil');
+    const otoYanit = document.getElementById('otoYanit');
+    const OTO_YANIT = otoYanit.value;
+    const metaAciklama = document.querySelector('meta[name="description"]');
+    const asil = { baslik: document.title, aciklama: metaAciklama ? metaAciklama.content : '' };
+    const asilMetin = new WeakMap();
+    const asilOzellik = new WeakMap();
+    const OZELLIKLER = ['alt', 'aria-label', 'placeholder', 'title'];
+    const sade = s => s.replace(/\s+/g, ' ').trim();
+
+    function sayfayiCevir() {
+      const yuruyucu = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode: n => n.parentElement.closest('script, style, [data-cevirme]') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+      });
+      for (let n = yuruyucu.nextNode(); n; n = yuruyucu.nextNode()) {
+        if (!asilMetin.has(n)) asilMetin.set(n, n.nodeValue);
+        const ilk = asilMetin.get(n);
+        const m = ilk.match(/^(\s*)([\s\S]*?)(\s*)$/);
+        if (!m[2]) continue;
+        const karsilik = sozluk && sozluk[sade(m[2])];
+        n.nodeValue = karsilik ? m[1] + karsilik + m[3] : ilk;
+      }
+      document.querySelectorAll(OZELLIKLER.map(o => `[${o}]`).join(',')).forEach(el => {
+        if (el.closest('[data-cevirme]')) return;
+        let a = asilOzellik.get(el);
+        if (!a) {
+          a = {};
+          OZELLIKLER.forEach(o => { if (el.hasAttribute(o)) a[o] = el.getAttribute(o); });
+          asilOzellik.set(el, a);
+        }
+        Object.keys(a).forEach(o => el.setAttribute(o, sozluk && sozluk[sade(a[o])] || a[o]));
+      });
+      document.title = cev(asil.baslik);
+      if (metaAciklama) metaAciklama.content = cev(asil.aciklama);
+    }
+
+    function diliUygula(yeni, kaydet) {
+      dil = DILLER.includes(yeni) ? yeni : 'en';
+      sozluk = dil === 'en' ? null : sozlukler[dil] || null;
+      document.documentElement.lang = dil;
+      sayfayiCevir();
+      hikayeMetni(simdiki);
+      durumuAyarla();
+      durumYaz(sonDurum, formDurum.classList.contains('hata'));
+      dilSec.value = dil;
+      formDil.value = dil;
+      otoYanit.value = cev(OTO_YANIT);
+      if (kaydet) { try { localStorage.setItem('dil', dil); } catch (e) { /* gizli sekme */ } }
+      document.documentElement.classList.remove('dil-bekle');
+    }
+    dilSec.addEventListener('change', () => diliUygula(dilSec.value, true));
+    diliUygula(dil, false);
+
+    // Geliştirme yardımı: tarayıcı konsolunda eksikCeviriler('de') çevirisi olmayan metinleri listeler
+    window.eksikCeviriler = d => {
+      const s = sozlukler[d] || {};
+      const eksik = new Set();
+      const yuruyucu = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      for (let n = yuruyucu.nextNode(); n; n = yuruyucu.nextNode()) {
+        if (n.parentElement.closest('script, style, [data-cevirme]')) continue;
+        const k = sade(asilMetin.get(n) || n.nodeValue);
+        if (k && /[A-Za-z]{2}/.test(k) && !s[k]) eksik.add(k);
+      }
+      document.querySelectorAll(OZELLIKLER.map(o => `[${o}]`).join(',')).forEach(el => {
+        const a = asilOzellik.get(el) || {};
+        Object.values(a).forEach(v => { const k = sade(v); if (k && /[A-Za-z]{2}/.test(k) && !s[k]) eksik.add(k); });
+      });
+      kareler.forEach(k => [k.yer, k.baslik, k.metin].forEach(v => { if (!s[v]) eksik.add(v); }));
+      ['Play story', 'Pause story', 'Please wait a moment, the photos are still being prepared.', 'Please add all five photos.',
+       'The photos are too large together. Please choose smaller photos.', 'Sending… this can take a moment.', asil.baslik, asil.aciklama, OTO_YANIT]
+        .forEach(v => { if (v && !s[v]) eksik.add(v); });
+      return [...eksik];
+    };
   </script>
 </body>
 </html>
