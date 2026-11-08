@@ -919,7 +919,7 @@
 
     /* =========================================================
        ÜCRETSİZ ANALİZ: 5 fotoğraf + ad + e-posta.
-       Form FormSubmit (formsubmit.co) üzerinden doğrudan e-postaya gider.
+       Form Google Apps Script ile doğrudan Gmail'e gider (fotoğraflar e-posta eki olarak).
        Fotoğraflar göndermeden önce tarayıcıda küçültülür (toplam sınır 10 MB).
        ========================================================= */
     .analiz .kap { display: grid; grid-template-columns: .82fr 1.18fr; gap: 72px; align-items: start; }
@@ -2121,8 +2121,8 @@
     </section>
 
     <!-- ================= ÜCRETSİZ ANALİZ =================
-         Form FormSubmit üzerinden onurbaskol@gmail.com adresine gider. İlk gönderimde FormSubmit
-         bir onay e-postası yollar; o e-postadaki "Activate" bağlantısına tıklanmadan form çalışmaz. -->
+         Form, Taha'nın Google hesabındaki Apps Script programına gider (tools/analiz-form.gs);
+         program fotoğrafları e-posta eki olarak onurbaskol@gmail.com adresine yollar. -->
     <section class="analiz dekor-var" id="analysis">
       <div class="dekor" aria-hidden="true"><span class="isik"></span></div>
       <div class="kap">
@@ -2138,15 +2138,10 @@
           <p class="analiz-not belir">This is a first, non-binding assessment and not a medical diagnosis. The final plan is always made together with a physician at the clinic.</p>
         </div>
 
-        <form class="analiz-form belir" id="analizForm" action="https://formsubmit.co/onurbaskol@gmail.com" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="_subject" value="New free hair analysis request">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_next" value="https://onurbaskol.github.io/?sent=1#analysis">
-          <!-- FormSubmit'in "robot değilim" ara sayfası yüklenen fotoğrafları düşürüyor; bu yüzden kapalı.
-               Spam'e karşı aşağıdaki gizli _honey alanı kullanılıyor. (Otomatik yanıt da bu yüzden yok.) -->
-          <input type="hidden" name="_captcha" value="false">
+        <form class="analiz-form belir" id="analizForm">
           <input type="hidden" name="language" id="formDil" value="en">
-          <input type="text" name="_honey" class="bal" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <!-- Gizli tuzak alan: insanlar görmez, botlar doldurur; doluysa istek sessizce atlanır -->
+          <input type="text" name="website" class="bal" tabindex="-1" autocomplete="off" aria-hidden="true">
 
           <fieldset>
             <legend>Your photos <em>(1 to 5 angles)</em></legend>
@@ -2207,7 +2202,7 @@
           <label class="alan"><span>Message <em>(optional)</em></span><textarea name="message" rows="3" placeholder="Since when, what you have tried, what you would like to achieve"></textarea></label>
           <label class="onay">
             <input type="checkbox" name="consent" value="yes" required>
-            <span>I agree that my photos and details are sent by email to Taha Başkol via the form service FormSubmit and are used only for this analysis. They are not shared, and I can ask for them to be deleted at any time.</span>
+            <span>I agree that my photos and details are sent by email to Taha Başkol and are used only for this analysis. They are not shared, and I can ask for them to be deleted at any time.</span>
           </label>
           <button type="submit" class="btn btn-dolu analiz-gonder">
             Send for free analysis
@@ -2664,12 +2659,15 @@
     }
 
     // ================= ÜCRETSİZ ANALİZ FORMU =================
-    // Fotoğraflar seçilince tarayıcıda küçültülür (uzun kenar en fazla 1800 px, JPEG),
-    // böylece beş fotoğraf FormSubmit'in 10 MB sınırının altında kalır.
+    // Form, Taha'nın Google hesabındaki küçük bir programa (Google Apps Script, kodu tools/analiz-form.gs)
+    // gönderilir; program fotoğrafları e-posta EKİ olarak onurbaskol@gmail.com'a yollar.
+    // Fotoğraflar seçilince tarayıcıda küçültülür (uzun kenar en fazla 1800 px, JPEG).
+    const ANALIZ_ADRESI = 'https://script.google.com/macros/s/AKfycbwdbdcaXjbSKF_6dq8pvbUq5IpV0d0oeJqlNQu7E9Idx6_gyq-a07LSoknArpULlrrtXA/exec';   // Apps Script web uygulaması (tools/analiz-form.gs)
     const analizForm = document.getElementById('analizForm');
     const formDurum = document.getElementById('formDurum');
     const gonderDugme = analizForm.querySelector('.analiz-gonder');
-    const SINIR = 9.5 * 1024 * 1024;
+    const SINIR = 18 * 1024 * 1024;
+    const secilen = new Map();   // dosya kutusu -> küçültülmüş fotoğraf
     let sonDurum = '';
 
     function durumYaz(metin, hata) {
@@ -2703,62 +2701,75 @@
       });
     }
 
+    const base64 = dosya => new Promise((coz, red) => {
+      const okuyucu = new FileReader();
+      okuyucu.onload = () => coz(String(okuyucu.result).split(',')[1] || '');
+      okuyucu.onerror = red;
+      okuyucu.readAsDataURL(dosya);
+    });
+
     analizForm.querySelectorAll('.foto-kutu').forEach(kutu => {
       const girdi = kutu.querySelector('input[type="file"]');
       const onizleme = kutu.querySelector('.foto-onizleme');
+      const temizle = () => {
+        secilen.delete(girdi);
+        if (onizleme.src) { URL.revokeObjectURL(onizleme.src); onizleme.removeAttribute('src'); }
+        kutu.classList.remove('dolu');
+      };
       girdi.addEventListener('change', async () => {
         const dosya = girdi.files[0];
-        if (onizleme.src) { URL.revokeObjectURL(onizleme.src); onizleme.removeAttribute('src'); }
-        if (!dosya) { kutu.classList.remove('dolu'); return; }
+        temizle();
+        if (!dosya) return;
         kutu.classList.add('isleniyor');
         const kucuk = await kucult(dosya);
-        if (kucuk !== dosya) {
-          try { const dt = new DataTransfer(); dt.items.add(kucuk); girdi.files = dt.files; } catch (e) { /* eski tarayıcı: orijinal kalır */ }
-        }
-        onizleme.src = URL.createObjectURL(girdi.files[0]);
+        secilen.set(girdi, kucuk);
+        onizleme.src = URL.createObjectURL(kucuk);
         kutu.classList.remove('isleniyor');
         kutu.classList.add('dolu');
         durumYaz('');
       });
-      kutu.querySelector('.foto-sil').addEventListener('click', () => {
-        girdi.value = '';
-        if (onizleme.src) { URL.revokeObjectURL(onizleme.src); onizleme.removeAttribute('src'); }
-        kutu.classList.remove('dolu');
-      });
+      kutu.querySelector('.foto-sil').addEventListener('click', () => { girdi.value = ''; temizle(); });
     });
 
-    analizForm.addEventListener('submit', e => {
-      const girdiler = [...analizForm.querySelectorAll('input[type="file"]')];
-      if (analizForm.querySelector('.isleniyor')) {
-        e.preventDefault(); durumYaz('Please wait a moment, the photos are still being prepared.', true); return;
-      }
-      const dolu = girdiler.filter(g => g.files.length);
-      if (!dolu.length) {
-        e.preventDefault(); durumYaz('Please add at least one photo.', true); return;
-      }
-      if (dolu.reduce((t, g) => t + g.files[0].size, 0) > SINIR) {
-        e.preventDefault(); durumYaz('The photos are too large together. Please choose smaller photos.', true); return;
-      }
-      // Boş fotoğraf kutuları gönderilmesin
-      girdiler.forEach(g => { if (!g.files.length) g.disabled = true; });
+    analizForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (analizForm.querySelector('.isleniyor')) { durumYaz('Please wait a moment, the photos are still being prepared.', true); return; }
+      const fotolar = [...analizForm.querySelectorAll('input[type="file"]')].filter(g => secilen.has(g));
+      if (!fotolar.length) { durumYaz('Please add at least one photo.', true); return; }
+      if (fotolar.reduce((t, g) => t + secilen.get(g).size, 0) > SINIR) { durumYaz('The photos are too large together. Please choose smaller photos.', true); return; }
+      if (!ANALIZ_ADRESI) { durumYaz('Sending failed. Please try again, or email your photos to onurbaskol@gmail.com.', true); return; }
+
       gonderDugme.disabled = true;
       durumYaz('Sending… this can take a moment.');
-    });
-    // Geri tuşuyla dönülürse düğme yeniden çalışsın
-    window.addEventListener('pageshow', () => {
-      gonderDugme.disabled = false;
-      analizForm.querySelectorAll('input[type="file"]').forEach(g => { g.disabled = false; });
-    });
-
-    // FormSubmit gönderimden sonra ?sent=1 ile buraya geri yollar: teşekkür mesajını göster
-    try {
-      const p = new URLSearchParams(location.search);
-      if (p.has('sent')) {
-        document.getElementById('analysis').classList.add('gonderildi');
-        p.delete('sent');
-        history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : '') + location.hash);
+      try {
+        const veri = new FormData(analizForm);
+        const yuk = {
+          name: veri.get('name'),
+          email: veri.get('email'),
+          message: veri.get('message'),
+          consent: veri.get('consent') === 'yes',
+          website: veri.get('website'),
+          language: dil,
+          photos: await Promise.all(fotolar.map(async g => {
+            const f = secilen.get(g);
+            return { label: g.name, type: f.type || 'image/jpeg', data: await base64(f) };
+          }))
+        };
+        // text/plain gövde: tarayıcı ön kontrol (CORS preflight) yapmaz, Apps Script doğrudan okur
+        const yanit = await fetch(ANALIZ_ADRESI, { method: 'POST', body: JSON.stringify(yuk) });
+        const sonuc = await yanit.json();
+        if (!sonuc.ok) throw new Error(sonuc.hata || 'hata');
+        durumYaz('');
+        const bolum = document.getElementById('analysis');
+        bolum.classList.add('gonderildi');
+        bolum.scrollIntoView({ behavior: hareketYok ? 'auto' : 'smooth', block: 'start' });
+      } catch (hata) {
+        console.error('Analiz formu gönderilemedi:', hata);
+        durumYaz('Sending failed. Please try again, or email your photos to onurbaskol@gmail.com.', true);
+      } finally {
+        gonderDugme.disabled = false;
       }
-    } catch (e) { /* önemli değil */ }
+    });
 
     // ================= DİL SEÇİCİ =================
     const dilSec = document.getElementById('dilSec');
@@ -2828,7 +2839,7 @@
       });
       kareler.forEach(k => [k.yer, k.baslik, k.metin].forEach(v => { if (!s[v]) eksik.add(v); }));
       ['Play story', 'Pause story', 'Please wait a moment, the photos are still being prepared.', 'Please add at least one photo.',
-       'The photos are too large together. Please choose smaller photos.', 'Sending… this can take a moment.', asil.baslik, asil.aciklama]
+       'The photos are too large together. Please choose smaller photos.', 'Sending… this can take a moment.', 'Sending failed. Please try again, or email your photos to onurbaskol@gmail.com.', asil.baslik, asil.aciklama]
         .forEach(v => { if (v && !s[v]) eksik.add(v); });
       return [...eksik];
     };
