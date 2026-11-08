@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eylül's English Speaking Practice</title>
+  <meta name="description" content="Speaking exam practice for Eylül – 5th grade, Bahçeşehir College.">
+  <!-- Aile sayfası: arama motorlarında çıkmasın -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#7a4cff">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%9F%3C/text%3E%3C/svg%3E">
+
+  <!-- Link önizlemesi (WhatsApp vb.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Eylül's English Speaking Practice 🌟">
+  <meta property="og:description" content="İngilizce konuşma sınavı için çalışma sayfası – dinle, tekrar et, kendini dene!">
+  <meta property="og:url" content="https://onurbaskol.github.io/eylul/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       RENKLER – neşeli ama göz yormayan
+       ========================================================= */
+    :root {
+      color-scheme: light;
+      --zemin: #fff7ef;
+      --kart: #ffffff;
+      --yazi: #2a2140;
+      --soluk: #6b6385;
+      --cizgi: #efe5da;
+      --mor: #7a4cff;
+      --mor-koyu: #5b2fe0;
+      --mor-acik: #efe9ff;
+      --pembe: #ff4f86;
+      --pembe-acik: #ffe7ef;
+      --yesil: #10a58f;
+      --yesil-acik: #e0f6f1;
+      --sari: #ffbf2e;
+      --sari-acik: #fff4d6;
+      --golge: 0 6px 22px rgba(70, 40, 140, .09);
+      --yuvarlak: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--yazi);
+      background: var(--zemin);
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Fredoka', 'Nunito', sans-serif; font-weight: 600; line-height: 1.2; margin: 0; }
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+
+    /* ---------- ÜST BÖLÜM ---------- */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background: linear-gradient(135deg, #7a4cff 0%, #b14dff 50%, #ff4f86 100%);
+      padding: 40px 0 36px;
+      border-radius: 0 0 32px 32px;
+    }
+    .hero .wrap { position: relative; z-index: 1; }
+    .hero .rozet {
+      display: inline-block; margin: 0 0 14px; padding: 5px 12px;
+      font-size: 14px; font-weight: 800; letter-spacing: .02em;
+      background: rgba(255,255,255,.2); border-radius: 99px;
+    }
+    .hero h1 { font-size: clamp(38px, 9vw, 60px); }
+    .el { display: inline-block; transform-origin: 70% 70%; animation: salla 2.4s ease-in-out infinite; }
+    @keyframes salla { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(16deg); } 20%, 40% { transform: rotate(-8deg); } }
+    .hero .alt { font-size: clamp(18px, 4.2vw, 22px); margin: 10px 0 6px; font-weight: 600; }
+    .hero .tr { margin: 0 0 22px; opacity: .92; font-size: 16px; max-width: 640px; }
+    .ilerleme { background: rgba(255,255,255,.16); border-radius: 16px; padding: 12px 14px; max-width: 460px; }
+    .ilerleme-ust { display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+    .bar { height: 12px; border-radius: 99px; background: rgba(255,255,255,.28); overflow: hidden; }
+    .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: #fff; transition: width .5s ease; }
+    .susler span { position: absolute; font-size: 34px; opacity: .35; animation: yuz 6s ease-in-out infinite; }
+    .susler span:nth-child(1) { top: 18px; right: 6%; }
+    .susler span:nth-child(2) { top: 46%; right: 16%; font-size: 26px; animation-delay: -2s; }
+    .susler span:nth-child(3) { bottom: 18px; right: 4%; font-size: 40px; animation-delay: -4s; }
+    @keyframes yuz { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-12px) rotate(8deg); } }
+
+    /* ---------- MENÜ ---------- */
+    .menu {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(255, 247, 239, .92);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--cizgi);
+    }
+    .menu .wrap { display: flex; align-items: center; gap: 10px; }
+    .menu-ic { flex: 1; min-width: 0; display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
+    .menu-ic::-webkit-scrollbar { display: none; }
+    .menu-ic a {
+      flex: none; text-decoration: none; color: var(--yazi); font-weight: 700; font-size: 15px;
+      padding: 7px 13px; border-radius: 99px; background: var(--kart); box-shadow: 0 2px 8px rgba(70,40,140,.07);
+    }
+    .menu-ic a:hover { background: var(--mor-acik); }
+    .hiz {
+      flex: none; border: 2px solid var(--mor); background: var(--kart); color: var(--mor-koyu);
+      font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 99px;
+    }
+    .hiz[aria-pressed="true"] { background: var(--mor); color: #fff; }
+
+    /* ---------- BÖLÜMLER ---------- */
+    section { padding: 44px 0 4px; scroll-margin-top: 64px; }
+    section > h2 { font-size: clamp(26px, 6vw, 34px); display: flex; align-items: center; gap: 10px; }
+    .bolum-tr { color: var(--soluk); font-weight: 700; margin: 4px 0 0; }
+    .not {
+      margin: 14px 0 18px; padding: 12px 14px; border-radius: 14px;
+      background: var(--mor-acik); color: #3d2a7a; font-size: 16px;
+    }
+    .not b { color: var(--mor-koyu); }
+    .kart { background: var(--kart); border-radius: var(--yuvarlak); box-shadow: var(--golge); padding: 18px; }
+
+    /* ---------- DÜĞMELER ---------- */
+    .ses {
+      flex: none; width: 42px; height: 42px; border-radius: 50%; border: 0;
+      display: inline-grid; place-items: center;
+      background: var(--mor); color: #fff; box-shadow: 0 3px 0 var(--mor-koyu);
+      transition: transform .1s;
+    }
+    .ses svg { width: 22px; height: 22px; }
+    .ses:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--mor-koyu); }
+    .ses.kucuk { width: 34px; height: 34px; }
+    .ses.kucuk svg { width: 18px; height: 18px; }
+    .calisiyor { animation: nabiz 1s ease-in-out infinite; }
+    .ses.calisiyor { background: var(--pembe); box-shadow: 0 3px 0 #c92d62; }
+    @keyframes nabiz { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,79,134,.45); } 50% { box-shadow: 0 0 0 9px rgba(255,79,134,0); } }
+
+    .btn {
+      border: 0; border-radius: 14px; padding: 11px 16px; font-weight: 800; font-size: 16px;
+      background: #f1ece6; color: var(--yazi); box-shadow: 0 3px 0 #ddd3c8;
+      display: inline-flex; align-items: center; gap: 8px; transition: transform .1s;
+    }
+    .btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #ddd3c8; }
+    .btn[disabled] { opacity: .45; cursor: default; }
+    .btn.mor { background: var(--mor); color: #fff; box-shadow: 0 3px 0 var(--mor-koyu); }
+    .btn.pembe { background: var(--pembe); color: #fff; box-shadow: 0 3px 0 #c92d62; }
+    .btn.sari { background: var(--sari); color: #3a2a00; box-shadow: 0 3px 0 #d69a10; }
+    .btn.yesil { background: var(--yesil); color: #fff; box-shadow: 0 3px 0 #0a7a6a; }
+    .btn.dinliyor { background: #e0245e; color: #fff; animation: nabiz 1s ease-in-out infinite; }
+    .dugmeler { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+    /* ---------- SÜPER CEVAP FORMÜLÜ ---------- */
+    .adimlar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }
+    .adim { border-radius: 18px; padding: 14px; text-align: center; }
+    .adim .num { font-size: 30px; }
+    .adim b { display: block; font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 600; }
+    .adim small { display: block; font-size: 14px; font-weight: 700; opacity: .8; }
+    .adim:nth-child(1) { background: var(--mor-acik); }
+    .adim:nth-child(2) { background: var(--pembe-acik); }
+    .adim:nth-child(3) { background: var(--yesil-acik); }
+    .merdiven { display: grid; gap: 10px; }
+    .basamak { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: var(--kart); box-shadow: var(--golge); }
+    .basamak .yuz { font-size: 28px; flex: none; }
+    .basamak .metin { flex: 1; }
+    .basamak .metin small { display: block; font-weight: 800; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--soluk); }
+    .basamak.super { border: 3px solid var(--sari); background: #fffdf5; }
+    .ornek-soru { font-weight: 800; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+
+    /* ---------- KENDİNİ TANIT ---------- */
+    .tanit { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    .alanlar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+    .alan { display: flex; flex-direction: column; gap: 3px; }
+    .alan.genis { grid-column: 1 / -1; }
+    .alan label { font-weight: 800; font-size: 14px; }
+    .alan label small { font-weight: 600; color: var(--soluk); }
+    .alan input {
+      width: 100%; padding: 10px 12px; border-radius: 12px; border: 2px solid var(--cizgi);
+      background: #fffcf9; font-size: 16px;
+    }
+    .alan input:focus { outline: none; border-color: var(--mor); background: #fff; }
+    .tanit-cikti { position: sticky; top: 74px; border: 3px dashed #d9cbff; }
+    .tanit-cikti h3 { font-size: 20px; margin-bottom: 8px; }
+    #tanitMetin { font-size: 18px; margin: 0; line-height: 1.7; }
+    .sifirla { background: none; border: 0; color: var(--soluk); font-weight: 700; text-decoration: underline; padding: 4px 0; font-size: 14px; margin-top: 6px; }
+
+    .transkript {
+      margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: #f6f3ff;
+      border-left: 5px solid var(--mor); font-style: italic; min-height: 24px;
+    }
+    .transkript::before { content: "You said: "; font-style: normal; font-weight: 800; color: var(--mor-koyu); }
+    .yorum { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .yorum:empty { display: none; }
+    .rozet-k { background: var(--sari-acik); border-radius: 99px; padding: 5px 11px; font-weight: 800; font-size: 14px; }
+    .yorum .ipucu { flex-basis: 100%; margin: 2px 0 0; font-weight: 700; color: #3d2a7a; }
+
+    /* ---------- KONULAR ---------- */
+    .konu {
+      background: var(--kart); border-radius: var(--yuvarlak); box-shadow: var(--golge);
+      margin: 12px 0; border: 3px solid transparent; transition: border-color .3s;
+    }
+    .konu.bitti { border-color: var(--yesil); }
+    .konu summary {
+      list-style: none; display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; cursor: pointer; user-select: none;
+    }
+    .konu summary::-webkit-details-marker { display: none; }
+    .konu-emoji { font-size: 32px; flex: none; width: 44px; text-align: center; }
+    .konu-ad { flex: 1; min-width: 0; }
+    .konu-ad b { display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 20px; }
+    .konu-ad small { color: var(--soluk); font-weight: 700; font-size: 14px; }
+    .konu-tik {
+      flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--yesil); color: #fff; font-weight: 900; font-size: 15px; transform: scale(0); transition: transform .3s;
+    }
+    .konu.bitti .konu-tik { transform: scale(1); }
+    .ok { flex: none; width: 12px; height: 12px; border-right: 3px solid var(--soluk); border-bottom: 3px solid var(--soluk); transform: rotate(45deg); margin: 0 6px 4px 0; transition: transform .25s; }
+    .konu[open] .ok { transform: rotate(-135deg); margin: 6px 6px 0 0; }
+    .konu-govde { padding: 0 16px 16px; }
+    .soru { padding: 12px 0; border-top: 2px dashed var(--cizgi); }
+    .soru-ust { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .soru-metin { flex: 1; min-width: 160px; margin: 0; font-weight: 800; font-size: 18px; }
+    .cevap-ac {
+      border: 2px solid var(--sari); background: var(--sari-acik); color: #6a4a00; font-weight: 800; font-size: 14px;
+      padding: 6px 11px; border-radius: 99px;
+    }
+    .cevap-ac[aria-expanded="true"] { background: var(--sari); }
+    .cevap { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; padding: 11px 13px; background: var(--sari-acik); border-radius: 14px; }
+    .cevap[hidden] { display: none; }
+    .cevap p { margin: 0; flex: 1; font-size: 17px; }
+    .alt-baslik { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 17px; margin: 16px 0 8px; color: var(--mor-koyu); }
+    .kelimeler { display: flex; flex-wrap: wrap; gap: 7px; }
+    .kelime {
+      border: 0; border-radius: 99px; padding: 6px 12px; font-weight: 700; font-size: 15px;
+      background: var(--mor-acik); color: #3d2a7a;
+    }
+    .kelime::after { content: " 🔈"; font-size: 12px; }
+    .kelime.calisiyor { background: var(--pembe); color: #fff; }
+    .hatirla { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--yesil-acik); font-size: 16px; }
+    .hatirla::before { content: "🧠 Remember: "; font-weight: 800; color: #0a7a6a; }
+    .konu-alt { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+    /* ---------- RESİM ANLATMA ---------- */
+    .formul-satir { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+    .formul-satir span { background: var(--kart); box-shadow: var(--golge); border-radius: 12px; padding: 8px 12px; font-weight: 700; font-size: 15px; }
+    .formul-satir b { color: var(--pembe); }
+    .sahne-kutu { margin-bottom: 26px; }
+    .sahne-kutu h3 { font-size: 22px; margin: 0 0 10px; }
+    .sahne-kutu h3 small { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px; color: var(--soluk); }
+    .sahne {
+      position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: var(--yuvarlak);
+      overflow: hidden; box-shadow: var(--golge);
+    }
+    .sahne.park { background: linear-gradient(#bfe6ff 0%, #e2f4ff 54%, #8fd16a 54%, #6fbf4f 100%); }
+    .sahne.plaj { background: linear-gradient(#bfe6ff 0%, #e2f4ff 36%, #5cc0ee 36%, #2f9fd8 60%, #f6dc9b 60%, #efcd7f 100%); }
+    .o {
+      position: absolute; transform: translate(-50%, -50%); border: 0; background: none; padding: 2px;
+      font-size: clamp(22px, 6.4vw, 50px); line-height: 1; white-space: nowrap;
+      font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    }
+    .o.buyuk { font-size: clamp(54px, 15vw, 120px); }
+    .o.kucuk { font-size: clamp(15px, 4.2vw, 32px); }
+    .o.sus { pointer-events: none; }
+    .o.parla { animation: zipla .9s ease; filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 4px #fff); }
+    @keyframes zipla {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      30% { transform: translate(-50%, -64%) scale(1.3); }
+      60% { transform: translate(-50%, -50%) scale(1.12); }
+    }
+    .cumleler { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+    .cumleler[hidden] { display: none; }
+    .cumle {
+      width: 100%; display: flex; align-items: center; gap: 10px; text-align: left;
+      border: 0; border-radius: 14px; padding: 10px 12px; background: var(--kart); box-shadow: 0 2px 10px rgba(70,40,140,.07);
+      font-size: 17px; font-weight: 600;
+    }
+    .cumle .no { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--pembe-acik); color: var(--pembe); font-weight: 900; display: grid; place-items: center; font-size: 14px; }
+    .cumle.calisiyor { background: var(--pembe-acik); }
+    .cumle .vurgu { color: var(--mor-koyu); font-weight: 800; }
+
+    /* ---------- SİHİRLİ CÜMLELER ---------- */
+    .gruplar { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grup h3 { font-size: 19px; margin-bottom: 2px; }
+    .grup .bolum-tr { font-size: 14px; margin: 0 0 8px; }
+    .ifade {
+      width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; border: 0; background: none;
+      padding: 8px 0; border-top: 1px dashed var(--cizgi);
+    }
+    .ifade .ikon { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--mor-acik); color: var(--mor); }
+    .ifade .ikon svg { width: 16px; height: 16px; }
+    .ifade.calisiyor .ikon { background: var(--pembe); color: #fff; }
+    .ifade span { display: flex; flex-direction: column; }
+    .ifade b { font-size: 16px; }
+    .ifade small { color: var(--soluk); font-weight: 600; font-size: 14px; }
+
+    /* ---------- SINAV PROVASI ---------- */
+    .sinav { border: 3px solid #d9cbff; }
+    .sinav-ust { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .sinav-ust label { font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .sinav-ust select { padding: 8px 10px; border-radius: 12px; border: 2px solid var(--cizgi); background: #fffcf9; font-weight: 700; max-width: 220px; }
+    .sayac { font-weight: 800; background: var(--yesil-acik); color: #0a7a6a; padding: 6px 12px; border-radius: 99px; }
+    .ogretmen { display: flex; gap: 12px; align-items: flex-start; }
+    .ogr-avatar { font-size: 48px; line-height: 1; flex: none; }
+    .balon {
+      position: relative; flex: 1; background: var(--mor-acik); border-radius: 18px; padding: 14px 16px;
+      font-size: clamp(19px, 4.6vw, 24px); font-weight: 800; min-height: 64px;
+    }
+    .balon::before { content: ""; position: absolute; left: -9px; top: 18px; border: 10px solid transparent; border-right-color: var(--mor-acik); border-left: 0; }
+    .balon .konu-etiket { display: block; font-size: 13px; font-weight: 800; color: var(--mor); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+    .zaman { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+    .zaman[hidden] { display: none; }
+    .zaman .bar { flex: 1; background: #eee7ff; }
+    .zaman .bar i { background: linear-gradient(90deg, var(--yesil), var(--sari)); transition: width .2s linear; }
+    .zaman span { flex: none; font-weight: 800; min-width: 44px; text-align: right; }
+    .zaman.bitti span { color: var(--pembe); }
+    .sinav .cevap { margin-top: 14px; }
+
+    /* ---------- YARIN İÇİN ---------- */
+    .liste { display: grid; gap: 10px; }
+    .madde {
+      display: flex; gap: 12px; align-items: flex-start; padding: 13px 14px; border-radius: 16px;
+      background: var(--kart); box-shadow: var(--golge); cursor: pointer; transition: background .2s;
+    }
+    .madde input { position: absolute; opacity: 0; pointer-events: none; }
+    .kutucuk {
+      flex: none; width: 28px; height: 28px; border-radius: 9px; border: 3px solid #cfc3f5; display: grid; place-items: center;
+      color: transparent; font-weight: 900; transition: all .2s; margin-top: 1px;
+    }
+    .madde input:checked + .kutucuk { background: var(--yesil); border-color: var(--yesil); color: #fff; }
+    .madde input:focus-visible + .kutucuk { outline: 3px solid var(--mor); outline-offset: 2px; }
+    .madde:has(input:checked) { background: #f1fbf8; }
+    .madde b { display: block; font-size: 17px; }
+    .madde small { display: block; color: var(--soluk); font-weight: 600; font-size: 15px; }
+
+    /* ---------- ALT ---------- */
+    footer { margin-top: 48px; padding: 36px 0 48px; text-align: center; background: linear-gradient(135deg, #7a4cff, #ff4f86); color: #fff; border-radius: 32px 32px 0 0; }
+    footer h2 { font-size: clamp(28px, 7vw, 40px); }
+    footer p { margin: 10px auto 0; max-width: 520px; font-size: 18px; font-weight: 600; }
+    footer .imza { font-family: 'Fredoka', sans-serif; font-size: 20px; margin-top: 16px; }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 140%); z-index: 50;
+      max-width: calc(100% - 32px); width: max-content;
+      background: var(--yazi); color: #fff; padding: 12px 16px; border-radius: 14px; font-weight: 700; font-size: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25); transition: transform .3s ease;
+    }
+    .toast.goster { transform: translate(-50%, 0); }
+
+    /* ---------- TELEFON ---------- */
+    @media (max-width: 720px) {
+      .tanit, .gruplar { grid-template-columns: 1fr; }
+      .tanit-cikti { position: static; }
+      .adimlar { grid-template-columns: 1fr; }
+      .adim { display: flex; align-items: center; gap: 12px; text-align: left; }
+      .adim .num { font-size: 26px; }
+    }
+    @media (max-width: 720px) {
+      .susler span:nth-child(2), .susler span:nth-child(3) { display: none; }
+    }
+    @media (max-width: 420px) {
+      .alanlar { grid-template-columns: 1fr; }
+      .kart { padding: 14px; }
+      .konu-govde { padding: 0 12px 14px; }
+      .ogr-avatar { font-size: 38px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== ÜST ===================== -->
+  <header class="hero">
+    <div class="susler" aria-hidden="true"><span>⭐</span><span>📚</span><span>🗣️</span></div>
+    <div class="wrap">
+      <p class="rozet">5th Grade · Bahçeşehir College</p>
+      <h1>Hi Eylül! <span class="el">👋</span></h1>
+      <p class="alt">Let's get ready for your <b>English Speaking Exam</b>. You can do it! 💪</p>
+      <p class="tr">Her cümlenin yanındaki <b>🔊</b> düğmesine bas, doğru telaffuzu dinle ve yüksek sesle tekrar et. <b>🎤</b> düğmesiyle kendi sesini de deneyebilirsin. Ses gelmezse telefonun sesini aç.</p>
+      <div class="ilerleme">
+        <div class="ilerleme-ust"><span>Topics practised ⭐</span><b id="ilerlemeYazi">0 / 13</b></div>
+        <div class="bar"><i id="ilerlemeBar"></i></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== MENÜ ===================== -->
+  <nav class="menu" aria-label="Sections">
+    <div class="wrap">
+      <div class="menu-ic">
+        <a href="#formula">⭐ Formula</a>
+        <a href="#intro">🙋‍♀️ About me</a>
+        <a href="#topics">📚 Topics</a>
+        <a href="#picture">🖼️ Pictures</a>
+        <a href="#phrases">✨ Magic phrases</a>
+        <a href="#exam">🎯 Mock exam</a>
+        <a href="#tips">✅ Exam day</a>
+      </div>
+      <button class="hiz" id="hizBtn" type="button" aria-pressed="false" title="Okuma hızı">🐇 Normal</button>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- ===================== SÜPER CEVAP FORMÜLÜ ===================== -->
+    <section id="formula">
+      <h2>⭐ The Super Answer Formula</h2>
+      <p class="bolum-tr">Süper Cevap Formülü – her soruda bunu kullan!</p>
+      <div class="adimlar">
+        <div class="adim"><div class="num">1️⃣</div><div><b>Answer</b><small>Tam cümleyle cevap ver</small></div></div>
+        <div class="adim"><div class="num">2️⃣</div><div><b>Because…</b><small>Bir sebep söyle</small></div></div>
+        <div class="adim"><div class="num">3️⃣</div><div><b>Extra!</b><small>Bir detay ya da örnek ekle</small></div></div>
+      </div>
+      <div class="kart">
+        <p class="ornek-soru" id="formulSoru"></p>
+        <div class="merdiven" id="merdiven"></div>
+      </div>
+    </section>
+
+    <!-- ===================== KENDİNİ TANIT ===================== -->
+    <section id="intro">
+      <h2>🙋‍♀️ Introduce Yourself</h2>
+      <p class="bolum-tr">Kendini tanıt</p>
+      <p class="not">Sınav çoğu zaman <b>"Tell me about yourself."</b> ile başlar. Aşağıdaki bilgileri <b>kendine göre değiştir</b> – konuşma metnin kendiliğinden hazırlanır. Önce dinle, sonra <b>3 kez yüksek sesle</b> oku, en sonunda metne bakmadan anlat!</p>
+      <div class="tanit">
+        <form class="alanlar kart" id="tanitForm" autocomplete="off"></form>
+        <div class="tanit-cikti kart">
+          <h3>📜 My speech</h3>
+          <p id="tanitMetin"></p>
+          <div class="dugmeler">
+            <button class="btn mor" type="button" id="tanitDinle">🔊 Listen</button>
+            <button class="btn pembe" type="button" id="tanitMik" data-etiket="🎤 Read it aloud">🎤 Read it aloud</button>
+          </div>
+          <div class="transkript" id="tanitTranskript" hidden></div>
+          <div class="yorum" id="tanitYorum"></div>
+          <button class="sifirla" type="button" id="tanitSifirla">↺ Örnek bilgilere dön</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== KONULAR ===================== -->
+    <section id="topics">
+      <h2>📚 Speaking Topics</h2>
+      <p class="bolum-tr">Konular – öğretmenin bu soruları sorabilir</p>
+      <p class="not">Bir konuya dokun, açılsın. Önce soruyu <b>dinle</b> ve <b>kendin cevap ver</b>. Sonra <b>💡 Sample answer</b> ile örnek cevaba bak. Örnek cevaplardaki bilgileri <b>kendi hayatına göre değiştir!</b> Bitirince <b>✅</b> ile işaretle.</p>
+      <div id="konular"></div>
+    </section>
+
+    <!-- ===================== RESİM ANLATMA ===================== -->
+    <section id="picture">
+      <h2>🖼️ Describe a Picture</h2>
+      <p class="bolum-tr">Resim anlatma – sınavda sık çıkar!</p>
+      <p class="not">Öğretmen bir resim gösterip <b>"What can you see in the picture?"</b> diye sorabilir. Bu sırayı takip et: önce genel, sonra <b>There is / There are</b>, sonra <b>kim ne yapıyor</b> (is + -ing), en sonda <b>fikrin</b>. Resimdeki şeylere ya da cümlelere dokun!</p>
+      <div class="formul-satir">
+        <span><b>1.</b> In this picture, I can see…</span>
+        <span><b>2.</b> There is a… / There are two…</span>
+        <span><b>3.</b> A boy <b>is playing</b>…</span>
+        <span><b>4.</b> on the left / on the right / in the middle</span>
+        <span><b>5.</b> I think…</span>
+      </div>
+      <div id="sahneler"></div>
+    </section>
+
+    <!-- ===================== SİHİRLİ CÜMLELER ===================== -->
+    <section id="phrases">
+      <h2>✨ Magic Phrases</h2>
+      <p class="bolum-tr">Seni kurtaracak sihirli cümleler – dokun, dinle!</p>
+      <div class="gruplar" id="gruplar"></div>
+    </section>
+
+    <!-- ===================== SINAV PROVASI ===================== -->
+    <section id="exam">
+      <h2>🎯 Mock Exam</h2>
+      <p class="bolum-tr">Sınav provası</p>
+      <p class="not">Gerçek sınav gibi! Öğretmen soruyu <b>sesli</b> soracak. <b>45 saniye</b> içinde Süper Cevap Formülü ile cevap ver. <b>🎤 Answer</b> ile konuşursan söylediklerin yazıya dökülür ve yıldız kazanırsın. ⭐</p>
+      <div class="sinav kart">
+        <div class="sinav-ust">
+          <label for="sinavKonu">Topic: <select id="sinavKonu"><option value="all">🎲 All topics</option></select></label>
+          <span class="sayac">✅ <b id="sinavSayac">0</b> <span id="sinavSayacYazi">questions</span></span>
+        </div>
+        <div class="ogretmen">
+          <div class="ogr-avatar" aria-hidden="true">👩‍🏫</div>
+          <div class="balon" id="sinavSoru" aria-live="polite">Press <b>Start</b> and listen to the teacher's question!</div>
+        </div>
+        <div class="zaman" id="zamanKutu" hidden><div class="bar"><i id="zamanBar"></i></div><span id="zamanYazi">45s</span></div>
+        <div class="dugmeler">
+          <button class="btn mor" type="button" id="sinavYeni">▶️ Start</button>
+          <button class="btn" type="button" id="sinavTekrar" disabled>🔁 Repeat</button>
+          <button class="btn pembe" type="button" id="sinavMik" data-etiket="🎤 Answer" disabled>🎤 Answer</button>
+          <button class="btn sari" type="button" id="sinavCevap" disabled>💡 Sample answer</button>
+        </div>
+        <div class="transkript" id="sinavTranskript" hidden></div>
+        <div class="yorum" id="sinavYorum"></div>
+        <div class="cevap" id="sinavOrnek" hidden></div>
+      </div>
+    </section>
+
+    <!-- ===================== SINAV GÜNÜ ===================== -->
+    <section id="tips">
+      <h2>✅ Exam Day Checklist</h2>
+      <p class="bolum-tr">Sınav günü için kontrol listesi – hazır olduklarını işaretle</p>
+      <div class="liste" id="liste"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <h2>Good luck, Eylül! 🍀</h2>
+      <p>Smile, speak slowly and be proud of yourself. Mistakes are OK – the important thing is to speak! You are going to be great! 🌟</p>
+      <p class="imza">Love, your uncle Onur 💛</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* =========================================================
+       İÇERİK
+       qa: [soru, örnek cevap] · w: kelimeler · tip: hatırlatma
+       ========================================================= */
+    var KONULAR = [
+      { id: 'me', e: '🙋‍♀️', t: 'All About Me', tr: 'Kendimi tanıtıyorum',
+        qa: [
+          ["What's your name?", "My name is Eylül. Nice to meet you!"],
+          ["How do you spell your name?", "E, Y, L, U, L. Eylül."],
+          ["How old are you?", "I'm ten years old."],
+          ["Where are you from?", "I'm from Turkey. I live in Istanbul."],
+          ["When is your birthday?", "My birthday is on the twelfth of March."],
+          ["What grade are you in?", "I'm in the fifth grade at Bahçeşehir College."],
+          ["Tell me something interesting about you.", "My name, Eylül, means September in Turkish. Interesting, right?"]
+        ],
+        w: ['name', 'surname', 'years old', 'I am from', 'I live in', 'birthday', 'grade', 'nice to meet you'],
+        tip: 'Kısa cevap verme: "Ten." yerine <b>"I\'m ten years old."</b> de. Adını hecelerken harfleri İngilizce söyle: E (<i>i</i>) – Y (<i>vay</i>) – L (<i>el</i>) – U (<i>yu</i>) – L (<i>el</i>). Ü harfi İngilizcede yok, "U" de. Tarihler: the first, second, third, fourth, fifth… twelfth.'
+      },
+      { id: 'family', e: '👪', t: 'My Family', tr: 'Ailem',
+        qa: [
+          ["How many people are there in your family?", "There are four people in my family: my mum, my dad, my little brother and me."],
+          ["Have you got any brothers or sisters?", "Yes, I have. I've got one brother. His name is Can. He is seven years old."],
+          ["What does your mother do?", "My mother is a teacher. She works at a primary school."],
+          ["What does your father do?", "My father is an engineer. He works in an office."],
+          ["Tell me about a person in your family.", "My uncle Onur lives in Switzerland. He helps people to get new hair! He is funny and kind, and I love him very much."],
+          ["What do you do together as a family?", "At the weekend, we have breakfast together. Sometimes we go for a walk or watch a film."]
+        ],
+        w: ['mum', 'dad', 'brother', 'sister', 'grandma', 'grandpa', 'uncle', 'aunt', 'cousin', 'parents', 'only child'],
+        tip: 'He / She ile fiile <b>-s</b> ekle: She <b>works</b>, he <b>lives</b>. Kardeşin yoksa: <b>"No, I haven\'t. I\'m an only child."</b>'
+      },
+      { id: 'school', e: '🏫', t: 'My School', tr: 'Okulum',
+        qa: [
+          ["What's your favourite subject? Why?", "My favourite subject is English, because it's fun and I can talk to people from other countries."],
+          ["What subjects do you have at school?", "I have Maths, Science, English, Turkish, Social Studies, Art, Music and PE."],
+          ["Which subject don't you like?", "I don't really like Maths, because it's difficult for me. But I always try hard!"],
+          ["Who is your best friend?", "My best friend is Defne. She is clever and funny. We sit together in class."],
+          ["What do you do at break time?", "I chat with my friends and eat a snack. Sometimes we play games in the garden."],
+          ["How do you go to school?", "I go to school by school bus. It takes about twenty minutes."],
+          ["What is your school like?", "My school is big and modern. There is a library, a science lab, a gym and a big garden."]
+        ],
+        w: ['Maths', 'Science', 'English', 'Turkish', 'Social Studies', 'Art', 'Music', 'PE', 'library', 'science lab', 'gym', 'canteen', 'break time', 'timetable', 'homework'],
+        tip: 'Ulaşım: <b>by</b> bus / by car / by metro – ama yürüyerek: <b>on foot</b>. Sevmediğin bir şey söylersen hemen olumlu bir şey ekle: <b>"…but I always try hard!"</b>'
+      },
+      { id: 'routine', e: '⏰', t: 'My Daily Routine', tr: 'Günlük rutinim',
+        qa: [
+          ["What time do you get up?", "I get up at seven o'clock on school days."],
+          ["What do you do in the morning?", "First, I wash my face and brush my teeth. Then, I get dressed and have breakfast. After that, I go to school."],
+          ["What do you do after school?", "After school, I have a snack and do my homework. Then I read a book or play with my friends."],
+          ["What time do you go to bed?", "I usually go to bed at half past nine."],
+          ["What do you do at the weekend?", "At the weekend, I get up late. I often visit my grandparents and sometimes I go to the cinema."],
+          ["How often do you do sports?", "I do sports twice a week. I go swimming on Tuesdays and Saturdays."]
+        ],
+        w: ['get up', 'brush my teeth', 'get dressed', 'have breakfast', 'do my homework', 'have dinner', 'go to bed', 'always', 'usually', 'often', 'sometimes', 'never', "seven o'clock", 'half past seven', 'quarter past seven', 'quarter to eight'],
+        tip: 'Sıralama kelimeleri cevabını süper yapar: <b>First → Then → After that → Finally</b>. Saat: 7:00 = seven o\'clock · 7:30 = half past seven · 7:15 = quarter past seven · 7:45 = quarter to eight.'
+      },
+      { id: 'hobbies', e: '🎨', t: 'Free Time & Hobbies', tr: 'Boş zaman ve hobiler',
+        qa: [
+          ["What do you like doing in your free time?", "In my free time, I like reading books and drawing pictures. I also love dancing."],
+          ["What can you do well?", "I can swim very well and I can ride a bike. But I can't play the guitar."],
+          ["What's your favourite sport?", "My favourite sport is volleyball. I play it with my friends at school. It's exciting!"],
+          ["What don't you like doing?", "I don't like tidying my room, because it's boring!"],
+          ["Do you play a musical instrument?", "Yes, I do. I play the piano. I practise every day."],
+          ["What's your favourite book?", "My favourite book is Harry Potter, because it's magical and exciting."]
+        ],
+        w: ['reading', 'drawing', 'painting', 'dancing', 'singing', 'swimming', 'playing the piano', 'riding a bike', 'playing chess', 'playing volleyball', 'fun', 'boring', 'exciting', 'interesting'],
+        tip: 'like / love / enjoy / hate\'den sonra fiile <b>-ing</b> ekle: I like <b>swimming</b>. Yetenekler için <b>can / can\'t</b>: I can swim. I can\'t sing.'
+      },
+      { id: 'food', e: '🍕', t: 'Food & Health', tr: 'Yemek ve sağlık',
+        qa: [
+          ["What's your favourite food?", "My favourite food is pizza. I also love pasta and köfte."],
+          ["What do you usually have for breakfast?", "I usually have eggs, cheese, olives, tomatoes and bread. I drink a glass of milk."],
+          ["What food don't you like?", "I don't like broccoli, because it tastes strange!"],
+          ["What healthy food do you eat?", "I eat fruit and vegetables every day. Apples, bananas and carrots are healthy. Chips and fizzy drinks are not very healthy."],
+          ["Can you cook?", "Yes, I can make pancakes with my mum. They are delicious!"],
+          ["What should we do to be healthy?", "We should eat fruit and vegetables, drink a lot of water and do sports. We shouldn't eat too much sugar."]
+        ],
+        w: ['breakfast', 'lunch', 'dinner', 'snack', 'healthy', 'unhealthy', 'delicious', 'sweet', 'salty', 'spicy', 'fruit', 'vegetables', 'a glass of milk', 'a piece of cake'],
+        tip: 'Tavsiye: <b>You should</b> eat fruit. <b>You shouldn\'t</b> eat too much sugar. Yemeği anlatırken sıfat ekle: delicious, sweet, spicy…'
+      },
+      { id: 'people', e: '👭', t: 'Describing People', tr: 'İnsanları tarif etme',
+        qa: [
+          ["What do you look like?", "I've got long dark brown hair and brown eyes. I'm not very tall."],
+          ["What does your best friend look like?", "She has got short curly hair and green eyes. She is tall and slim. She wears glasses."],
+          ["What is your best friend like?", "She is friendly, funny and very helpful. She always makes me laugh."],
+          ["Describe your teacher.", "My English teacher has got blonde hair and blue eyes. She is kind and patient."]
+        ],
+        w: ['tall', 'short', 'slim', 'long hair', 'curly hair', 'straight hair', 'blonde', 'dark', 'glasses', 'kind', 'friendly', 'funny', 'clever', 'shy', 'cheerful', 'helpful', 'hard-working'],
+        tip: '<b>What does she look like?</b> = Nasıl görünüyor? (saç, göz, boy)<br><b>What is she like?</b> = Nasıl biri? (kibar, komik…)<br>I / You / We / They <b>have got</b> – He / She <b>has got</b>.'
+      },
+      { id: 'home', e: '🏠', t: 'My Home & My Room', tr: 'Evim ve odam',
+        qa: [
+          ["Do you live in a house or a flat?", "I live in a flat. It has got three bedrooms, a living room, a kitchen and two bathrooms."],
+          ["Describe your room.", "My room isn't very big, but it's cosy. There is a bed, a desk and a wardrobe. There are a lot of books on the shelf."],
+          ["What's your favourite room? Why?", "My favourite room is my bedroom, because I can read and relax there."],
+          ["Where is your desk?", "My desk is next to the window. My lamp is on the desk."],
+          ["How do you help at home?", "I tidy my room and I lay the table for dinner. Sometimes I water the plants."]
+        ],
+        w: ['bedroom', 'living room', 'kitchen', 'bathroom', 'balcony', 'bed', 'desk', 'wardrobe', 'shelf', 'lamp', 'in', 'on', 'under', 'next to', 'between', 'behind', 'in front of'],
+        tip: 'Tekil → <b>There is</b> a bed. Çoğul → <b>There are</b> two chairs. Yer bildiren kelimeleri kullan: next to, under, between, in front of…'
+      },
+      { id: 'town', e: '🏙️', t: 'My Town', tr: 'Şehrim ve mahallem',
+        qa: [
+          ["Where do you live?", "I live in Istanbul. It's a big and busy city near the sea."],
+          ["What is there near your house?", "There is a supermarket, a bakery and a park near my house. But there isn't a cinema."],
+          ["What's your favourite place in your town? Why?", "My favourite place is the seaside, because I can walk, ride my bike and eat ice cream there."],
+          ["Excuse me, how can I get to the library?", "Go straight on and turn left. The library is on your right, next to the bank."],
+          ["Is your city big or small?", "It's very big and crowded, but it's beautiful. There are many parks, museums and shopping malls."]
+        ],
+        w: ['park', 'library', 'hospital', 'museum', 'cinema', 'bakery', 'supermarket', 'shopping mall', 'bus stop', 'crowded', 'quiet', 'busy', 'go straight on', 'turn left', 'turn right', 'opposite'],
+        tip: 'Yol tarifi: <b>Go straight on</b> (düz git) · <b>Turn left / right</b> (sola / sağa dön) · <b>It\'s on your left</b> (solunda) · <b>opposite</b> (karşısında).'
+      },
+      { id: 'weather', e: '🌦️', t: 'Weather & Seasons', tr: 'Hava durumu ve mevsimler',
+        qa: [
+          ["What's the weather like today?", "Today it's cloudy and a bit cold. I think it's going to rain."],
+          ["What's your favourite season? Why?", "My favourite season is autumn, because my name is Eylül, and Eylül means September! I also love the orange and yellow leaves."],
+          ["What do you wear in winter?", "In winter, I wear a warm coat, a scarf, gloves and boots."],
+          ["What do you do in summer?", "In summer, I go swimming in the sea and eat a lot of ice cream."],
+          ["What's the weather like in spring?", "In spring, it's warm and sometimes rainy. The flowers are beautiful."]
+        ],
+        w: ['sunny', 'rainy', 'cloudy', 'windy', 'snowy', 'hot', 'warm', 'cold', 'spring', 'summer', 'autumn', 'winter', 'coat', 'scarf', 'gloves', 'boots', 'umbrella'],
+        tip: 'Hava durumu hep <b>It\'s…</b> ile başlar: It\'s sunny. It\'s cold. Mevsimlerle <b>in</b> kullan: in winter, in summer.'
+      },
+      { id: 'animals', e: '🐶', t: 'Animals & Pets', tr: 'Hayvanlar',
+        qa: [
+          ["Have you got a pet?", "No, I haven't, but I'd really like a dog. Dogs are friendly and fun."],
+          ["What's your favourite animal? Why?", "My favourite animal is the dolphin, because it's clever and friendly."],
+          ["What can animals do?", "A bird can fly, a fish can swim and a cheetah can run very fast. But a penguin can't fly!"],
+          ["Compare an elephant and a mouse.", "An elephant is bigger and heavier than a mouse. A mouse is smaller and lighter than an elephant."],
+          ["How do you look after a pet?", "You should feed it every day, give it fresh water and play with it. You should also take it to the vet."]
+        ],
+        w: ['cat', 'dog', 'rabbit', 'bird', 'fish', 'hamster', 'turtle', 'dolphin', 'elephant', 'giraffe', 'lion', 'penguin', 'cute', 'fluffy', 'clever', 'dangerous', 'bigger than', 'faster than'],
+        tip: 'Karşılaştırma: kısa sıfatlara <b>-er than</b>: big → bigger than, fast → faster than. Uzun sıfatlarda <b>more</b>: more beautiful than. Evcil hayvanın varsa: "Yes, I have. I\'ve got a cat. Her name is…"'
+      },
+      { id: 'past', e: '📅', t: 'Last Weekend & Holidays', tr: 'Geçmiş zaman: geçen hafta sonu, tatil',
+        qa: [
+          ["What did you do last weekend?", "Last weekend, I visited my grandparents. We had lunch together. Then I went to the park and played with my cousin."],
+          ["Where did you go last summer?", "Last summer, I went to Bodrum with my family. I swam in the sea every day and ate a lot of ice cream. It was great!"],
+          ["What did you have for dinner yesterday?", "I had chicken, rice and salad. It was delicious."],
+          ["Did you watch a film last week?", "Yes, I did. I watched a cartoon with my brother. It was really funny."],
+          ["What did you do on your last birthday?", "I had a party with my friends. We ate cake, played games and danced. I got a lot of presents!"]
+        ],
+        w: ['go → went', 'have → had', 'eat → ate', 'see → saw', 'do → did', 'swim → swam', 'buy → bought', 'make → made', 'get → got', 'come → came', 'ride → rode', 'drink → drank', 'take → took', 'is → was', 'are → were', 'play → played', 'watch → watched', 'visit → visited'],
+        tip: 'Geçmiş zamanda fiilin <b>2. hâlini</b> kullan: go → <b>went</b>, play → <b>played</b>. Soru <b>Did you…?</b> ile gelirse önce kısa cevap ver: "Yes, I did." / "No, I didn\'t." – sonra detay ekle!'
+      },
+      { id: 'future', e: '🚀', t: 'Plans & Dreams', tr: 'Planlar ve hayaller',
+        qa: [
+          ["What are you going to do next weekend?", "Next weekend, I'm going to go to the cinema with my friends. We're going to watch a new film."],
+          ["What do you want to be in the future? Why?", "I want to be a vet, because I love animals and I want to help them."],
+          ["Where would you like to go on holiday? Why?", "I'd like to go to Switzerland, because I want to visit my uncle and see the mountains and the snow."],
+          ["What are you going to do in the winter holiday?", "In the winter holiday, I'm going to read books, meet my friends and maybe go skiing."],
+          ["What are you going to do after the exam?", "After the exam, I'm going to eat an ice cream and relax!"]
+        ],
+        w: ['going to', 'want to', "I'd like to", 'tomorrow', 'next week', 'next summer', 'in the future', 'doctor', 'vet', 'teacher', 'engineer', 'pilot', 'scientist', 'architect', 'artist', 'astronaut'],
+        tip: 'Planlar: <b>I\'m going to</b> + fiil. Hayaller: <b>I want to be</b> a… / <b>I\'d like to</b>… Meslekten önce <b>a / an</b>\'ı unutma: a vet, <b>an</b> engineer, <b>an</b> architect.'
+      }
+    ];
+
+    // Süper Cevap Formülü örneği
+    var FORMUL = {
+      soru: "What's your favourite subject?",
+      basamaklar: [
+        { yuz: '🙂', etiket: 'OK', metin: 'Science.' },
+        { yuz: '😊', etiket: 'Good', metin: 'My favourite subject is Science.' },
+        { yuz: '🤩', etiket: 'Super!', metin: 'My favourite subject is Science, because I love doing experiments. Last week, we made a volcano in the lab!', super: true }
+      ]
+    };
+
+    // Resimler: x / y = yüzde konum, s = örnek cümle (boşsa süs)
+    var SAHNELER = [
+      { id: 'park', baslik: 'Picture 1: At the Park', tr: 'Önce dinle ve tekrar et', acik: true,
+        giris: 'In this picture, I can see a park. It is a sunny day.',
+        son: 'I think everybody is happy, because it is a lovely day.',
+        o: [
+          { e: '☁️', x: 24, y: 13, sus: true },
+          { e: '☁️', x: 64, y: 9, sus: true, k: 'kucuk' },
+          { e: '☀️', x: 88, y: 15, s: 'The sun is shining in the sky.' },
+          { e: '🐦 🐦', x: 46, y: 22, k: 'kucuk', s: 'There are two birds in the sky.' },
+          { e: '🌳', x: 15, y: 47, k: 'buyuk', s: 'There is a big tree on the left.' },
+          { e: '👧📖', x: 29, y: 78, s: 'A girl is reading a book under the tree.' },
+          { e: '🌷🌷🌷', x: 11, y: 92, k: 'kucuk', s: 'There are some flowers in front of the tree.' },
+          { e: '👦⚽', x: 52, y: 69, s: 'In the middle, a boy is playing football.' },
+          { e: '🐕', x: 67, y: 86, s: 'A dog is running after the ball.' },
+          { e: '🚴', x: 86, y: 63, s: 'On the right, a man is riding a bike.' },
+          { e: '👩🍦', x: 84, y: 87, s: 'A woman is eating an ice cream.' }
+        ]
+      },
+      { id: 'plaj', baslik: 'Picture 2: At the Beach', tr: 'Şimdi sıra sende! Şekillere dokun, kelimeyi duy. Önce kendin anlat, sonra örneğe bak', acik: false,
+        giris: 'In this picture, I can see a beach. It is summer.',
+        son: 'I think they are having a lot of fun!',
+        o: [
+          { e: '☀️', x: 12, y: 14, w: 'sunny', s: 'It is hot and sunny.' },
+          { e: '🐦', x: 40, y: 15, sus: true, k: 'kucuk' },
+          { e: '🐦', x: 50, y: 10, sus: true, k: 'kucuk' },
+          { e: '⛵', x: 72, y: 40, w: 'a boat', s: 'There is a boat on the sea.' },
+          { e: '🏊', x: 36, y: 50, w: 'swimming', s: 'A man is swimming in the sea.' },
+          { e: '🐬', x: 90, y: 50, w: 'a dolphin', s: 'Look! A dolphin is jumping!' },
+          { e: '👧🏰', x: 22, y: 80, w: 'a sandcastle', s: 'A girl is building a sandcastle.' },
+          { e: '👩🍉', x: 58, y: 76, w: 'a watermelon', s: 'A woman is eating a watermelon.' },
+          { e: '⛱️', x: 84, y: 76, w: 'an umbrella', s: 'There is a big umbrella on the sand.' },
+          { e: '🦀', x: 42, y: 91, k: 'kucuk', w: 'a crab', s: 'There is a small crab on the sand.' }
+        ]
+      }
+    ];
+
+    var IFADELER = [
+      { b: 'When you don\'t understand', tr: 'Anlamadığında', l: [
+        ["Sorry, could you repeat that, please?", "Pardon, tekrar eder misiniz?"],
+        ["Can you speak more slowly, please?", "Daha yavaş konuşur musunuz?"],
+        ["Sorry, I don't understand the question.", "Pardon, soruyu anlamadım."],
+        ["What does this word mean?", "Bu kelime ne demek?"]
+      ] },
+      { b: 'When you need time to think', tr: 'Düşünmek için zaman kazan', l: [
+        ["Hmm, let me think…", "Hmm, bir düşüneyim…"],
+        ["That's a good question!", "Bu güzel bir soru!"],
+        ["Well, I think…", "Şey, bence…"],
+        ["I'm not sure, but maybe…", "Emin değilim ama belki…"]
+      ] },
+      { b: 'Giving your opinion', tr: 'Fikrini söyle', l: [
+        ["I think…", "Bence…"],
+        ["In my opinion,…", "Benim fikrime göre…"],
+        ["I really like it, because…", "Çok seviyorum, çünkü…"],
+        ["I agree.", "Katılıyorum."],
+        ["I don't agree, because…", "Katılmıyorum, çünkü…"]
+      ] },
+      { b: 'Linking words', tr: 'Bağlaçlar – cümleleri birleştir', l: [
+        ["and", "ve"], ["but", "ama"], ["because", "çünkü"], ["so", "bu yüzden"],
+        ["also", "ayrıca"], ["for example", "örneğin"], ["first, then, after that", "önce, sonra, ondan sonra"]
+      ] },
+      { b: 'If you forget a word', tr: 'Bir kelimeyi unutursan', l: [
+        ["I don't know the word in English, but…", "İngilizcesini bilmiyorum ama…"],
+        ["It's a kind of…", "Bir çeşit…"],
+        ["It's something you use for…", "…için kullandığın bir şey"],
+        ["How do you say 'silgi' in English?", "'Silgi' İngilizce nasıl denir?"]
+      ] },
+      { b: 'Hello & goodbye', tr: 'Başlarken ve bitirirken', l: [
+        ["Good morning, teacher!", "Günaydın öğretmenim!"],
+        ["I'm fine, thank you. And you?", "İyiyim, teşekkürler. Ya siz?"],
+        ["Nice to meet you.", "Tanıştığımıza memnun oldum."],
+        ["Thank you very much. Goodbye!", "Çok teşekkürler. Hoşça kalın!"],
+        ["Have a nice day!", "İyi günler!"]
+      ] }
+    ];
+
+    var LISTE = [
+      ['🗣️', 'Full sentences', 'Tam cümle kur: "Pizza." değil → "My favourite food is pizza."'],
+      ['💬', 'Say why', '"because…" ile bir sebep söyle.'],
+      ['➕', 'Add one more thing', 'Bir detay ya da örnek ekle: "Also…", "For example…", "Last week…"'],
+      ['🤔', 'Don\'t stay silent', 'Düşünürken "Hmm, let me think…" de. Anlamazsan: "Could you repeat that, please?"'],
+      ['🐢', 'Slow and clear', 'Yavaş, net ve yüksek sesle konuş. Acele etme!'],
+      ['😊', 'Smile & look at your teacher', 'Gülümse, öğretmenine bak, dik otur.'],
+      ['🌈', 'Mistakes are OK', 'Hata yaparsan dert etme, devam et. Önemli olan konuşmak!'],
+      ['👋', 'Hello and thank you', '"Good morning!" ile başla, "Thank you!" ile bitir.'],
+      ['😴', 'Sleep well, eat breakfast', 'Erken yat, sabah kahvaltını yap. Dinlenmiş beyin daha iyi konuşur!']
+    ];
+
+    // Kendini tanıt formu: [anahtar, etiket, türkçe ipucu, örnek değer, geniş mi]
+    var ALANLAR = [
+      ['isim', 'Name', 'adın', 'Eylül'],
+      ['yas', 'Age', 'yaşın', 'ten'],
+      ['sehir', 'City', 'şehrin', 'Istanbul'],
+      ['okul', 'School', 'okulun', 'Bahçeşehir College'],
+      ['aile', 'I live with…', 'kimlerle yaşıyorsun', 'my mum and my dad', true],
+      ['hayvan', 'Pet', 'evcil hayvan – yoksa boş bırak', '', true],
+      ['ders', 'Favourite subject', 'en sevdiğin ders', 'English'],
+      ['neden', '…because', 'neden?', 'it is fun'],
+      ['hobi', 'Hobbies', 'hobilerin', 'reading books and dancing', true],
+      ['yemek', 'Favourite food', 'en sevdiğin yemek', 'pizza'],
+      ['meslek', 'Dream job', 'hayalindeki meslek', 'a vet']
+    ];
+
+    /* =========================================================
+       KAYIT – tarayıcıda saklanır; çalışmazsa sayfa yine çalışır
+       ========================================================= */
+    var ANAHTAR = 'eylul-ingilizce-v1';
+    var durum = {};
+    try { durum = JSON.parse(localStorage.getItem(ANAHTAR)) || {}; } catch (e) { durum = {}; }
+    durum.konular = durum.konular || {};
+    durum.liste = durum.liste || {};
+    durum.sayac = durum.sayac || 0;
+    function kaydet() { try { localStorage.setItem(ANAHTAR, JSON.stringify(durum)); } catch (e) {} }
+
+    /* =========================================================
+       YARDIMCILAR
+       ========================================================= */
+    var SES_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+    function $(id) { return document.getElementById(id); }
+    function el(tag, cls, html) {
+      var e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (html != null) e.innerHTML = html;
+      return e;
+    }
+    function sesBtn(metin, kucuk) {
+      var b = el('button', 'ses' + (kucuk ? ' kucuk' : ''), SES_SVG);
+      b.type = 'button';
+      b.setAttribute('data-say', metin);
+      b.setAttribute('aria-label', 'Listen: ' + metin);
+      return b;
+    }
+    var toastZaman = null;
+    function toast(m) {
+      var t = $('toast');
+      t.textContent = m;
+      t.classList.add('goster');
+      clearTimeout(toastZaman);
+      toastZaman = setTimeout(function () { t.classList.remove('goster'); }, 3800);
+    }
+    function karistir(a) {
+      for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+      return a;
+    }
+
+    /* =========================================================
+       SESLİ OKUMA (tarayıcının kendi İngilizce sesi)
+       ========================================================= */
+    var konusma = ('speechSynthesis' in window) ? window.speechSynthesis : null;
+    var secilenSes = null, yavas = false, aktifSoz = null, aktifEl = null;
+    var TERCIH = ['Google UK English Female', 'Google US English', 'Samantha', 'Microsoft Libby', 'Microsoft Sonia', 'Microsoft Aria', 'Microsoft Jenny', 'Karen', 'Serena', 'Daniel', 'Moira', 'Tessa'];
+
+    function sesBul() {
+      if (!konusma) return;
+      var en = konusma.getVoices().filter(function (v) { return /^en([-_]|$)/i.test(v.lang); });
+      if (!en.length) { secilenSes = null; return; }
+      for (var i = 0; i < TERCIH.length; i++) {
+        for (var j = 0; j < en.length; j++) {
+          if (en[j].name.indexOf(TERCIH[i]) === 0) { secilenSes = en[j]; return; }
+        }
+      }
+      secilenSes = en.filter(function (v) { return /en[-_]GB/i.test(v.lang); })[0] ||
+                   en.filter(function (v) { return /en[-_]US/i.test(v.lang); })[0] || en[0];
+    }
+    if (konusma) {
+      sesBul();
+      if (konusma.addEventListener) konusma.addEventListener('voiceschanged', sesBul);
+      else konusma.onvoiceschanged = sesBul;
+    }
+
+    function vurguKaldir() { if (aktifEl) aktifEl.classList.remove('calisiyor'); aktifEl = null; }
+
+    function soyle(metin, kaynak, bitince) {
+      if (!konusma) { toast('Bu tarayıcı sesli okumayı desteklemiyor 😕 Chrome ya da Safari ile dene.'); if (bitince) bitince(); return; }
+      // Aynı düğmeye tekrar basınca sustur
+      if (kaynak && kaynak === aktifEl && (konusma.speaking || konusma.pending)) { aktifSoz = null; konusma.cancel(); vurguKaldir(); return; }
+      var mesgul = konusma.speaking || konusma.pending;
+      aktifSoz = null;
+      konusma.cancel();
+      vurguKaldir();
+      var soz = new SpeechSynthesisUtterance(metin.replace(/→/g, ', ').replace(/…/g, '...'));
+      if (secilenSes) { soz.voice = secilenSes; soz.lang = secilenSes.lang; } else { soz.lang = 'en-GB'; }
+      soz.rate = yavas ? 0.68 : 0.92;
+      soz.pitch = 1.05;
+      var bitti = false;
+      function son() {
+        if (bitti) return; bitti = true;
+        if (aktifSoz === soz) { aktifSoz = null; vurguKaldir(); }
+        if (bitince) bitince();
+      }
+      soz.onend = son; soz.onerror = son;
+      aktifSoz = soz;
+      if (kaynak) { aktifEl = kaynak; kaynak.classList.add('calisiyor'); }
+      // Bazı telefonlar cancel'dan hemen sonra konuşmayı yutuyor; kısa bir ara ver
+      if (mesgul) setTimeout(function () { if (aktifSoz === soz) konusma.speak(soz); }, 90);
+      else konusma.speak(soz);
+    }
+
+    $('hizBtn').addEventListener('click', function () {
+      yavas = !yavas;
+      this.setAttribute('aria-pressed', String(yavas));
+      this.textContent = yavas ? '🐢 Slow' : '🐇 Normal';
+      toast(yavas ? '🐢 Yavaş okuma açık' : '🐇 Normal hız');
+    });
+
+    /* =========================================================
+       MİKROFON – konuşmayı yazıya çevirir (Chrome'da en iyi)
+       ========================================================= */
+    var Tanima = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var tani = null;
+
+    function dinle(btn, cikti, bitince) {
+      if (!Tanima) {
+        toast('🎤 Bu tarayıcı sesini yazıya çeviremiyor. Chrome ile dene – ya da sesli cevap ver, sonra örnek cevaba bak.');
+        return;
+      }
+      if (tani) { tani.stop(); return; }
+      if (konusma) { aktifSoz = null; konusma.cancel(); vurguKaldir(); }
+      var r = new Tanima();
+      r.lang = 'en-US';
+      r.interimResults = true;
+      r.continuous = true;
+      var parcalar = [], hata = null, sure;
+      r.onresult = function (e) {
+        parcalar = [];
+        for (var i = 0; i < e.results.length; i++) {
+          var t = e.results[i][0].transcript.trim();
+          if (!t) continue;
+          var onceki = parcalar[parcalar.length - 1];
+          // Android bazen aynı cümleyi büyüyerek tekrarlar – tekrarı ayıkla
+          if (onceki && t.toLowerCase().indexOf(onceki.toLowerCase()) === 0) parcalar[parcalar.length - 1] = t;
+          else parcalar.push(t);
+        }
+        cikti.textContent = parcalar.join(' ') || '…';
+      };
+      r.onerror = function (e) { hata = e.error; };
+      r.onend = function () {
+        clearTimeout(sure);
+        tani = null;
+        btn.classList.remove('dinliyor');
+        btn.textContent = btn.getAttribute('data-etiket');
+        if (hata === 'not-allowed' || hata === 'service-not-allowed') {
+          cikti.hidden = true;
+          toast('🎤 Mikrofon izni gerekiyor. Tarayıcının sorduğu izne "İzin ver" de.');
+          return;
+        }
+        var metin = parcalar.join(' ');
+        if (!metin) cikti.textContent = '…';
+        if (bitince) bitince(metin);
+      };
+      tani = r;
+      btn.classList.add('dinliyor');
+      btn.textContent = '⏹ Stop';
+      cikti.hidden = false;
+      cikti.textContent = '👂 Listening… speak now!';
+      try { r.start(); } catch (e) { tani = null; btn.classList.remove('dinliyor'); btn.textContent = btn.getAttribute('data-etiket'); return; }
+      sure = setTimeout(function () { if (tani === r) r.stop(); }, 75000);
+    }
+
+    function kelimeler(s) {
+      return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9' ]+/g, ' ').split(/\s+/).filter(Boolean);
+    }
+    function benzerlik(hedef, soylenen) {
+      var h = kelimeler(hedef), s = {};
+      kelimeler(soylenen).forEach(function (w) { s[w] = true; });
+      if (!h.length) return 0;
+      return Math.round(100 * h.filter(function (w) { return s[w]; }).length / h.length);
+    }
+
+    function yorumYaz(kutu, metin, hedef) {
+      kutu.innerHTML = '';
+      var k = metin.trim() ? metin.trim().split(/\s+/).length : 0;
+      if (!k) { kutu.appendChild(el('p', 'ipucu', 'Seni duyamadım 🙉 Mikrofona yakın konuş ve tekrar dene.')); return; }
+      var rozet = ['🗣️ ' + k + ' words'], ipucu;
+      if (hedef != null) {
+        var y = benzerlik(hedef, metin);
+        rozet.push((y >= 80 ? '🌟 ' : y >= 50 ? '⭐ ' : '💪 ') + y + '% of your speech');
+        ipucu = y >= 80 ? 'Harika okudun! 🤩 Şimdi metne bakmadan anlatmayı dene.'
+              : y >= 50 ? 'Çok iyi! Bir kez daha dinle, sonra tekrar oku.'
+              : 'Güzel başlangıç! Yavaş ve net oku, cümle cümle ilerle. 💪';
+      } else {
+        var neden = /\bbecause\b/i.test(metin);
+        if (k >= 5) rozet.push('⭐ Full sentence');
+        if (neden) rozet.push('⭐ because');
+        if (/\b(and|but|also|so|then|after that|for example)\b/i.test(metin)) rozet.push('⭐ Linking words');
+        if (k >= 15) rozet.push('🌟 Long answer');
+        ipucu = k < 5 ? 'İpucu: Tam cümleyle cevap ver. 🙂'
+              : !neden ? 'İpucu: "because…" ile bir sebep ekleyebilirsin!'
+              : k < 15 ? 'Çok iyi! Bir detay daha ekle: "Also…" ya da "For example…"'
+              : 'Süpersin! Tam bir sınav cevabı! 🏆';
+      }
+      rozet.forEach(function (r) { kutu.appendChild(el('span', 'rozet-k', r)); });
+      kutu.appendChild(el('p', 'ipucu', ipucu));
+    }
+
+    /* =========================================================
+       SÜPER CEVAP FORMÜLÜ
+       ========================================================= */
+    (function () {
+      var s = $('formulSoru');
+      s.appendChild(sesBtn(FORMUL.soru, true));
+      s.appendChild(document.createTextNode('Teacher: "' + FORMUL.soru + '"'));
+      FORMUL.basamaklar.forEach(function (b) {
+        var r = el('div', 'basamak' + (b.super ? ' super' : ''));
+        r.appendChild(el('span', 'yuz', b.yuz));
+        var m = el('div', 'metin', '<small>' + b.etiket + '</small>');
+        m.appendChild(document.createTextNode(b.metin));
+        r.appendChild(m);
+        r.appendChild(sesBtn(b.metin, true));
+        $('merdiven').appendChild(r);
+      });
+    })();
+
+    /* =========================================================
+       KENDİNİ TANIT
+       ========================================================= */
+    var tanitDeger = {};
+    var form = $('tanitForm');
+    ALANLAR.forEach(function (a) {
+      var kayitli = durum.tanit && typeof durum.tanit[a[0]] === 'string' ? durum.tanit[a[0]] : a[3];
+      tanitDeger[a[0]] = kayitli;
+      var d = el('div', 'alan' + (a[4] ? ' genis' : ''));
+      var l = el('label', null, a[1] + ' <small>(' + a[2] + ')</small>');
+      l.htmlFor = 'f-' + a[0];
+      var i = el('input');
+      i.id = 'f-' + a[0]; i.name = a[0]; i.value = kayitli;
+      i.placeholder = a[3] || 'a cat called Pamuk';
+      i.setAttribute('autocapitalize', 'off'); i.spellcheck = false;
+      d.appendChild(l); d.appendChild(i);
+      form.appendChild(d);
+    });
+
+    var SAYILAR = { 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven', 12: 'twelve' };
+    function tanitMetni() {
+      var v = {};
+      ALANLAR.forEach(function (a) { v[a[0]] = (tanitDeger[a[0]] || '').trim() || a[3]; });
+      var yas = SAYILAR[v.yas] || v.yas;
+      var hayvan = (tanitDeger.hayvan || '').trim();
+      var c = [
+        'Hello! My name is ' + v.isim + '.',
+        "I'm " + yas + ' years old and I live in ' + v.sehir + '.',
+        "I'm in the fifth grade at " + v.okul + '.',
+        'I live with ' + v.aile + '.',
+        hayvan ? "I've got " + hayvan + '.' : "I haven't got a pet, but I'd love to have one.",
+        'My favourite subject is ' + v.ders + ', because ' + v.neden + '.',
+        'In my free time, I like ' + v.hobi + '.',
+        'My favourite food is ' + v.yemek + '.',
+        'When I grow up, I want to be ' + v.meslek + '.'
+      ];
+      if (/^ey/i.test(v.isim)) c.push('Fun fact: my name means September in Turkish!');
+      c.push('Thank you for listening!');
+      return c.join(' ');
+    }
+    function tanitGuncelle() { $('tanitMetin').textContent = tanitMetni(); }
+    form.addEventListener('input', function (e) {
+      if (!e.target.name) return;
+      tanitDeger[e.target.name] = e.target.value;
+      durum.tanit = tanitDeger;
+      kaydet();
+      tanitGuncelle();
+    });
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
+    $('tanitSifirla').addEventListener('click', function () {
+      ALANLAR.forEach(function (a) { tanitDeger[a[0]] = a[3]; $('f-' + a[0]).value = a[3]; });
+      durum.tanit = null; kaydet(); tanitGuncelle();
+    });
+    $('tanitDinle').addEventListener('click', function () { soyle(tanitMetni(), this); });
+    $('tanitMik').addEventListener('click', function () {
+      var hedef = tanitMetni();
+      dinle(this, $('tanitTranskript'), function (m) { yorumYaz($('tanitYorum'), m, hedef); });
+    });
+    tanitGuncelle();
+
+    /* =========================================================
+       KONULAR
+       ========================================================= */
+    var konuKutu = $('konular');
+    KONULAR.forEach(function (t) {
+      var d = el('details', 'konu' + (durum.konular[t.id] ? ' bitti' : ''));
+      d.id = 'konu-' + t.id;
+      d.appendChild(el('summary', null,
+        '<span class="konu-emoji" aria-hidden="true">' + t.e + '</span>' +
+        '<span class="konu-ad"><b>' + t.t + '</b><small>' + t.tr + ' · ' + t.qa.length + ' questions</small></span>' +
+        '<span class="konu-tik" aria-hidden="true">✓</span><span class="ok" aria-hidden="true"></span>'));
+      var g = el('div', 'konu-govde');
+      t.qa.forEach(function (p) {
+        var r = el('div', 'soru');
+        var ust = el('div', 'soru-ust');
+        ust.appendChild(sesBtn(p[0]));
+        var q = el('p', 'soru-metin'); q.textContent = p[0];
+        ust.appendChild(q);
+        var ac = el('button', 'cevap-ac', '💡 Sample answer');
+        ac.type = 'button'; ac.setAttribute('data-ac', ''); ac.setAttribute('aria-expanded', 'false');
+        ust.appendChild(ac);
+        r.appendChild(ust);
+        var c = el('div', 'cevap'); c.hidden = true;
+        c.appendChild(sesBtn(p[1], true));
+        var cp = el('p'); cp.textContent = p[1];
+        c.appendChild(cp);
+        r.appendChild(c);
+        g.appendChild(r);
+      });
+      g.appendChild(el('p', 'alt-baslik', '📝 Useful words – dokun, dinle'));
+      var kk = el('div', 'kelimeler');
+      t.w.forEach(function (w) {
+        var b = el('button', 'kelime'); b.type = 'button'; b.textContent = w; b.setAttribute('data-say', w);
+        kk.appendChild(b);
+      });
+      g.appendChild(kk);
+      g.appendChild(el('div', 'hatirla', t.tip));
+      var alt = el('div', 'konu-alt');
+      var hepsi = el('button', 'btn sari', '💡 Show all answers'); hepsi.type = 'button'; hepsi.setAttribute('data-hepsi', '');
+      var bitti = el('button', 'btn yesil'); bitti.type = 'button'; bitti.setAttribute('data-bitti', t.id);
+      bitti.textContent = durum.konular[t.id] ? '✅ Practised!' : '✅ I practised this topic';
+      alt.appendChild(hepsi); alt.appendChild(bitti);
+      g.appendChild(alt);
+      d.appendChild(g);
+      konuKutu.appendChild(d);
+
+      var o = el('option'); o.value = t.id; o.textContent = t.e + ' ' + t.t;
+      $('sinavKonu').appendChild(o);
+    });
+
+    function ilerlemeGuncelle() {
+      var n = KONULAR.filter(function (t) { return durum.konular[t.id]; }).length;
+      $('ilerlemeYazi').textContent = n + ' / ' + KONULAR.length;
+      $('ilerlemeBar').style.width = (100 * n / KONULAR.length) + '%';
+    }
+    ilerlemeGuncelle();
+
+    /* =========================================================
+       RESİMLER
+       ========================================================= */
+    SAHNELER.forEach(function (s) {
+      var kutu = el('div', 'sahne-kutu');
+      kutu.appendChild(el('h3', null, s.baslik + ' <small>· ' + s.tr + '</small>'));
+      var sahne = el('div', 'sahne ' + s.id);
+      sahne.setAttribute('role', 'img');
+      sahne.setAttribute('aria-label', s.baslik);
+      var liste = el('ol', 'cumleler');
+      var no = 0;
+      function cumleEkle(metin, iz) {
+        no++;
+        var li = el('li');
+        var b = el('button', 'cumle');
+        b.type = 'button';
+        b.setAttribute('data-say', metin);
+        if (iz != null) b.setAttribute('data-iz', s.id + '-' + iz);
+        b.innerHTML = '<span class="no">' + no + '</span>';
+        var sp = el('span'); sp.textContent = metin;
+        b.appendChild(sp);
+        li.appendChild(b);
+        liste.appendChild(li);
+      }
+      cumleEkle(s.giris, null);
+      s.o.forEach(function (o, i) {
+        var b = el('button', 'o' + (o.k ? ' ' + o.k : '') + (o.sus ? ' sus' : ''));
+        b.type = 'button';
+        b.textContent = o.e;
+        b.style.left = o.x + '%';
+        b.style.top = o.y + '%';
+        if (o.sus) { b.tabIndex = -1; b.setAttribute('aria-hidden', 'true'); }
+        else {
+          b.id = s.id + '-' + i;
+          var duyulan = s.acik ? o.s : (o.w || o.s);
+          b.setAttribute('data-say', duyulan);
+          b.setAttribute('data-iz', s.id + '-' + i);
+          b.setAttribute('aria-label', duyulan);
+          cumleEkle(o.s, i);
+        }
+        sahne.appendChild(b);
+      });
+      cumleEkle(s.son, null);
+      kutu.appendChild(sahne);
+      if (!s.acik) {
+        liste.hidden = true;
+        var goster = el('button', 'btn sari', '👀 Show sample sentences');
+        goster.type = 'button';
+        goster.style.marginTop = '12px';
+        goster.addEventListener('click', function () {
+          liste.hidden = !liste.hidden;
+          goster.textContent = liste.hidden ? '👀 Show sample sentences' : '🙈 Hide sample sentences';
+        });
+        kutu.appendChild(goster);
+      }
+      kutu.appendChild(liste);
+      $('sahneler').appendChild(kutu);
+    });
+
+    function vurgula(id) {
+      var o = document.getElementById(id);
+      if (!o) return;
+      o.classList.remove('parla');
+      void o.offsetWidth; // animasyonu yeniden başlat
+      o.classList.add('parla');
+    }
+
+    /* =========================================================
+       SİHİRLİ CÜMLELER
+       ========================================================= */
+    IFADELER.forEach(function (g) {
+      var k = el('div', 'grup kart');
+      k.appendChild(el('h3', null, g.b));
+      k.appendChild(el('p', 'bolum-tr', g.tr));
+      g.l.forEach(function (p) {
+        var b = el('button', 'ifade');
+        b.type = 'button';
+        b.setAttribute('data-say', p[0]);
+        b.innerHTML = '<span class="ikon">' + SES_SVG + '</span>';
+        var sp = el('span');
+        var bb = el('b'); bb.textContent = p[0];
+        var sm = el('small'); sm.textContent = p[1];
+        sp.appendChild(bb); sp.appendChild(sm);
+        b.appendChild(sp);
+        k.appendChild(b);
+      });
+      $('gruplar').appendChild(k);
+    });
+
+    /* =========================================================
+       SINAV PROVASI
+       ========================================================= */
+    var deste = [], aktif = null, zamanId = null, soruNo = 0, SURE = 45;
+    function sayacYaz() {
+      $('sinavSayac').textContent = durum.sayac;
+      $('sinavSayacYazi').textContent = durum.sayac === 1 ? 'question' : 'questions';
+    }
+    sayacYaz();
+
+    function desteKur() {
+      var secim = $('sinavKonu').value;
+      deste = [];
+      KONULAR.forEach(function (t) {
+        if (secim === 'all' || secim === t.id) t.qa.forEach(function (p) { deste.push({ q: p[0], a: p[1], t: t }); });
+      });
+      karistir(deste);
+    }
+    function zamanDur() { if (zamanId) { clearInterval(zamanId); zamanId = null; } }
+    function zamanBaslat() {
+      zamanDur();
+      var bas = Date.now(), kutu = $('zamanKutu');
+      kutu.hidden = false;
+      kutu.classList.remove('bitti');
+      function tik() {
+        var k = Math.max(0, SURE - (Date.now() - bas) / 1000);
+        $('zamanBar').style.width = (100 * k / SURE) + '%';
+        $('zamanYazi').textContent = Math.ceil(k) + 's';
+        if (k <= 0) { zamanDur(); kutu.classList.add('bitti'); $('zamanYazi').textContent = "⏰ Time's up!"; }
+      }
+      tik();
+      zamanId = setInterval(tik, 200);
+    }
+    function soruSor() {
+      var no = ++soruNo, basladi = false;
+      function bas() { if (!basladi && no === soruNo) { basladi = true; zamanBaslat(); } }
+      zamanDur();
+      $('zamanKutu').hidden = true;
+      soyle(aktif.q, $('sinavTekrar'), bas);
+      setTimeout(bas, 8000); // ses bitti haberi gelmezse yine de başlat
+    }
+    $('sinavKonu').addEventListener('change', function () { deste = []; });
+    $('sinavYeni').addEventListener('click', function () {
+      if (tani) tani.stop();
+      if (!deste.length) desteKur();
+      aktif = deste.pop();
+      var b = $('sinavSoru');
+      b.innerHTML = '<span class="konu-etiket">' + aktif.t.e + ' ' + aktif.t.t + '</span>';
+      b.appendChild(document.createTextNode(aktif.q));
+      this.textContent = '⏭ Next question';
+      ['sinavTekrar', 'sinavMik', 'sinavCevap'].forEach(function (id) { $(id).disabled = false; });
+      $('sinavTranskript').hidden = true;
+      $('sinavYorum').innerHTML = '';
+      $('sinavOrnek').hidden = true;
+      $('sinavCevap').textContent = '💡 Sample answer';
+      durum.sayac++; kaydet();
+      sayacYaz();
+      soruSor();
+    });
+    $('sinavTekrar').addEventListener('click', function () { if (aktif) soyle(aktif.q, this); });
+    $('sinavMik').addEventListener('click', function () {
+      dinle(this, $('sinavTranskript'), function (m) { yorumYaz($('sinavYorum'), m, null); });
+    });
+    $('sinavCevap').addEventListener('click', function () {
+      if (!aktif) return;
+      var o = $('sinavOrnek');
+      if (!o.hidden) { o.hidden = true; this.textContent = '💡 Sample answer'; return; }
+      o.innerHTML = '';
+      o.appendChild(sesBtn(aktif.a, true));
+      var p = el('p'); p.textContent = aktif.a;
+      o.appendChild(p);
+      o.hidden = false;
+      this.textContent = '🙈 Hide answer';
+    });
+
+    /* =========================================================
+       SINAV GÜNÜ LİSTESİ
+       ========================================================= */
+    LISTE.forEach(function (m, i) {
+      var l = el('label', 'madde');
+      var c = el('input'); c.type = 'checkbox'; c.checked = !!durum.liste[i];
+      c.addEventListener('change', function () {
+        durum.liste[i] = c.checked; kaydet();
+        var hepsi = LISTE.every(function (_, j) { return durum.liste[j]; });
+        if (c.checked && hepsi) toast('🎉 You are ready, Eylül! Good luck! 🍀');
+      });
+      l.appendChild(c);
+      l.appendChild(el('span', 'kutucuk', '✓'));
+      var s = el('span');
+      var b = el('b'); b.textContent = m[0] + ' ' + m[1];
+      var sm = el('small'); sm.textContent = m[2];
+      s.appendChild(b); s.appendChild(sm);
+      l.appendChild(s);
+      $('liste').appendChild(l);
+    });
+
+    /* =========================================================
+       TIKLAMALAR (tek yerden)
+       ========================================================= */
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+
+      var ac = t.closest('[data-ac]');
+      if (ac) {
+        var c = ac.closest('.soru').querySelector('.cevap');
+        c.hidden = !c.hidden;
+        ac.setAttribute('aria-expanded', String(!c.hidden));
+        return;
+      }
+
+      var hepsi = t.closest('[data-hepsi]');
+      if (hepsi) {
+        var g = hepsi.closest('.konu-govde');
+        var cevaplar = g.querySelectorAll('.cevap');
+        var ac2 = Array.prototype.some.call(cevaplar, function (c) { return c.hidden; });
+        Array.prototype.forEach.call(cevaplar, function (c) { c.hidden = !ac2; });
+        Array.prototype.forEach.call(g.querySelectorAll('[data-ac]'), function (b) { b.setAttribute('aria-expanded', String(ac2)); });
+        hepsi.textContent = ac2 ? '🙈 Hide all answers' : '💡 Show all answers';
+        return;
+      }
+
+      var bitti = t.closest('[data-bitti]');
+      if (bitti) {
+        var id = bitti.getAttribute('data-bitti');
+        durum.konular[id] = !durum.konular[id];
+        kaydet();
+        $('konu-' + id).classList.toggle('bitti', !!durum.konular[id]);
+        bitti.textContent = durum.konular[id] ? '✅ Practised!' : '✅ I practised this topic';
+        ilerlemeGuncelle();
+        if (durum.konular[id]) {
+          var n = KONULAR.filter(function (k) { return durum.konular[k.id]; }).length;
+          toast(n === KONULAR.length ? '🏆 All topics done! You are a superstar, Eylül!' : '⭐ Great job! ' + n + ' / ' + KONULAR.length + ' topics');
+        }
+        return;
+      }
+
+      var s = t.closest('[data-say]');
+      if (s) {
+        soyle(s.getAttribute('data-say'), s);
+        var iz = s.getAttribute('data-iz');
+        if (iz) vurgula(iz);
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
