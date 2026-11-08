@@ -307,6 +307,9 @@
       font-size: clamp(19px, 4.6vw, 24px); font-weight: 800; min-height: 64px;
     }
     .balon::before { content: ""; position: absolute; left: -9px; top: 18px; border: 10px solid transparent; border-right-color: var(--mor-acik); border-left: 0; }
+    .balon .ek-soru { display: block; margin-top: 8px; font-size: .82em; color: var(--pembe); }
+    .karsilastir h3 { font-size: 22px; }
+    .karsilastir .bolum-tr { margin: 6px 0 4px; font-weight: 600; }
     .balon .konu-etiket { display: block; font-size: 13px; font-weight: 800; color: var(--mor); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
     .zaman { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
     .zaman[hidden] { display: none; }
@@ -381,7 +384,7 @@
       <p class="alt">Let's get ready for your <b>English Speaking Exam</b>. You can do it! 💪</p>
       <p class="tr">Her cümlenin yanındaki <b>🔊</b> düğmesine bas, doğru telaffuzu dinle ve yüksek sesle tekrar et. <b>🎤</b> düğmesiyle kendi sesini de deneyebilirsin. Ses gelmezse telefonun sesini aç.</p>
       <div class="ilerleme">
-        <div class="ilerleme-ust"><span>Topics practised ⭐</span><b id="ilerlemeYazi">0 / 13</b></div>
+        <div class="ilerleme-ust"><span>Topics practised ⭐</span><b id="ilerlemeYazi">0 / 17</b></div>
         <div class="bar"><i id="ilerlemeBar"></i></div>
       </div>
     </div>
@@ -445,7 +448,7 @@
     <section id="topics">
       <h2>📚 Speaking Topics</h2>
       <p class="bolum-tr">Konular – öğretmenin bu soruları sorabilir</p>
-      <p class="not">Bir konuya dokun, açılsın. Önce soruyu <b>dinle</b> ve <b>kendin cevap ver</b>. Sonra <b>💡 Sample answer</b> ile örnek cevaba bak. Örnek cevaplardaki bilgileri <b>kendi hayatına göre değiştir!</b> Bitirince <b>✅</b> ile işaretle.</p>
+      <p class="not">Bir konuya dokun, açılsın. Önce soruyu <b>dinle</b> ve <b>kendin cevap ver</b>. Sonra <b>💡 Sample answer</b> ile örnek cevaba bak. Cevaplar <b>A2 seviyesinde</b>: uzun, bağlaçlı ve farklı zamanlarla. <b>Ezberleme</b>, yapıyı öğren ve kendi cümlelerini kur. Bilgileri kendi hayatına göre değiştir. Bitirince <b>✅</b> ile işaretle.</p>
       <div id="konular"></div>
     </section>
 
@@ -459,9 +462,15 @@
         <span><b>2.</b> There is a… / There are two…</span>
         <span><b>3.</b> A boy <b>is playing</b>…</span>
         <span><b>4.</b> on the left / on the right / in the middle</span>
-        <span><b>5.</b> I think…</span>
+        <span><b>5.</b> It looks like… / They might be…</span>
+        <span><b>6.</b> I think… / I'd prefer…</span>
       </div>
       <div id="sahneler"></div>
+      <div class="kart karsilastir">
+        <h3>🆚 Compare the two pictures</h3>
+        <p class="bolum-tr">Öğretmen <b>"Compare the pictures"</b> derse: <b>Both…</b> ile benzerliği, <b>but / while</b> ile farkı söyle, sonra hangisini tercih ettiğini anlat.</p>
+        <ol class="cumleler" id="karsilastir"></ol>
+      </div>
     </section>
 
     <!-- ===================== SİHİRLİ CÜMLELER ===================== -->
@@ -475,7 +484,7 @@
     <section id="exam">
       <h2>🎯 Mock Exam</h2>
       <p class="bolum-tr">Sınav provası</p>
-      <p class="not">Gerçek sınav gibi! Öğretmen soruyu <b>sesli</b> soracak. <b>45 saniye</b> içinde Süper Cevap Formülü ile cevap ver. <b>🎤 Answer</b> ile konuşursan söylediklerin yazıya dökülür ve yıldız kazanırsın. ⭐</p>
+      <p class="not">Gerçek sınav gibi! Öğretmen soruyu <b>sesli</b> soracak. <b>45 saniye</b> içinde Süper Cevap Formülü ile cevap ver. <b>❓ Follow-up</b> ile öğretmenin ek sorusunu (Why? Tell me more…) da dene. <b>🎤 Answer</b> ile konuşursan söylediklerin yazıya dökülür ve yıldız kazanırsın. ⭐</p>
       <div class="sinav kart">
         <div class="sinav-ust">
           <label for="sinavKonu">Topic: <select id="sinavKonu"><option value="all">🎲 All topics</option></select></label>
@@ -489,6 +498,7 @@
         <div class="dugmeler">
           <button class="btn mor" type="button" id="sinavYeni">▶️ Start</button>
           <button class="btn" type="button" id="sinavTekrar" disabled>🔁 Repeat</button>
+          <button class="btn" type="button" id="sinavEk" disabled>❓ Follow-up</button>
           <button class="btn pembe" type="button" id="sinavMik" data-etiket="🎤 Answer" disabled>🎤 Answer</button>
           <button class="btn sari" type="button" id="sinavCevap" disabled>💡 Sample answer</button>
         </div>
@@ -528,157 +538,211 @@
     var KONULAR = [
       { id: 'me', e: '🙋‍♀️', t: 'All About Me', tr: 'Kendimi tanıtıyorum',
         qa: [
-          ["What's your name?", "My name is Eylül. Nice to meet you!"],
-          ["How do you spell your name?", "E, Y, L, U, L. Eylül."],
-          ["How old are you?", "I'm ten years old."],
-          ["Where are you from?", "I'm from Turkey. I live in Sinop. It's a small city by the Black Sea."],
-          ["When is your birthday?", "My birthday is on the twelfth of March."],
-          ["What grade are you in?", "I'm in the fifth grade at Bahçeşehir College."],
-          ["Tell me something interesting about you.", "My name, Eylül, means September in Turkish. And I'm a big Fenerbahçe fan!"]
+          ["What's your name?", "My name is Eylül. It's a Turkish name and it means September. Nice to meet you!"],
+          ["How do you spell your name?", "Sure! It's E, Y, L, U, L. In Turkish, there are two dots on the U, but in English I just say U."],
+          ["How old are you?", "I'm ten years old. I'm the oldest child in my family, because my sister Defne is younger than me."],
+          ["Where are you from?", "I'm from Turkey. I live in Sinop, which is a small and beautiful city by the Black Sea. I really like living there, because it's quiet and close to the sea."],
+          ["When is your birthday?", "My birthday is on the twelfth of March. I usually celebrate it with my family and my friends."],
+          ["What grade are you in?", "I'm in the fifth grade at Bahçeşehir College. This year is a bit harder than last year, but I'm really enjoying it."],
+          ["How would you describe yourself?", "I think I'm friendly, cheerful and quite sporty. I love being with my friends and I always have lots of energy!"],
+          ["Tell me something interesting about you.", "Well, my name, Eylül, means September in Turkish. Also, I'm a huge Fenerbahçe fan, so my favourite colours are yellow and navy blue!"]
         ],
-        w: ['name', 'surname', 'years old', 'I am from', 'I live in', 'birthday', 'grade', 'nice to meet you'],
-        tip: 'Kısa cevap verme: "Ten." yerine <b>"I\'m ten years old."</b> de. Adını hecelerken harfleri İngilizce söyle: E (<i>i</i>) – Y (<i>vay</i>) – L (<i>el</i>) – U (<i>yu</i>) – L (<i>el</i>). Ü harfi İngilizcede yok, "U" de. Tarihler: the first, second, third, fourth, fifth… twelfth.'
+        w: ['name', 'years old', 'I am from', 'I live in', 'which is', 'birthday', 'celebrate', 'grade', 'friendly', 'cheerful', 'sporty', 'the oldest'],
+        tip: 'Kısa cevap verme, her cevaba <b>bir cümle daha</b> ekle. Adını hecelerken harfleri İngilizce söyle: E (<i>i</i>) – Y (<i>vay</i>) – L (<i>el</i>) – U (<i>yu</i>) – L (<i>el</i>). <b>which is…</b> ile cümleyi uzat: "I live in Sinop, <b>which is</b> a small city by the Black Sea."'
       },
       { id: 'family', e: '👪', t: 'My Family', tr: 'Ailem',
         qa: [
-          ["How many people are there in your family?", "There are four people in my family: my mum Büşra, my dad Ertan, my little sister Defne and me. We've also got a dog and a cat!"],
-          ["Have you got any brothers or sisters?", "Yes, I have. I've got a little sister. Her name is Defne."],
-          ["Tell me about your parents.", "My mum's name is Büşra and my dad's name is Ertan. They are very kind and they always help me."],
-          ["Have you got grandparents?", "Yes, I have. My grandpa's name is Nurettin and my grandma's name is Nilüfer. I love visiting them."],
-          ["Tell me about a person in your family.", "My uncle Onur lives in Switzerland. He helps people to get new hair! He is funny and kind, and I love him very much."],
-          ["What do you do together as a family?", "At the weekend, we have breakfast together. Sometimes we walk by the sea or watch Fenerbahçe matches on TV!"]
+          ["How many people are there in your family?", "There are four people in my family: my mum Büşra, my dad Ertan, my little sister Defne and me. We've also got a dog and a cat, so our house is never quiet!"],
+          ["Have you got any brothers or sisters?", "Yes, I've got a little sister called Defne. She's younger than me, so sometimes I help her with her homework."],
+          ["Tell me about your parents.", "My mum's name is Büşra and my dad's name is Ertan. They're very kind and supportive, and they always help me when I have a problem."],
+          ["Have you got grandparents?", "Yes, I have. My grandpa's name is Nurettin and my grandma's name is Nilüfer. I love visiting them, because they always tell me stories and my grandma cooks delicious food."],
+          ["Tell me about a person in your family.", "My uncle Onur lives in Zurich, in Switzerland. He works at a hair clinic and helps people to get new hair! He's really funny, and when he visits us, we always have a great time."],
+          ["What do you do together as a family?", "At the weekend, we usually have a big Turkish breakfast together. After that, we sometimes go for a walk by the sea or watch a Fenerbahçe match on TV."]
         ],
-        w: ['mum', 'dad', 'parents', 'sister', 'little sister', 'brother', 'grandma', 'grandpa', 'grandparents', 'uncle', 'aunt', 'cousin'],
-        tip: 'He / She ile fiile <b>-s</b> ekle: She <b>works</b>, he <b>lives</b>. Öğretmen <b>"What does your mother do?"</b> diye sorabilir, annenin ve babanın mesleğini İngilizce söyle: <i>My mum is a teacher / a nurse / a doctor… My dad is an engineer / a police officer / a driver…</i> Anneanne de babaanne de İngilizcede <b>grandma</b>.'
+        w: ['mum', 'dad', 'parents', 'little sister', 'grandma', 'grandpa', 'grandparents', 'uncle', 'aunt', 'cousin', 'supportive', 'younger than', 'older than', 'look like'],
+        tip: 'He / She ile fiile <b>-s</b> ekle: She <b>works</b>, he <b>lives</b>. Öğretmen <b>"What does your mother do?"</b> diye sorabilir: <i>My mum is a teacher / a nurse / a doctor… My dad is an engineer / a police officer…</i> Benzerlik: <b>I look like my mum</b> (görünüş), <b>I\'m similar to my dad</b> (karakter).'
       },
-      { id: 'school', e: '🏫', t: 'My School', tr: 'Okulum',
+      { id: 'school', e: '🏫', t: 'School Life', tr: 'Okul hayatım',
         qa: [
-          ["What's your favourite subject? Why?", "My favourite subject is English, because it's fun and I can talk to people from other countries."],
-          ["What subjects do you have at school?", "I have Maths, Science, English, Turkish, Social Studies, Art, Music and PE."],
-          ["Which subject don't you like?", "I don't really like Maths, because it's difficult for me. But I always try hard!"],
-          ["What do you like about your school?", "I like my school, because my teachers are kind and I've got a lot of friends there."],
-          ["What do you do at break time?", "I chat with my friends and eat a snack. Sometimes we play games in the garden."],
-          ["How do you go to school?", "I go to school by school bus. It takes about twenty minutes."],
-          ["What is your school like?", "My school is big and modern. There is a library, a science lab, a gym and a big garden."]
+          ["What's your favourite subject? Why?", "My favourite subject is English, because it's fun and I can talk to people from all over the world. I also like PE, because I love doing sports."],
+          ["What subjects do you have at school?", "We have a lot of subjects, for example Maths, Science, English, Turkish, Social Studies, Art, Music and PE. English is my favourite one."],
+          ["Which subject is difficult for you?", "To be honest, Maths is a bit difficult for me. But I always try hard, and I think I'm getting better."],
+          ["What do you like about your school?", "I like my school, because my teachers are kind and I've got a lot of friends there. There are also lots of fun activities and clubs."],
+          ["What do you do at break time?", "At break time, I usually chat with my friends and have a snack. When the weather is nice, we play football in the garden."],
+          ["How do you go to school?", "I usually go to school by school bus. It takes about twenty minutes, so I chat with my friends on the way."],
+          ["What are the rules in your school?", "We must be on time and we must wear our school uniform. We mustn't run in the corridors and we mustn't use our phones in class."],
+          ["What is your school like?", "My school is big and modern. There's a library, a science lab, a gym and a big garden. I think it's one of the best schools in Sinop."]
         ],
-        w: ['Maths', 'Science', 'English', 'Turkish', 'Social Studies', 'Art', 'Music', 'PE', 'library', 'science lab', 'gym', 'canteen', 'break time', 'timetable', 'homework'],
-        tip: 'Ulaşım: <b>by</b> bus / by car / by metro – ama yürüyerek: <b>on foot</b>. Sevmediğin bir şey söylersen hemen olumlu bir şey ekle: <b>"…but I always try hard!"</b>'
+        w: ['Maths', 'Science', 'Social Studies', 'PE', 'library', 'science lab', 'gym', 'uniform', 'break time', 'timetable', 'homework', 'must', "mustn't", 'difficult', 'getting better'],
+        tip: 'Kurallar: <b>must</b> (zorunlu) / <b>mustn\'t</b> (yasak) / <b>don\'t have to</b> (gerekmez). Ulaşım: <b>by</b> bus, by car – ama <b>on foot</b>. Zor bir şey söylersen olumlu bitir: <i>"…but I\'m getting better."</i>'
       },
       { id: 'routine', e: '⏰', t: 'My Daily Routine', tr: 'Günlük rutinim',
         qa: [
-          ["What time do you get up?", "I get up at seven o'clock on school days."],
-          ["What do you do in the morning?", "First, I wash my face and brush my teeth. Then, I get dressed and have breakfast. After that, I go to school."],
-          ["What do you do after school?", "After school, I have a snack and do my homework. Then I read a book or play with my friends."],
-          ["What time do you go to bed?", "I usually go to bed at half past nine."],
-          ["What do you do at the weekend?", "At the weekend, I get up late and play with my dog and my cat. I often visit my grandpa Nurettin and my grandma Nilüfer."],
-          ["How often do you do sports?", "I play football twice a week. In summer, I swim in the sea every day!"]
+          ["What time do you get up?", "On school days, I get up at seven o'clock. But at the weekend, I sleep until nine!"],
+          ["What do you do in the morning?", "First, I wash my face and brush my teeth. Then I get dressed and have breakfast with my family. After that, I take the school bus to school."],
+          ["What do you do after school?", "After school, I have a snack and do my homework. When I finish, I play with my dog and my cat or listen to music."],
+          ["What time do you go to bed?", "I usually go to bed at half past nine, but at the weekend I go to bed a bit later."],
+          ["What do you do at the weekend?", "At the weekend, I don't have to get up early, so I sleep late. Then I play with my pets and I often visit my grandpa Nurettin and my grandma Nilüfer."],
+          ["How often do you do sports?", "I play football twice a week, and in summer I swim in the sea almost every day. I think doing sports keeps me healthy and happy."],
+          ["What's the best part of your day? Why?", "The best part of my day is the evening, because I can relax, play with my pets and spend time with my family."]
         ],
-        w: ['get up', 'brush my teeth', 'get dressed', 'have breakfast', 'do my homework', 'have dinner', 'go to bed', 'always', 'usually', 'often', 'sometimes', 'never', "seven o'clock", 'half past seven', 'quarter past seven', 'quarter to eight'],
-        tip: 'Sıralama kelimeleri cevabını süper yapar: <b>First → Then → After that → Finally</b>. Saat: 7:00 = seven o\'clock · 7:30 = half past seven · 7:15 = quarter past seven · 7:45 = quarter to eight.'
+        w: ['get up', 'get dressed', 'have breakfast', 'do my homework', 'go to bed', 'always', 'usually', 'often', 'sometimes', 'never', 'twice a week', 'almost every day', "don't have to", "half past nine", 'quarter to eight'],
+        tip: 'Sıralama kelimeleri cevabını süper yapar: <b>First → Then → After that → Finally</b>. Sıklık: always, usually, often, sometimes, never · <b>once / twice / three times a week</b>. Saat: 7:30 = half past seven · 7:15 = quarter past seven · 7:45 = quarter to eight.'
       },
       { id: 'hobbies', e: '⚽', t: 'Free Time, Sports & Music', tr: 'Boş zaman, spor ve müzik',
         qa: [
-          ["What do you like doing in your free time?", "In my free time, I like swimming and playing football. I also love listening to Manifest and dancing to their songs!"],
-          ["What can you do well?", "I can swim very well and I can play football. But I can't play the guitar."],
-          ["What's your favourite sport? Why?", "My favourite sport is football, because it's exciting and I can play it with my friends."],
-          ["Which football team do you support?", "I support Fenerbahçe. I'm a big fan! Their colours are yellow and navy blue."],
-          ["What kind of music do you like?", "I like pop music. My favourite band is Manifest. They are a Turkish girl band. I love singing and dancing to their songs!"],
-          ["Can you swim?", "Yes, I can! I love swimming. In summer, I swim in the Black Sea."],
-          ["What don't you like doing?", "I don't like tidying my room, because it's boring!"]
+          ["What do you like doing in your free time?", "In my free time, I love swimming and playing football. I also enjoy listening to Manifest and dancing to their songs!"],
+          ["What are you good at?", "I'm good at swimming and I can play football quite well. However, I can't play a musical instrument yet, but I'd like to learn the guitar."],
+          ["What's your favourite sport? Why?", "My favourite sport is football, because it's exciting and it's a team sport, so you can play with your friends. Scoring a goal is the best feeling!"],
+          ["Which football team do you support?", "I support Fenerbahçe! I'm a big fan and I watch their matches on TV. My dream is to watch a match at their stadium one day."],
+          ["What kind of music do you like?", "I like pop music. My favourite band is Manifest. They're a Turkish girl band and their songs are really catchy. I know most of their songs by heart!"],
+          ["Can you swim?", "Yes, I can! I'm a good swimmer. In summer, I swim in the Black Sea almost every day, and I love it."],
+          ["What don't you like doing?", "I don't like tidying my room, because it's really boring! But my mum says I have to do it."]
         ],
-        w: ['swimming', 'playing football', 'dancing', 'singing', 'listening to music', 'team', 'match', 'goal', 'fan', 'support', 'band', 'song', 'pop music', 'concert', 'fun', 'boring', 'exciting'],
-        tip: 'like / love / enjoy / hate\'den sonra fiile <b>-ing</b> ekle: I like <b>swimming</b>. Takım tutmak: <b>I support</b> Fenerbahçe. Yetenekler: <b>I can</b> swim. <b>I can\'t</b> play the guitar.'
+        w: ['enjoy', 'be good at', 'team sport', 'score a goal', 'match', 'support', 'fan', 'stadium', 'band', 'catchy', 'by heart', 'pop music', 'swimmer', 'exciting', 'boring'],
+        tip: 'like / love / enjoy / hate\'den sonra fiile <b>-ing</b>: I enjoy <b>swimming</b>. <b>I\'m good at</b> + -ing / isim: I\'m good at swimming. Henüz yapamıyorsan: <b>I can\'t … yet, but I\'d like to learn.</b>'
       },
       { id: 'food', e: '🍕', t: 'Food & Health', tr: 'Yemek ve sağlık',
         qa: [
-          ["What's your favourite food?", "My favourite food is pizza. I also love pasta and köfte."],
-          ["What do you usually have for breakfast?", "I usually have eggs, cheese, olives, tomatoes and bread. I drink a glass of milk."],
-          ["What food don't you like?", "I don't like broccoli, because it tastes strange!"],
-          ["What healthy food do you eat?", "I eat fruit and vegetables every day. Apples, bananas and carrots are healthy. Chips and fizzy drinks are not very healthy."],
-          ["Can you cook?", "Yes, I can make pancakes with my mum. They are delicious!"],
-          ["What should we do to be healthy?", "We should eat fruit and vegetables, drink a lot of water and do sports. We shouldn't eat too much sugar."]
+          ["What's your favourite food?", "My favourite food is pizza, especially with lots of cheese. I also love Turkish food, like köfte and Sinop mantı, which is a special dish from my city."],
+          ["What do you usually have for breakfast?", "I usually have a typical Turkish breakfast: eggs, cheese, olives, tomatoes and bread. I drink milk or orange juice."],
+          ["What food don't you like?", "I don't like broccoli at all, because it tastes strange. But my mum says it's very healthy, so I sometimes eat a little."],
+          ["Do you eat healthy food?", "I try to eat healthy food, like fruit, vegetables and fish. Fresh fish is very popular in Sinop, because it's by the sea. I don't eat too much fast food."],
+          ["Can you cook?", "I can't cook very well yet, but I can make pancakes and sandwiches. I sometimes help my mum in the kitchen."],
+          ["What should we do to be healthy?", "We should eat lots of fruit and vegetables, drink enough water and do exercise every day. We shouldn't eat too much sugar or spend all day in front of a screen."]
         ],
-        w: ['breakfast', 'lunch', 'dinner', 'snack', 'healthy', 'unhealthy', 'delicious', 'sweet', 'salty', 'spicy', 'fruit', 'vegetables', 'a glass of milk', 'a piece of cake'],
-        tip: 'Tavsiye: <b>You should</b> eat fruit. <b>You shouldn\'t</b> eat too much sugar. Yemeği anlatırken sıfat ekle: delicious, sweet, spicy…'
+        w: ['breakfast', 'snack', 'healthy', 'unhealthy', 'delicious', 'dish', 'fast food', 'fresh fish', 'vegetables', 'too much', 'enough', 'should', "shouldn't", 'exercise'],
+        tip: 'Tavsiye: <b>You should</b> eat fruit. <b>You shouldn\'t</b> eat too much sugar. <b>too much</b> (fazla) / <b>enough</b> (yeterli). "Sinop mantı" gibi şehrine özel bir şey söylemek öğretmeni etkiler!'
       },
-      { id: 'people', e: '👭', t: 'Describing People', tr: 'İnsanları tarif etme',
+      { id: 'people', e: '👭', t: 'Friends & People', tr: 'Arkadaşlar ve insanlar',
         qa: [
-          ["Who is your favourite person? Why?", "My favourite person is Hilal, because she is always kind to me and we have a lot of fun together."],
-          ["What is your favourite person like?", "Hilal is kind, funny and very sweet. She always makes me laugh. I love her very much!"],
-          ["Tell me about your sister.", "My little sister's name is Defne. She is cute and funny. We play together and sometimes we argue, but I love her very much!"],
-          ["What do you look like?", "I've got long dark brown hair and brown eyes. I'm not very tall."]
+          ["Who is your favourite person? Why?", "My favourite person is Hilal, because she is always kind to me and we have so much fun together. I can tell her everything."],
+          ["What is your favourite person like?", "Hilal is kind, funny and really sweet. She always makes me laugh, and when I'm sad, she cheers me up."],
+          ["Tell me about your sister.", "My little sister's name is Defne. She's cute, funny and full of energy. Sometimes we argue, but we always make up quickly, and I love her very much!"],
+          ["What do you look like?", "I've got long dark brown hair and brown eyes. I'm not very tall, but I'm quite sporty."],
+          ["What makes a good friend?", "I think a good friend is someone who is honest, kind and helpful. A good friend listens to you and makes you smile when you're sad."]
         ],
-        w: ['tall', 'short', 'slim', 'long hair', 'curly hair', 'straight hair', 'blonde', 'dark', 'glasses', 'kind', 'friendly', 'funny', 'sweet', 'clever', 'shy', 'cheerful', 'helpful'],
-        tip: '<b>What does she look like?</b> = Nasıl görünüyor? (saç, göz, boy)<br><b>What is she like?</b> = Nasıl biri? (kibar, komik…)<br>I / You / We / They <b>have got</b> – He / She <b>has got</b>.'
+        w: ['kind', 'funny', 'sweet', 'honest', 'helpful', 'cheerful', 'shy', 'full of energy', 'cheer up', 'make up', 'argue', 'long hair', 'curly hair', 'someone who'],
+        tip: '<b>What does she look like?</b> = Nasıl görünüyor? (saç, göz, boy)<br><b>What is she like?</b> = Nasıl biri? (kibar, komik…)<br><b>someone who…</b> ile tarif et: "A good friend is <b>someone who</b> listens to you."'
       },
       { id: 'home', e: '🏠', t: 'My Home & My Room', tr: 'Evim ve odam',
         qa: [
-          ["Do you live in a house or a flat?", "I live in a flat. It has got three bedrooms, a living room, a kitchen and two bathrooms."],
-          ["Describe your room.", "My room isn't very big, but it's cosy. There is a bed, a desk and a wardrobe. There are a lot of books on the shelf."],
-          ["What's your favourite room? Why?", "My favourite room is my bedroom, because I can read and relax there."],
-          ["Where is your desk?", "My desk is next to the window. My lamp is on the desk."],
-          ["How do you help at home?", "I tidy my room and I lay the table for dinner. Sometimes I water the plants."]
+          ["Do you live in a house or a flat?", "I live in a flat with my family. It has got three bedrooms, a living room, a kitchen and two bathrooms. There's also a balcony with a lovely view."],
+          ["Describe your room.", "My room isn't very big, but it's cosy and colourful. There's a bed, a desk and a wardrobe, and I've got Fenerbahçe and Manifest posters on the walls!"],
+          ["What's your favourite room? Why?", "My favourite room is my bedroom, because I can listen to music, read and relax there. It's my own special place."],
+          ["Where is your desk?", "My desk is next to the window, so I can look outside while I'm studying. My lamp and my books are on the desk."],
+          ["How do you help at home?", "I tidy my room, lay the table for dinner and feed our dog and cat every day. Sometimes I also help my mum with the shopping."],
+          ["What would you change in your room?", "I'd like to have a bigger bed and more space for my things. I'd also love to paint my walls yellow and navy blue!"]
         ],
-        w: ['bedroom', 'living room', 'kitchen', 'bathroom', 'balcony', 'bed', 'desk', 'wardrobe', 'shelf', 'lamp', 'in', 'on', 'under', 'next to', 'between', 'behind', 'in front of'],
-        tip: 'Tekil → <b>There is</b> a bed. Çoğul → <b>There are</b> two chairs. Yer bildiren kelimeleri kullan: next to, under, between, in front of…'
+        w: ['flat', 'balcony', 'view', 'cosy', 'colourful', 'wardrobe', 'shelf', 'poster', 'next to', 'between', 'in front of', 'lay the table', 'tidy', "I'd like to"],
+        tip: 'Tekil → <b>There is</b> a bed. Çoğul → <b>There are</b> two chairs. İstek: <b>I\'d like to have…</b> / <b>I\'d love to…</b> Yer: next to, between, behind, in front of.'
       },
       { id: 'town', e: '🌊', t: 'My Town: Sinop', tr: 'Şehrim Sinop',
         qa: [
-          ["Where do you live?", "I live in Sinop. It's a small and quiet city in the north of Turkey, by the Black Sea."],
-          ["What is special about your city?", "Sinop is by the Black Sea and the beaches are beautiful. The most northern point of Turkey is in Sinop! There is also an old castle and a famous historical prison."],
-          ["Is your city big or small?", "Sinop is small, but it's very beautiful and clean. It isn't crowded like Istanbul."],
-          ["What's your favourite place in your town? Why?", "My favourite place is the seaside, because I can swim, walk my dog and eat ice cream there."],
-          ["What is there near your house?", "There is a supermarket, a bakery and a park near my house. But there isn't a cinema."],
+          ["Where do you live?", "I live in Sinop. It's a small and peaceful city in the north of Turkey, by the Black Sea."],
+          ["What is special about your city?", "Sinop is famous for its beautiful beaches and nature. The most northern point of Turkey is in Sinop! There's also an old castle and a famous historical prison, which is a museum now."],
+          ["Is your city big or small?", "Sinop is quite small, but it's beautiful and clean. It isn't as crowded as Istanbul, so life is calm and relaxing."],
+          ["What's your favourite place in your town? Why?", "My favourite place is the seaside, because I can swim, walk my dog and eat ice cream there. The sunset over the sea is amazing."],
+          ["What can tourists do in Sinop?", "Tourists can swim in the sea, visit the old castle and the historical prison, and eat delicious Sinop mantı. They can also enjoy the beautiful nature."],
+          ["Would you prefer to live in a big city or a small town? Why?", "I prefer living in a small town like Sinop, because it's quiet, safe and close to nature. Big cities have more shops and cinemas, but they're too crowded and noisy for me."],
+          ["What is there near your house?", "There's a supermarket, a bakery and a park near my house. However, there isn't a cinema, so we sometimes go to the city centre."],
           ["Excuse me, how can I get to the library?", "Go straight on and turn left. The library is on your right, next to the bank."]
         ],
-        w: ['seaside', 'beach', 'castle', 'museum', 'park', 'library', 'hospital', 'bakery', 'supermarket', 'bus stop', 'small', 'quiet', 'crowded', 'beautiful', 'go straight on', 'turn left', 'turn right', 'opposite'],
-        tip: 'Sinop = <b>by the Black Sea</b> (Karadeniz kıyısında), <b>in the north of Turkey</b> (Türkiye\'nin kuzeyinde). Yol tarifi: <b>Go straight on</b> (düz git) · <b>Turn left / right</b> (sola / sağa dön) · <b>It\'s on your left</b> (solunda) · <b>opposite</b> (karşısında).'
+        w: ['peaceful', 'famous for', 'historical', 'castle', 'museum', 'seaside', 'sunset', 'tourists', 'city centre', 'crowded', 'noisy', 'safe', 'not as … as', 'go straight on', 'turn left', 'opposite'],
+        tip: 'Sinop = <b>by the Black Sea</b>, <b>in the north of Turkey</b>. Karşılaştırma: Sinop <b>isn\'t as crowded as</b> Istanbul. Tercih: <b>I prefer…, because…</b> Yol tarifi: Go straight on · Turn left / right · It\'s on your left · opposite.'
       },
       { id: 'weather', e: '🌦️', t: 'Weather & Seasons', tr: 'Hava durumu ve mevsimler',
         qa: [
-          ["What's the weather like today?", "Today it's cloudy and a bit cold. I think it's going to rain."],
-          ["What's your favourite season? Why?", "My favourite season is summer, because I can swim in the sea every day! But I love September too, because my name is Eylül!"],
-          ["What do you wear in winter?", "In winter, I wear a warm coat, a scarf, gloves and boots."],
-          ["What do you do in summer?", "In summer, I swim in the Black Sea, play football on the beach and eat a lot of ice cream."],
-          ["What's the weather like in Sinop?", "In summer, it's warm and sunny. In autumn and winter, it's often rainy and windy."]
+          ["What's the weather like today?", "Today it's cloudy and a bit cold. It's November, so I think it's going to rain later."],
+          ["What's your favourite season? Why?", "My favourite season is summer, because I can swim in the sea every day and there's no school! But I love September too, because my name is Eylül."],
+          ["What's the weather like in Sinop?", "In summer, it's warm and sunny, but not too hot. In autumn and winter, it's often rainy and windy, and sometimes it snows."],
+          ["What do you wear in winter?", "In winter, I wear a warm coat, a scarf, gloves and boots, because it's cold and rainy in Sinop."],
+          ["What do you do in summer?", "In summer, I swim in the Black Sea, play football on the beach and eat lots of ice cream. It's the best time of the year!"],
+          ["What do you like doing on a rainy day?", "On a rainy day, I stay at home, listen to music and play with my dog and my cat. Sometimes I watch a film with my sister."]
         ],
-        w: ['sunny', 'rainy', 'cloudy', 'windy', 'snowy', 'hot', 'warm', 'cold', 'spring', 'summer', 'autumn', 'winter', 'coat', 'scarf', 'gloves', 'boots', 'umbrella'],
-        tip: 'Hava durumu hep <b>It\'s…</b> ile başlar: It\'s sunny. It\'s cold. Mevsimlerle <b>in</b> kullan: in winter, in summer.'
+        w: ['sunny', 'rainy', 'cloudy', 'windy', 'snowy', 'stormy', 'warm', 'cold', 'not too hot', 'spring', 'summer', 'autumn', 'winter', 'coat', 'scarf', 'gloves', "it's going to rain"],
+        tip: 'Hava durumu <b>It\'s…</b> ile başlar. Tahmin: <b>I think it\'s going to rain.</b> Mevsimlerle <b>in</b>: in winter. "Not too hot" gibi ifadeler cevabı daha doğal yapar.'
       },
       { id: 'animals', e: '🐶', t: 'Animals & My Pets', tr: 'Hayvanlar ve evcil hayvanlarım',
         qa: [
-          ["Have you got a pet?", "Yes, I have! I've got a dog and a cat. I love them very much."],
-          ["Tell me about your pets.", "My dog is very friendly and my cat is very cute. I play with them every day."],
-          ["How do you look after your pets?", "I give my dog and my cat food and fresh water every day. I play with them and I take my dog for a walk."],
-          ["What's your favourite animal? Why?", "My favourite animals are dogs and cats, because they are sweet and friendly. I've got one of each!"],
-          ["What can animals do?", "A bird can fly, a fish can swim and a cheetah can run very fast. But a penguin can't fly!"],
-          ["Compare an elephant and a mouse.", "An elephant is bigger and heavier than a mouse. A mouse is smaller and lighter than an elephant."]
+          ["Have you got a pet?", "Yes, I have! I've got a dog and a cat. I love them very much, and they're like members of our family."],
+          ["Tell me about your pets.", "My dog is very friendly and loves playing outside. My cat is very cute and she likes sleeping in the sun."],
+          ["How do you look after your pets?", "Having pets is a big responsibility. I give them food and fresh water every day, I play with them and I take my dog for a walk. We also take them to the vet."],
+          ["What's your favourite animal? Why?", "My favourite animals are dogs and cats, because they're sweet, friendly and loyal. That's why I've got one of each!"],
+          ["What's the fastest animal in the world?", "The cheetah is the fastest animal on land. It can run faster than a car in the city! But the fastest bird is even faster."],
+          ["Compare an elephant and a mouse.", "An elephant is much bigger and heavier than a mouse. In fact, the elephant is the biggest animal on land. But a mouse is much better at hiding!"],
+          ["Should people keep wild animals in zoos?", "I don't think so. Wild animals should live in nature, because they need a lot of space. But zoos can help animals that are in danger."]
         ],
-        w: ['dog', 'cat', 'puppy', 'kitten', 'pet', 'feed', 'take for a walk', 'bird', 'fish', 'dolphin', 'elephant', 'penguin', 'cute', 'friendly', 'fluffy', 'clever', 'bigger than', 'faster than'],
-        tip: 'Hayvanlarının isimlerini de söyle: <b>My dog\'s name is…</b> / <b>My cat\'s name is…</b> Karşılaştırma: kısa sıfatlara <b>-er than</b>: big → bigger than, fast → faster than. Uzun sıfatlarda <b>more</b>: more beautiful than.'
+        w: ['responsibility', 'look after', 'feed', 'take for a walk', 'vet', 'loyal', 'wild animals', 'in danger', 'bigger than', 'the biggest', 'faster than', 'the fastest', 'much better'],
+        tip: 'Hayvanlarının isimlerini de söyle: <b>My dog\'s name is…</b> Karşılaştırma: big → <b>bigger than</b> → <b>the biggest</b> · fast → faster → <b>the fastest</b> · beautiful → more beautiful → <b>the most beautiful</b>. Güçlendir: <b>much</b> bigger.'
       },
-      { id: 'past', e: '📅', t: 'Last Weekend & Holidays', tr: 'Geçmiş zaman: geçen hafta sonu, tatil',
+      { id: 'past', e: '📅', t: 'Last Weekend & Memories', tr: 'Geçmiş zaman ve anılar',
         qa: [
-          ["What did you do last weekend?", "Last weekend, I visited my grandpa Nurettin and my grandma Nilüfer. We had lunch together. Then I played football with my friends."],
-          ["What did you do last summer?", "Last summer, I swam in the sea every day and played football on the beach. It was great!"],
-          ["What did you have for dinner yesterday?", "I had chicken, rice and salad. It was delicious."],
-          ["Did you watch a football match last week?", "Yes, I did. I watched the Fenerbahçe match on TV. It was really exciting!"],
-          ["What did you do on your last birthday?", "I had a party with my friends. We ate cake, played games and danced to Manifest songs. I got a lot of presents!"]
+          ["What did you do last weekend?", "Last weekend, I visited my grandpa Nurettin and my grandma Nilüfer. We had a delicious lunch together. After that, I played football with my friends and I scored a goal!"],
+          ["What did you do last summer?", "Last summer was amazing! I swam in the sea almost every day and played football on the beach with my friends. We also had lots of picnics."],
+          ["What did you have for dinner yesterday?", "Yesterday, I had chicken, rice and salad for dinner. My mum cooked it and it was delicious."],
+          ["Did you watch a football match last week?", "Yes, I did. I watched the Fenerbahçe match on TV with my family. It was really exciting and everyone was shouting!"],
+          ["What did you do on your last birthday?", "On my last birthday, I had a party with my friends. We ate a big chocolate cake, played games and danced to Manifest songs. I got a lot of nice presents!"],
+          ["What were you doing at eight o'clock yesterday evening?", "At eight o'clock yesterday evening, I was doing my homework, and my sister was watching cartoons."],
+          ["Tell me about your best memory.", "My best memory is from last summer. My family and I went to the beach and stayed there until the sunset. We swam, played games and ate watermelon. It was a perfect day!"]
         ],
-        w: ['go → went', 'have → had', 'eat → ate', 'see → saw', 'do → did', 'swim → swam', 'buy → bought', 'make → made', 'get → got', 'come → came', 'ride → rode', 'drink → drank', 'take → took', 'is → was', 'are → were', 'play → played', 'watch → watched', 'visit → visited'],
-        tip: 'Geçmiş zamanda fiilin <b>2. hâlini</b> kullan: go → <b>went</b>, play → <b>played</b>. Soru <b>Did you…?</b> ile gelirse önce kısa cevap ver: "Yes, I did." / "No, I didn\'t." – sonra detay ekle!'
+        w: ['go → went', 'have → had', 'eat → ate', 'see → saw', 'swim → swam', 'win → won', 'get → got', 'make → made', 'buy → bought', 'is → was', 'are → were', 'was doing', 'were watching', 'memory', 'until the sunset'],
+        tip: 'Geçmiş zamanda fiilin <b>2. hâli</b>: go → <b>went</b>, play → <b>played</b>. O anda ne yapıyordun? <b>was / were + -ing</b>: I <b>was doing</b> my homework. <b>Did you…?</b> sorusuna önce "Yes, I did." de, sonra detay ver. Bitirirken duygunu söyle: <i>It was amazing!</i>'
       },
       { id: 'future', e: '🚀', t: 'Plans & Dreams', tr: 'Planlar ve hayaller',
         qa: [
-          ["What are you going to do next weekend?", "Next weekend, I'm going to play football with my friends and take my dog for a walk."],
-          ["What do you want to be in the future? Why?", "I want to be a vet, because I love animals and I want to help them."],
-          ["Where would you like to go on holiday? Why?", "I'd like to go to Switzerland, because I want to visit my uncle and see the mountains and the snow."],
-          ["What are you going to do in the winter holiday?", "In the winter holiday, I'm going to read books, meet my friends and maybe go skiing."],
-          ["What would you like to do one day?", "One day, I'd like to watch a Fenerbahçe match at the stadium and go to a Manifest concert!"],
-          ["What are you going to do after the exam?", "After the exam, I'm going to eat an ice cream and relax!"]
+          ["What are you going to do next weekend?", "Next weekend, I'm going to play football with my friends and take my dog for a walk by the sea. On Sunday, I'm going to visit my grandparents."],
+          ["What do you want to be in the future? Why?", "When I grow up, I want to be a vet, because I love animals and I want to help them. I think it's a very important job."],
+          ["Where would you like to go on holiday? Why?", "I'd like to go to Switzerland, because my uncle lives there. I want to see the Alps and play in the snow. I'd also like to try Swiss chocolate!"],
+          ["What are you going to do in the winter holiday?", "In the winter holiday, I'm going to relax, meet my friends and read some books. If it snows, I'll build a snowman!"],
+          ["What would you like to do one day?", "One day, I'd love to watch a Fenerbahçe match at the stadium in Istanbul and go to a Manifest concert. That would be a dream come true!"],
+          ["What will life be like in the future?", "I think people will have robots at home and maybe cars will fly. Children will probably learn with computers more than with books."],
+          ["What are you going to do after the exam?", "After the exam, I'm going to have an ice cream and relax. I think I'll feel really happy and proud!"]
         ],
-        w: ['going to', 'want to', "I'd like to", 'tomorrow', 'next week', 'next summer', 'in the future', 'doctor', 'vet', 'teacher', 'engineer', 'pilot', 'scientist', 'architect', 'artist', 'astronaut'],
-        tip: 'Planlar: <b>I\'m going to</b> + fiil. Hayaller: <b>I want to be</b> a… / <b>I\'d like to</b>… Meslekten önce <b>a / an</b>\'ı unutma: a vet, <b>an</b> engineer, <b>an</b> architect.'
+        w: ['going to', 'will', 'probably', 'maybe', "I'd like to", "I'd love to", 'when I grow up', 'a dream come true', 'vet', 'engineer', 'architect', 'scientist', 'astronaut', 'footballer'],
+        tip: 'Planlar: <b>I\'m going to</b> + fiil. Tahminler: <b>I think… will…</b> / <b>probably</b>. Hayaller: <b>I\'d love to…</b> Koşul: <b>If it snows, I\'ll…</b> Meslekten önce <b>a / an</b>: a vet, <b>an</b> engineer.'
+      },
+      { id: 'experience', e: '✈️', t: 'Have You Ever…?', tr: 'Deneyimler (Present Perfect)',
+        qa: [
+          ["Have you ever been abroad?", "No, I haven't been abroad yet, but I'd love to visit my uncle in Switzerland. I hope I can go there next summer."],
+          ["Have you ever won a prize or a medal?", "Yes, I have! I won a medal in a swimming race. I was so happy and proud."],
+          ["Have you ever been to a football stadium?", "No, I haven't, but it's my dream! I really want to watch a Fenerbahçe match at the stadium one day."],
+          ["Have you ever cooked something?", "Yes, I have. I've made pancakes with my mum a few times. They were delicious, but the kitchen was a mess!"],
+          ["What's the most exciting thing you've ever done?", "The most exciting thing I've ever done is swimming far out in the sea with my dad. It was a bit scary, but really fun!"]
+        ],
+        w: ['been → been', 'see → seen', 'win → won', 'make → made', 'eat → eaten', 'do → done', 'fly → flown', 'ever', 'never', 'yet', 'already', 'abroad'],
+        tip: '<b>Have you ever + 3. hâl?</b> → <b>Yes, I have.</b> / <b>No, I haven\'t.</b> Sonra detayı geçmiş zamanla ver: "Yes, I have. I <b>won</b> a medal <b>last year</b>." Hiç yapmadıysan: <b>I\'ve never…, but I\'d love to!</b> Bu örnek cevapları kendi deneyimine göre değiştir.'
+      },
+      { id: 'tech', e: '📱', t: 'Technology & Screens', tr: 'Teknoloji ve ekranlar',
+        qa: [
+          ["Do you use a phone or a tablet?", "I use a tablet at home. I use it for my homework, for watching videos and for listening to Manifest songs."],
+          ["How much time do you spend on screens every day?", "I spend about one or two hours on screens every day. My parents don't let me use my tablet too much, and I think they're right."],
+          ["Is technology good or bad for children? Why?", "I think it's both. On the one hand, technology is useful, because we can learn new things and talk to our family. On the other hand, if children use it too much, they don't move enough and their eyes get tired."],
+          ["What did people do before smartphones?", "Before smartphones, people played outside more, read more books and talked face to face. They also used paper maps!"]
+        ],
+        w: ['tablet', 'smartphone', 'screen', 'app', 'video', 'online', 'useful', 'harmful', 'too much', 'face to face', 'on the one hand', 'on the other hand'],
+        tip: 'Fikir sorularında iki tarafı da söyle: <b>On the one hand… On the other hand…</b> ya da <b>…However,…</b> En sonda kendi fikrin: <b>So I think…</b> Bu, sınavda en çok puan getiren yapıdır!'
+      },
+      { id: 'environment', e: '🌱', t: 'Our Planet', tr: 'Çevre ve doğa',
+        qa: [
+          ["How can we protect the environment?", "We can recycle paper, plastic and glass. We should also save water and electricity, and we must never throw rubbish on the ground."],
+          ["What do you do to help the environment?", "I always turn off the lights when I leave a room and I don't waste water. At school, we recycle paper and plastic bottles."],
+          ["Why is the sea important for Sinop?", "The sea is very important, because many people catch fish and lots of tourists come to swim. So we must keep the beaches and the sea clean."],
+          ["What is the biggest problem for our planet?", "I think the biggest problem is pollution, especially plastic in the sea. It's very dangerous for fish, turtles and dolphins."]
+        ],
+        w: ['environment', 'protect', 'recycle', 'rubbish', 'plastic', 'pollution', 'waste', 'save energy', 'turn off', 'nature', 'dangerous', 'the biggest problem'],
+        tip: '<b>must / mustn\'t</b> (zorunluluk / yasak) · <b>should / shouldn\'t</b> (tavsiye). Sinop\'u ve denizi örnek vermek cevabını kişisel ve güçlü yapar!'
+      },
+      { id: 'imagine', e: '💭', t: 'Imagine…', tr: 'Hayal et (If / Would)',
+        qa: [
+          ["If you could have a superpower, what would it be?", "If I could have a superpower, I'd like to fly. Then I could visit my uncle in Switzerland every weekend!"],
+          ["If you were the head teacher for a day, what would you do?", "If I were the head teacher, I'd give everyone a longer break and I'd organise a big football tournament for all the classes!"],
+          ["If you had a lot of money, what would you do?", "First, I'd buy a big house with a garden for my dog and my cat. Then I'd buy tickets for every Fenerbahçe match, and I'd give some money to animal shelters."],
+          ["Would you rather live by the sea or in the mountains? Why?", "I'd rather live by the sea, because I love swimming and the sea makes me feel calm. The mountains are beautiful, but I'd miss the beach!"],
+          ["If it rains tomorrow, what will you do?", "If it rains tomorrow, I'll stay at home after school and watch a film with my sister."]
+        ],
+        w: ['if I could', 'if I were', "I'd", 'would', "I'd rather", 'superpower', 'fly', 'head teacher', 'tournament', 'animal shelter', 'miss'],
+        tip: 'Hayal: <b>If I could…, I would…</b> / <b>If I were…, I\'d…</b> Gerçek olasılık: <b>If it rains, I will…</b> Tercih: <b>I\'d rather…</b> (…tercih ederim). Bu yapılar 5. sınıf için çok etkileyicidir!'
       }
     ];
 
@@ -688,7 +752,7 @@
       basamaklar: [
         { yuz: '🙂', etiket: 'OK', metin: 'Science.' },
         { yuz: '😊', etiket: 'Good', metin: 'My favourite subject is Science.' },
-        { yuz: '🤩', etiket: 'Super!', metin: 'My favourite subject is Science, because I love doing experiments. Last week, we made a volcano in the lab!', super: true }
+        { yuz: '🤩', etiket: 'Super!', metin: 'My favourite subject is Science, because I love doing experiments. For example, last week we made a volcano in the lab, and it was amazing! I think Science helps us understand the world.', super: true }
       ]
     };
 
@@ -696,7 +760,7 @@
     var SAHNELER = [
       { id: 'park', baslik: 'Picture 1: At the Park', tr: 'Önce dinle ve tekrar et', acik: true,
         giris: 'In this picture, I can see a park. It is a sunny day.',
-        son: 'I think everybody is happy, because it is a lovely day.',
+        son: 'It looks like a weekend, because lots of people are relaxing. I think everybody is happy, because it is a lovely day.',
         o: [
           { e: '☁️', x: 24, y: 13, sus: true },
           { e: '☁️', x: 64, y: 9, sus: true, k: 'kucuk' },
@@ -713,7 +777,7 @@
       },
       { id: 'plaj', baslik: 'Picture 2: At the Beach', tr: 'Şimdi sıra sende! Şekillere dokun, kelimeyi duy. Önce kendin anlat, sonra örneğe bak', acik: false,
         giris: 'In this picture, I can see a beach. It is summer.',
-        son: 'I think they are having a lot of fun!',
+        son: 'They might be on holiday. I think they are having a lot of fun, and I would love to be there!',
         o: [
           { e: '☀️', x: 12, y: 14, w: 'sunny', s: 'It is hot and sunny.' },
           { e: '🐦', x: 40, y: 15, sus: true, k: 'kucuk' },
@@ -751,7 +815,22 @@
       ] },
       { b: 'Linking words', tr: 'Bağlaçlar – cümleleri birleştir', l: [
         ["and", "ve"], ["but", "ama"], ["because", "çünkü"], ["so", "bu yüzden"],
-        ["also", "ayrıca"], ["for example", "örneğin"], ["first, then, after that", "önce, sonra, ondan sonra"]
+        ["also", "ayrıca"], ["for example", "örneğin"], ["however", "ancak"], ["although", "-e rağmen"],
+        ["while", "-iken, oysa"], ["that's why", "işte bu yüzden"], ["first, then, after that", "önce, sonra, ondan sonra"]
+      ] },
+      { b: 'Sound more advanced', tr: 'Seviye atlatan ifadeler', l: [
+        ["To be honest,…", "Açıkçası…"],
+        ["Actually,…", "Aslında…"],
+        ["Although it's difficult, I enjoy it.", "Zor olmasına rağmen seviyorum."],
+        ["What I like most about it is…", "En çok sevdiğim şey…"],
+        ["It depends. Sometimes…, but…", "Duruma göre değişir. Bazen…, ama…"],
+        ["I've never…, but I'd love to!", "Hiç …madım ama çok isterim!"]
+      ] },
+      { b: 'Keep the conversation going', tr: 'Sohbeti sürdür', l: [
+        ["Let me give you an example.", "Size bir örnek vereyim."],
+        ["That's a good point.", "Bu iyi bir nokta."],
+        ["Really? I didn't know that!", "Gerçekten mi? Bilmiyordum!"],
+        ["What about you, teacher?", "Ya siz öğretmenim?"]
       ] },
       { b: 'If you forget a word', tr: 'Bir kelimeyi unutursan', l: [
         ["I don't know the word in English, but…", "İngilizcesini bilmiyorum ama…"],
@@ -772,6 +851,8 @@
       ['🗣️', 'Full sentences', 'Tam cümle kur: "Pizza." değil → "My favourite food is pizza."'],
       ['💬', 'Say why', '"because…" ile bir sebep söyle.'],
       ['➕', 'Add one more thing', 'Bir detay ya da örnek ekle: "Also…", "For example…", "Last week…"'],
+      ['⏳', 'Mix your tenses', 'Farklı zamanlar kullan: geçmiş (I went…), gelecek (I\'m going to…), deneyim (I\'ve never…). Öğretmen bunu puanlar!'],
+      ['❓', 'Be ready for "Why?"', 'Öğretmen "Why?" ya da "Tell me more" diyebilir. Bir sebep ve bir örnek hazırla.'],
       ['🤔', 'Don\'t stay silent', 'Düşünürken "Hmm, let me think…" de. Anlamazsan: "Could you repeat that, please?"'],
       ['🐢', 'Slow and clear', 'Yavaş, net ve yüksek sesle konuş. Acele etme!'],
       ['😊', 'Smile & look at your teacher', 'Gülümse, öğretmenine bak, dik otur.'],
@@ -1036,15 +1117,14 @@
       var takim = (tanitDeger.takim || '').trim();
       var kisi = (tanitDeger.kisi || '').trim();
       var c = [
-        'Hello! My name is ' + v.isim + '.',
-        "I'm " + yas + ' years old and I live in ' + v.sehir + '.',
-        "I'm in the fifth grade at " + v.okul + '.',
+        'Hello! Let me introduce myself. My name is ' + v.isim + " and I'm " + yas + ' years old.',
+        'I live in ' + v.sehir + " and I'm in the fifth grade at " + v.okul + '.',
         'I live with ' + v.aile + '.',
-        hayvan ? "I've got " + hayvan + '.' : "I haven't got a pet, but I'd love to have one.",
+        hayvan ? "I've also got " + hayvan + ', and I love them very much.' : "I haven't got a pet, but I'd love to have one.",
         'My favourite subject is ' + v.ders + ', because ' + v.neden + '.',
         'In my free time, I like ' + v.hobi + '.',
         takim ? "I'm a big " + takim + ' fan!' : '',
-        kisi ? 'My favourite person is ' + kisi + '.' : '',
+        kisi ? 'My favourite person in the world is ' + kisi + '.' : '',
         'My favourite food is ' + v.yemek + '.',
         'When I grow up, I want to be ' + v.meslek + '.'
       ];
@@ -1188,6 +1268,23 @@
       $('sahneler').appendChild(kutu);
     });
 
+    var KARSILASTIR = [
+      'Both pictures show people outside on a sunny day.',
+      'In the first picture, the people are in a park, but in the second picture, they are at the beach.',
+      'In the park, a boy is playing football, while at the beach, a man is swimming in the sea.',
+      'The beach looks hotter than the park, and there are more people in the park.',
+      "I'd prefer to be at the beach, because I love swimming. It reminds me of Sinop!"
+    ];
+    KARSILASTIR.forEach(function (m, i) {
+      var li = el('li'), b = el('button', 'cumle');
+      b.type = 'button';
+      b.setAttribute('data-say', m);
+      b.innerHTML = '<span class="no">' + (i + 1) + '</span>';
+      var sp = el('span'); sp.textContent = m;
+      b.appendChild(sp); li.appendChild(b);
+      $('karsilastir').appendChild(li);
+    });
+
     function vurgula(id) {
       var o = document.getElementById(id);
       if (!o) return;
@@ -1268,7 +1365,7 @@
       b.innerHTML = '<span class="konu-etiket">' + aktif.t.e + ' ' + aktif.t.t + '</span>';
       b.appendChild(document.createTextNode(aktif.q));
       this.textContent = '⏭ Next question';
-      ['sinavTekrar', 'sinavMik', 'sinavCevap'].forEach(function (id) { $(id).disabled = false; });
+      ['sinavTekrar', 'sinavMik', 'sinavCevap', 'sinavEk'].forEach(function (id) { $(id).disabled = false; });
       $('sinavTranskript').hidden = true;
       $('sinavYorum').innerHTML = '';
       $('sinavOrnek').hidden = true;
@@ -1278,6 +1375,17 @@
       soruSor();
     });
     $('sinavTekrar').addEventListener('click', function () { if (aktif) soyle(aktif.q, this); });
+    var EK_SORULAR = ['Why?', 'Can you tell me more about that?', 'Can you give me an example?', 'Why do you think so?', 'Is that the same for your friends?', 'Interesting! And how do you feel about that?'];
+    var sonEk = -1;
+    $('sinavEk').addEventListener('click', function () {
+      if (!aktif) return;
+      var i; do { i = Math.floor(Math.random() * EK_SORULAR.length); } while (i === sonEk);
+      sonEk = i;
+      var b = $('sinavSoru'), ek = b.querySelector('.ek-soru');
+      if (!ek) { ek = el('span', 'ek-soru'); b.appendChild(ek); }
+      ek.textContent = '❓ ' + EK_SORULAR[i];
+      soyle(EK_SORULAR[i], this);
+    });
     $('sinavMik').addEventListener('click', function () {
       dinle(this, $('sinavTranskript'), function (m) { yorumYaz($('sinavYorum'), m, null); });
     });
